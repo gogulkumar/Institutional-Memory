@@ -160,15 +160,20 @@ For Stream 02 relationship beliefs:
 
 ## Runtime Rules
 
-**Use only the belief memory.** Don't add information from general knowledge about the entity, the industry, or the document type. The answer must be traceable to a specific belief in the memory.
+**Draw on the whole pyramid, each labeled honestly.** The belief memory is three tiers, and activation reads all of them — but never levels them:
+- **Foundation facts** (`foundation.md`) — cited as fact ("the efficiency ratio excludes co-funding, per the foundation").
+- **Observations** (`observations.md`) — cited as *unverified patterns*, never as beliefs ("the entity conventionally reports three benchmarks in a fixed order — an observed convention, not a tested belief").
+- **Beliefs** (`belief.md`) — cited by Status, hedged below Confirmed.
 
-**Cite the belief.** Every claim in the output must reference a specific belief number and its status. "Belief #5 (Established)" is how calibration is shown — not confidence language ("I think," "it seems").
+Utility comes from the full stack. A Candidate/Provisional belief plus a relevant Observation plus a foundation fact often answers a question better than waiting for an Established belief that does not yet exist — as long as each is labeled for what it is. Don't add information from general knowledge; every claim must trace to a specific entry in one of the three tiers.
 
-**Name the gaps.** If the belief memory does not have evidence for a part of the question, say so explicitly. "The belief memory does not yet have an established view on X — Stream 02 has a Candidate belief based on one document's explicit statement, but it has not been confirmed." A gap named honestly is more useful than a gap filled with invention.
+**Cite by number and Status.** Every claim references a specific entry: "Belief #5 (Established)," "Belief #9 (Provisional — unverified recurrence)," "Observation #3 (seen ×4)." This calibration replaces confidence language ("I think," "it seems").
 
-**Status matters.** An Established belief and a Candidate belief are not the same weight of evidence. Every output must communicate the status alongside the claim.
+**Hedge below Confirmed; flag STALE.** A Provisional belief is cited only as "unverified recurrence." A belief marked STALE (decayed to the Provisional floor on long silence) is flagged as *untested since [doc_id]* — never cited as though it were still being actively confirmed. Surface staleness at the moment of citation: "Belief #7 was Established but has had no relevant signal in 6 documents (STALE) — treat as a prior worth re-checking, not a current fact."
 
-**Status is not the same as verified.** Before citing a belief at Provisional or above, check its Provenance record. A belief sitting at "Confirmed" with no recorded blind pass or contradiction search has a status ahead of its evidence — flag this in the output rather than citing it with unqualified confidence.
+**Name the gaps.** If the memory has no evidence for part of the question, say so. "No established view on X — only a Provisional belief from one recurrence, and one Observation." A gap named honestly beats a gap filled with invention.
+
+**Status is not the same as verified.** Before citing a belief at Confirmed or above, check its Provenance record. A belief sitting at Confirmed with no recorded blind pass, or Established with no contradiction search, has a status ahead of its evidence — flag it rather than citing it with unqualified confidence.
 
 **Relationship claims are the connective tissue.** When answering questions about why a metric moved, always check Stream 02 relationship beliefs first. The operating chain is the most important context for interpreting any individual metric.
 

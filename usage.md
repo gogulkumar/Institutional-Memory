@@ -20,40 +20,33 @@ Nothing is held strongly. Nothing should be.
 
 ---
 
-### Second Document — The First Test
+### Second Document — The First Hypothesis
 
-The second document is the first moment the system can actually learn something — and the first moment it can fool itself, which is why promotion is not automatic.
+The second document is the first moment the system can actually learn something. For each Candidate, the engine asks: did this show up again, in the same form?
 
-For each Candidate, the engine asks: did this show up again? In the same form? Or did something different happen?
+- If it **recurred**, the stage advances to **Provisional** — an honest hypothesis. Forming a hypothesis is cheap by design; no blind pass is required yet. But a Provisional belief is cited *only as "unverified recurrence"* — held and watched, never leaned on. The evolution trail extends: "Seen again in [doc]. Beginning to hold, unverified."
+- If it **contradicted**: held under **Tension** — not discarded, weakened, its statement rewritten to name the tension.
+- If the document was **silent**: no change. Silence is not contradiction.
 
-- If it recurred **and a blind pass independently found the same pattern** — an extraction run with the Candidate belief withheld, so the extractor couldn't echo what it was told to look for — the stage advances to **Provisional**. The evolution trail extends: "Seen again in [doc]. Independently re-derived blind. Beginning to hold." The blind pass is logged in the Provenance record.
-- If the belief-aware pass reports confirmation but the blind pass found nothing related: **no promotion**. The belief holds at Candidate, flagged for review. An extractor that only ever confirms what it was primed to find is not evidence — it is an echo.
-- If it contradicted: confidence drops. The entry is held under **Tension** — not discarded, but weakened.
-- If the document was silent on it: no change. Silence is not contradiction.
-
-New patterns visible only in the second document are added as fresh Candidates.
+Recurring regularities that fail the master test — reporting conventions, vocabulary habits — are recorded as **Observations** from the first document, not discarded. New patterns visible only now become fresh Candidates.
 
 ---
 
-### Third Document — The Baseline Forms
+### Third Document — The First Real Trust
 
-Three comparable documents showing the same pattern is the threshold for **Confirmed** — but recurrence alone doesn't cross it. Confirmed requires an **active contradiction search** on this pass: the extractor is explicitly instructed to look for evidence *against* the belief and to report the result even when nothing is found ("searched, none found" — recorded in the Provenance record). Confirmation without a contradiction search is an echo repeated a third time.
+Three documents is the threshold for **Confirmed** — the first tier an agent may cite *without hedging* — and recurrence alone does not cross it. Confirmed requires a **blind pass**: an extraction run with the existing belief withheld, so the extractor cannot echo what it was told to look for. If it independently re-derives the same pattern, promote and log the blind pass in the Provenance record. If it finds nothing related while the belief-aware pass "confirms," **do not promote** — hold at Provisional, flagged; the confirmation may be an echo.
 
-A belief that survives that search earns the right to be treated as a baseline. The evolution trail tells the accumulating story: when it was first seen, how it appeared in each document, what each repetition added. Not a list of facts — a first-person account of how the pattern developed.
-
-The normal baseline is now real: "what the next document should show if this belief is holding."
+This is where the expensive verification is spent: at the boundary between a hedged hypothesis and a claim the system will state plainly. The evolution trail becomes a first-person account of how the pattern developed; the normal baseline becomes real.
 
 ---
 
 ### Fourth Document and Beyond — Established Patterns
 
-Four or more comparable documents supporting a pattern — holding across document types where applicable, with its named foundation claim still current — produces an **Established** belief. Breaking an Established belief is meaningful signal, not noise.
+To reach **Established**, a belief must survive an **active contradiction search** — the extractor explicitly hunts evidence *against* it and reports the result even when empty ("searched, none found") — while holding across document types where applicable, with its foundation claim still current. Breaking an Established belief is meaningful signal, not noise.
 
-An Established belief is the system's version of what a senior analyst holds after months of reading: the thing they know about this business that they would not expect to change without substantial evidence.
+The Provenance record shows the evidence that earned the status: which documents confirmed, which pass ran blind, which contradiction searches came back empty. A belief without that trail, no matter how well its prose reads, has not earned Established.
 
-At this stage, the evolution trail reads as a compact narrative of how the pattern solidified — and the Provenance record shows the evidence that earned the status: which documents confirmed, which pass was run blind, which contradiction searches came back empty. A belief without that trail, no matter how well its prose reads, has not earned Established.
-
-Established is also not permanent by default. If four consecutive comparable documents pass with no relevant signal, the belief downgrades to Confirmed — tagged `[DECAY]`. "Established months ago" and "established and still being actively tested" are different confidence levels, and the system keeps them distinguishable.
+Established is not permanent. If a belief goes untouched by relevant signal, it **decays down the ladder** — Established → Confirmed → Provisional, one rung per silence window (default 4 documents), tagged `[DECAY]`. At the Provisional floor it is marked **STALE**: its evidence still exists, but it is untested, and activation flags it as untested-since rather than citing it as current. "Established months ago, silent since" and "Established and still being challenged" must never be cited with the same confidence.
 
 ---
 
@@ -206,15 +199,19 @@ This is a new category of evaluation — not benchmark accuracy, but pattern ali
 
 ## The Accumulation Effect in Numbers
 
-| Documents processed | What the model holds | Verification earned |
-|--------------------|-----------------------|---------------------|
-| 1 | Candidate signals — hypotheses, not beliefs | None yet — nothing exists to check blind against |
-| 2–3 | Provisional patterns — hold cautiously | Blind pass independently re-derived the pattern |
-| 4–6 | Confirmed baselines — treat as normal | Active contradiction search reported and empty |
-| 10+ | Established structural understanding | Holds across document types; foundation claim still current; surviving periodic re-checks |
-| 30+ | High-confidence institutional memory | Multiple blind passes and contradiction searches on record |
+| Documents processed | What the model holds | Verification earned | Cited as |
+|--------------------|-----------------------|---------------------|----------|
+| 1 | Candidate signals — hypotheses, not beliefs | None yet | Not citable |
+| 2 | Provisional patterns — honest hypotheses formed on plain recurrence | Recurrence across a second document | "Unverified recurrence" — hedged |
+| 3 | Confirmed baselines — first tier of real trust | A blind pass independently re-derived the pattern | Without hedging |
+| 4+ | Established structural understanding | Active contradiction search reported and empty; holds across document types; foundation claim current | Without hedging |
+| silent for long | Beliefs decay DOWN the ladder → STALE | (loss of standing, not of evidence) | Flagged untested-since |
 
-**Status is the trust signal; Confidence is the bookkeeping.** The Status ladder (Candidate → Provisional → Confirmed → Established) is earned through verification — blind passes and contradiction searches recorded in the Provenance record. The Confidence score (0.05–0.95 arithmetic) tracks incremental strengthening and decay *within* a status, and drives archival of neglected beliefs. Confidence can never promote a belief past the verification its status requires: a belief at Confidence 0.90 with no blind pass on record is still a Candidate, and any agent citing it must treat it as one.
+Alongside the beliefs, an **Observation** tier accumulates from document one: recurring entity-specific regularities (reporting conventions, vocabulary habits) that fail the master test but are useful institutional memory — cited as unverified patterns, never as beliefs. Nothing entity-specific and recurring is thrown away; the master test decides which tier it lands in, not whether it survives.
+
+**Rigor follows citation weight.** The gates sit one rung lower than plain confirmation-by-count: recurrence forms a hypothesis cheaply, the blind pass earns the first un-hedged tier (Confirmed), the contradiction search earns Established. This is why the system yields something useful early — a Provisional hypothesis and a handful of Observations after two documents — instead of nearly nothing.
+
+**Status is the trust signal; Confidence is the bookkeeping.** The Status ladder is earned through verification recorded in the Provenance record. The Confidence score (0.05–0.95 arithmetic) tracks incremental strengthening and decay *within* a status. Confidence can never promote a belief past the verification its status requires: a belief at Confidence 0.90 with no blind pass on record is Provisional at most, cited as unverified recurrence.
 
 Each document does not add proportionally. Early documents add the most — the first pattern signals, the first calibrations. Later documents deepen what is already held, refine the normal baseline, and occasionally break or reframe a belief that was holding incorrectly.
 

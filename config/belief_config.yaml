@@ -45,19 +45,54 @@ belief_config:
   # contradicting comparable documents produce [RETIRE].
   retire_after_consecutive_contradictions: 3
 
-  # ─── VERIFICATION GATING (Process Test) ────────────────────────────────────
-  # A belief cannot advance a durability stage on confirmation alone — see
-  # belief-doctrine.md "The Two-Test Gate." These flags control when the
-  # extractor must run a second, blind pass (no visibility into the existing
-  # belief) instead of the default belief-aware pass.
-  require_blind_pass_for_promotion: true      # Candidate→Provisional, Provisional→Confirmed
-  require_contradiction_search_for_confirmed: true   # must be reported, not just absent
+  # ─── VERIFICATION GATING (Process Test — rigor follows citation weight) ─────
+  # The master test CLASSIFIES, it does not discard: recurring entity-specific
+  # regularities that fail it become Observations (see below), not trash.
+  # For items that pass it (belief candidates), verification is placed where
+  # trust is CONSUMED, not at the front door — the gates sit one rung lower
+  # than the earlier design:
+  #   Candidate → Provisional : plain recurrence (a hypothesis, cited hedged)
+  #   Provisional → Confirmed : a blind pass independently re-derived it
+  #                             (first tier citable WITHOUT hedging)
+  #   Confirmed → Established  : an active contradiction search, reported clean
+  require_blind_pass_for_confirmed: true        # Provisional→Confirmed (was: →Provisional)
+  require_contradiction_search_for_established: true  # Confirmed→Established (was: →Confirmed)
 
-  # ─── ESTABLISHED DECAY (document-count-based, distinct from day-based decay below) ──
-  # An Established belief with no relevant signal across this many consecutive
-  # comparable documents downgrades to Confirmed (tag: [DECAY]). This is a
-  # Status change, separate from the Confidence-score decay settings below.
-  established_decay_after_silent_documents: 4
+  # ─── OBSERVATION TIER ───────────────────────────────────────────────────────
+  # Recurring entity-specific regularities that fail the master test (reporting
+  # conventions, vocabulary habits, structural patterns) are stored in
+  # observations.md as a lightweight two-field tier, cited only as "unverified
+  # pattern," never as beliefs. Promotion to a belief happens only when genuine
+  # interpretation appears (see belief-doctrine.md "Three Tiers of Memory").
+  observation_tier_enabled: true
+  max_observations_per_stream: 40
+
+  # ─── MATCH LEDGER ───────────────────────────────────────────────────────────
+  # Every evidence-routing decision (signal → which belief, or deliberately not)
+  # is logged to match_ledger.md with a one-line basis. Makes routing auditable
+  # and staleness detectable. Matching is by underlying mechanical claim, never
+  # heading text.
+  match_ledger_enabled: true
+
+  # ─── LADDER DECAY (document-count-based, distinct from day-based decay below) ──
+  # A belief untouched by relevant signal walks DOWN the ladder, one rung per
+  # this many consecutive silent comparable documents (tag: [DECAY]):
+  # Established → Confirmed → Provisional. At the Provisional floor it is marked
+  # STALE (evidence intact, untested) rather than dropping to Candidate. A STALE
+  # belief whose pattern resurfaces re-enters verification. This is a Status
+  # change, separate from the Confidence-score decay settings below.
+  decay_after_silent_documents: 4
+  decay_floor: Provisional     # STALE-marked here rather than dropping to Candidate
+
+  # ─── COMPILATION GATE ───────────────────────────────────────────────────────
+  # Compiled prompts (belief_reasoning_prompt, fact_extractor_prompt) carry a
+  # status: ready | blocked. "blocked" means a gap the compiler NAMED rather
+  # than filled — a thin blueprint section, or an UNGROUNDED Structural Map.
+  # Naming a gap is not enough: the runtime must refuse to write durable memory
+  # from a blocked prompt. A warning label is not a brake.
+  block_runtime_on_unready_prompt: true
+  # If false, a blocked prompt may run only with explicit per-run user override,
+  # and every belief it writes is tagged provisional-pending-recompile.
 
   # ─── FOUNDATION CORPUS GROUNDING ────────────────────────────────────────────
   # After this many documents' fact logs exist, Prompt -1 runs its corpus

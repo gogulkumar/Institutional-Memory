@@ -162,11 +162,11 @@ Provenance:
   metric whose calculation basis is expected to be stable (foundation,
   thesis metrics section)
 - Confirming documents: document 1–4
-- Blind passes: document 2 (independently re-derived the same
-  footnote language with no visibility into the document-1 Candidate
-  belief, before promotion to Provisional)
-- Contradiction searches: document 3 (searched, none found), document 4
-  (searched, none found, before promotion to Established)
+- Blind passes: document 3 (independently re-derived the same
+  footnote language with no visibility into the prior belief,
+  before promotion to Confirmed)
+- Contradiction searches: document 4 (searched, none found, before
+  promotion to Established)
 - Related beliefs: none identified yet
 - Last checked: document 4
 ```
@@ -287,11 +287,11 @@ Provenance:
   composition is a thesis-defining question (foundation, profitability
   thesis section)
 - Confirming documents: document 1–4
-- Blind passes: document 2 (independently re-derived the same
-  price/volume split with no visibility into the document-1 Candidate
-  belief, before promotion to Provisional)
-- Contradiction searches: document 3 (searched, none found), document 4
-  (searched, none found, before promotion to Established)
+- Blind passes: document 3 (independently re-derived the same
+  price/volume split with no visibility into the prior belief,
+  before promotion to Confirmed)
+- Contradiction searches: document 4 (searched, none found, before
+  promotion to Established)
 - Related beliefs: none identified yet
 - Last checked: document 4
 ```
@@ -409,11 +409,11 @@ Provenance:
   the primary volume metric is a thesis-relevant mechanic (foundation,
   operating chain section)
 - Confirming documents: periods 1–5
-- Blind passes: period 2 (independently re-derived the same lead-lag
-  pattern with no visibility into the period-1 Candidate belief,
-  before promotion to Provisional)
-- Contradiction searches: period 3 (searched, none found, before
-  promotion to Confirmed)
+- Blind passes: period 3 (independently re-derived the same lead-lag
+  pattern with no visibility into the prior belief, before promotion
+  to Confirmed)
+- Contradiction searches: period 4 (searched, none found, before
+  promotion to Established)
 - Related beliefs: none identified yet
 - Last checked: period 5
 ```
@@ -534,11 +534,11 @@ Provenance:
   controllable misses as external where possible (foundation,
   narration design section)
 - Confirming documents: miss periods 1–4
-- Blind passes: miss period 2 (independently re-derived the same
-  external-first sequencing with no visibility into the miss-period-1
-  Candidate belief, before promotion to Provisional)
-- Contradiction searches: miss period 3 (searched, none found), miss
-  period 4 (searched, none found, before promotion to Established —
+- Blind passes: miss period 3 (independently re-derived the same
+  external-first sequencing with no visibility into the prior belief, before promotion
+  to Confirmed)
+- Contradiction searches: miss period 4 (searched, none found, before
+  promotion to Established —
   cross-referenced against the Dynamics stream's conversion-ratio
   belief in the same periods)
 - Related beliefs: business_dynamics.2 (conversion-ratio lead-lag
@@ -666,12 +666,11 @@ Provenance:
 - Foundation dependency: demand investment is treated as the primary
   thesis-defining spend line (foundation, thesis metrics section)
 - Confirming documents: pressure periods 1–4
-- Blind passes: pressure period 2 (independently re-derived the same
-  overhead-first cutting order with no visibility into the
-  pressure-period-1 Candidate belief, before promotion to Provisional)
-- Contradiction searches: pressure period 3 (searched, none found),
-  pressure period 4 (searched, none found, before promotion to
-  Established)
+- Blind passes: pressure period 3 (independently re-derived the same
+  overhead-first cutting order with no visibility into the prior belief, before promotion
+  to Confirmed)
+- Contradiction searches: pressure period 4 (searched, none found,
+  before promotion to Established)
 - Related beliefs: none identified yet
 - Last checked: pressure period 4
 ```
@@ -802,9 +801,9 @@ Provenance:
   as the preferred confidence signal (foundation, narration design
   section)
 - Confirming documents: document 1–6
-- Blind passes: document 2 (independently re-derived the same
+- Blind passes: document 3 (independently re-derived the same
   opening-section-predicts-result pattern with no visibility into the
-  document-1 Candidate belief, before promotion to Provisional)
+  document-1 Candidate belief, before promotion to Confirmed)
 - Contradiction searches: document 4 (searched, none found), document 6
   (searched, none found — cross-referenced against the Dynamics
   stream's conversion reading, which was healthy)
@@ -938,7 +937,7 @@ Provenance:
   comparable years (4 comparable periods)
 - Blind passes: year 2's early-year FC (independently re-derived the
   same optimistic/conservative split with no visibility into the
-  year-1 Candidate belief, before promotion to Provisional)
+  year-1 Candidate belief, before promotion to Confirmed)
 - Contradiction searches: year 2's late-year FC (searched, none found,
   before promotion to Established)
 - Related beliefs: none identified yet

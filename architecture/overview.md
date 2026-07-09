@@ -46,10 +46,12 @@ Belief is built in four layers plus an activation surface. Quality flows **forwa
 │        match / Recalibrate (map revised + logged,             │   │ │
 │        extractor recompiled) / Signal (change is              │   │ │
 │        communication behavior → feeds beliefs) / Defer        │   │ │
-│  7   evolve belief.md — promotion GATED by Provenance:        │   │ │
-│        blind pass → Provisional · contradiction search        │   │ │
-│        → Confirmed · doc-type + current claim → Established   │   │ │
-│        · 4 silent docs → [DECAY] back to Confirmed            │   │ │
+│  7   classify (master test → belief | observation, never     │   │ │
+│        discard) · route (match_ledger) · evolve belief.md —   │   │ │
+│        promotion GATED: recurrence → Provisional (hedged) ·   │   │ │
+│        blind pass → Confirmed (first un-hedged tier) ·        │   │ │
+│        contradiction search → Established · silence walks     │   │ │
+│        DOWN the ladder → [DECAY] → STALE at Provisional floor │   │ │
 │  7.5 FOUNDATION REVIEW — Confirmed/Established belief vs      │───┼─┘
 │        its named claim ID: Adopt (revise + flag dependents    │   │
 │        [FOUNDATION_CHANGED]) / Hold / Defer — user decides    │   │
@@ -64,12 +66,18 @@ Belief is built in four layers plus an activation surface. Quality flows **forwa
 │  whose status outruns its verification is flagged, not cited  │
 └──────────────────────────────────────────────────────────────┘
 
+THREE TIERS (the master test classifies, it never discards):
+  foundation.md (facts) · belief.md (tested interpretation) ·
+  observations.md (recurring regularities that fail the master
+  test — cited as unverified patterns, never as beliefs)
+
 PERMANENT MEMORY (nothing a belief cites is ever discarded):
   L3 raw archive · L2 fact logs (addressable by doc_id — the
   pointer target of every Provenance record) · L1 belief.md
   + belief_versions/ snapshots (the memory's state after every
-  document, forever) · changelog · Foundation Revision Log ·
-  Structural Map Revision Log
+  document, forever) · match_ledger.md (every evidence-routing
+  decision, so routing is auditable) · changelog ·
+  Foundation Revision Log · Structural Map Revision Log
 ```
 
 ### The Three Return Loops
@@ -203,12 +211,16 @@ check (Step 6.5)   → match: no action
                      engine) / Defer (watch next document)
 
 belief_engine.py   ← belief_reasoning_prompt.md (system)
-                   + existing belief.md (or NULL)
+                   + existing belief.md + observations.md (or NULL)
                    + fact log (+ blind-pass fact log when run)
-                   → belief.md (evolved, Provenance records updated)
+                   → belief.md (evolved, Provenance updated)
+                   → observations.md (regularities that fail master test)
+                   → match_ledger.md (every routing decision + basis)
                    → belief_changelog.md (appended)
-                   (promotion gated: blind pass for Provisional,
-                    reported contradiction search for Confirmed)
+                   (classify: master test → belief | observation;
+                    promotion gated: recurrence → Provisional (hedged),
+                    blind pass → Confirmed, contradiction search →
+                    Established; silence decays DOWN the ladder → STALE)
 
 foundation review  ← any belief reaching Confirmed/Established that
 (Step 7.5)           bears on its named foundation claim

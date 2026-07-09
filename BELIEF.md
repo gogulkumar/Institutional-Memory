@@ -157,16 +157,16 @@ A perspective shift is not a failure of the previous belief. The previous belief
 
 ### The Durability Ladder
 
-A belief passes through maturity stages as more comparable documents are processed. Do not skip stages — and do not promote a stage without the verification that stage requires.
+A belief passes through maturity stages as more comparable documents are processed. Do not skip stages — and do not promote a stage without the verification that stage requires. **Rigor follows citation weight:** the gates sit one rung lower than plain confirmation-by-count, so that forming a hypothesis is cheap and the expensive verification is spent only where trust is actually consumed (the un-hedged tiers).
 
-| Stage | Documents | What It Means | Verification required to enter this stage |
-|-------|-----------|---------------|----------------------------------------------|
-| **Candidate** | 1 | A signal with the shape of a durable pattern. Not yet a belief. Every first-document entry is Candidate. | None — nothing exists yet to check blind against. |
-| **Provisional** | 2 | Two comparable documents support the pattern. Hold cautiously. | A blind pass on the second document independently found the same pattern. A confirmation seen only by a pass that already knew the Candidate belief does not promote — flag for review instead. |
-| **Confirmed** | 3 | Three comparable documents support the pattern. Treat as a baseline. | An active contradiction search on the third document found nothing. Confirmation without a contradiction search is an echo, not confirmation. |
-| **Established** | 4+ | The pattern is structural. Breaking it is meaningful signal, not noise. | Holds across multiple document types if applicable. Still traces to a foundation claim that has not since changed. |
+| Stage | Documents | What It Means | Verification required to enter | Citable as |
+|-------|-----------|---------------|--------------------------------|------------|
+| **Candidate** | 1 | A signal with the shape of a durable pattern. Every first-document entry is Candidate. | None — nothing to check against yet. | Not citable |
+| **Provisional** | 2 | Two comparable documents support the pattern. An honest hypothesis. | Plain recurrence across a second comparable document. Forming a hypothesis is cheap by design. | Only as "unverified recurrence" — hedged |
+| **Confirmed** | 3 | Three documents, and the pattern was independently re-derived blind. The first tier of real trust. | A blind pass independently found the same pattern. A belief-aware-only confirmation does not promote — flag for review. | Without hedging |
+| **Established** | 4+ | The pattern is structural; it survived an active contradiction search. Breaking it is meaningful signal. | Contradiction search reported clean ("searched, none found"). Holds across document types if applicable. Foundation claim still current. | Without hedging |
 
-**Established beliefs decay without new evidence.** An Established belief untouched by any relevant signal across N subsequent comparable documents downgrades to Confirmed automatically — not because it was proven wrong, but because "established several documents ago" and "established and still being actively tested" are different confidence levels the system must distinguish. This is a separate action from ordinary confidence decay (see below): it changes Status, not just Confidence, and is tagged `[DECAY]` in the changelog. System default: 4 consecutive silent comparable documents.
+**Decay walks a belief down the ladder.** A belief untouched by any relevant signal descends one rung per silence window (default 4 consecutive silent comparable documents): Established → Confirmed → Provisional. At the Provisional floor it is marked **STALE** rather than dropping to Candidate — its evidence still exists; it is untested, not unfounded. This changes Status, not just Confidence, and is tagged `[DECAY]`. The point is that "Established six months ago, untested since" and "Established and still being challenged" can never be cited with the same confidence — and a STALE belief whose pattern resurfaces re-enters verification rather than coasting on a status it earned long ago.
 
 ### The Four Update States
 
@@ -183,7 +183,7 @@ These arithmetic updates handle incremental revision. They don't handle perspect
 
 This day-based Decay row adjusts Confidence only. It is a separate mechanism from the document-count-based `[DECAY]` tag under the Durability Ladder above, which downgrades Status from Established to Confirmed after N silent comparable documents. A belief can lose Confidence without losing Status, and can lose Status without its Confidence score having crossed any threshold — they track different things.
 
-**Status outranks Confidence.** The two signals answer different questions and are not interchangeable. Status is earned through verification — a blind pass to reach Provisional, a reported contradiction search to reach Confirmed — and is the signal that governs how a belief may be cited. Confidence is arithmetic bookkeeping: it tracks incremental strengthening and staleness *within* a status and drives archival of neglected beliefs. Confidence can never promote a belief past the verification its status requires. A belief at Confidence 0.90 whose Provenance shows no blind pass is still a Candidate, must be cited as a Candidate, and its high score means only that it has been repeatedly echoed — which is precisely the condition the Process Test exists to catch.
+**Status outranks Confidence.** The two signals answer different questions and are not interchangeable. Status is earned through verification — a blind pass to reach Confirmed, a reported contradiction search to reach Established — and is the signal that governs how a belief may be cited. Confidence is arithmetic bookkeeping: it tracks incremental strengthening and staleness *within* a status and drives archival of neglected beliefs. Confidence can never promote a belief past the verification its status requires. A belief at Confidence 0.90 whose Provenance shows no blind pass is still Provisional at most, must be cited as unverified recurrence, and its high score means only that it has been repeatedly echoed — which is precisely the condition the Process Test exists to catch.
 
 ### The Fact-to-Belief Gate
 
@@ -208,11 +208,25 @@ Not everything in a document becomes a belief. Most things should produce silenc
 1. **Independent re-derivation** — has at least one blind pass (extraction with no visibility into the existing belief) found the same pattern, or has every confirmation come from a pass that already knew what it was supposed to find?
 2. **Active contradiction search** — has a pass actually searched for evidence against this belief and reported the result — "searched, none found" — rather than simply not encountering contradiction?
 
-A belief can pass the Content Test and still fail the Process Test — insightful, but never verified independently, meaning its confirmations may be an echo of confirmation bias rather than real evidence. It can also pass the Process Test and fail the Content Test — a rigorously verified claim that turns out to be something any competent analyst already knew. Both tests are required; passing one does not excuse the other.
+The two tests do different jobs. **The Content Test decides the tier; the Process Test decides the rung.** A recurring regularity that fails the Content Test is not discarded — it is reclassified as an **Observation** (see below). A belief that passes the Content Test but fails the Process Test is not discarded either — it is held at the highest rung its evidence supports (recurrence alone → Provisional, cited as unverified). Passing one test does not excuse the other, but failing one is never a reason to throw useful memory away.
 
-### Facts, Memory, and Beliefs Are Three Different Things
+### Three Tiers of Memory — the Master Test Classifies, It Does Not Discard
 
-A belief is not a fact with better writing, and it is not the same thing as memory either. The system holds three distinct layers:
+The earlier design treated the master test as an admission gate: pass it and become a belief, fail it and be thrown away. That optimized for the purity of the apex and discarded the useful middle of the pyramid — and with only a handful of documents almost nothing can *legitimately* be a verified belief, so the system yielded nearly nothing. A convention held stable across every document ("they always report three benchmarks in this fixed order") fails the master test, yet it is exactly the institutional memory a new analyst wants on day one.
+
+So the master test is a **classification rule, not an admission gate.** Everything entity-specific and recurring is stored, at the tier its evidence and interpretation earn:
+
+| Tier | Where | What it holds | Cited as |
+|------|-------|---------------|----------|
+| **Foundation fact** | `foundation.md` | Definitional constants — metric definitions, benchmark structure, the reporting scaffold. Recurs *identically* and is definitional. | As fact |
+| **Observation** | `observations.md` | Entity-specific recurring regularities that carry little or no interpretation — reporting conventions, vocabulary habits, structural patterns. **Fails the master test** (findable in one document). | As "unverified pattern," never as a belief |
+| **Belief** | `belief.md` | Durable, falsifiable *interpretation* — something the documents collectively reveal that none states directly. **Passes the master test.** | By Status, hedged below Confirmed |
+
+When the engine finds a recurring regularity it asks the master test: does this say something no single document says? Yes → belief candidate, subject to the Two-Test Gate. No → an **Observation**, stored in a lightweight two-field form, citable honestly as an unverified pattern. Nothing useful is thrown away; nothing weak impersonates a belief. An Observation that later acquires genuine interpretation is *promoted* to a new belief — the only bridge between the tiers.
+
+### Facts, Memory, and Beliefs Are Different Things
+
+Beyond the three storage tiers, the system distinguishes what a fact log *is* from what a belief *is*:
 
 - **Facts** — what a document literally states. Captured per document in the fact log.
 - **Memory** — the full, permanent, addressable record of every fact log ever produced for this stream. Not compressed. Not discarded once a belief has been drawn from it.
@@ -220,7 +234,7 @@ A belief is not a fact with better writing, and it is not the same thing as memo
 
 A fact log is not disposable intermediate output consumed once by the belief engine and thrown away. It is the memory a belief's Provenance record points back into. The Evolution trail is a readable narrative generated from that memory — it doesn't compete with the Provenance record for truth, and it isn't itself the record of what happened.
 
-This distinction is what makes a Retired or Contradicted belief diagnosable rather than a dead end. Marking a belief Retired tells you it failed. It doesn't tell you *why* — whether the verification process broke down, whether the foundation claim it depended on was wrong, or whether the sample was simply unlucky. That diagnosis is only possible if the memory the belief was built from is still there, addressable, to trace back to.
+This distinction is what makes a Retired or Contradicted belief diagnosable rather than a dead end. Marking a belief Retired tells you it failed. It doesn't tell you *why* — whether the verification process broke down, whether the foundation claim it depended on was wrong, whether the match ledger routed evidence into the wrong belief, or whether the sample was simply unlucky. That diagnosis is only possible if the memory the belief was built from — the fact logs, the match ledger, the version snapshots — is still there, addressable, to trace back to.
 
 ### What a Mature Belief Looks Like
 
@@ -243,7 +257,7 @@ After five or more comparable documents, a belief entry looks like this. The hea
 
 **Falsification test:** A headline that opens with a miss, headwind, or structural deterioration before stating any positive contributor would indicate a break in the team's narrative sequencing convention and should be investigated immediately.
 
-**Provenance:** Foundation dependency: `foundation.narration_design` — narration design consistently frames results positive-first | Confirming documents: Doc 1–5 | Blind passes: Document 2 (independently re-derived the same positive-first ordering with no visibility into the Document 1 Candidate belief, before promotion to Provisional) | Contradiction searches: Document 4 (searched, none found), Document 5 (searched, none found — this was the weakest-result document and still confirmed) | Related beliefs: none identified yet | Last checked: Document 5
+**Provenance:** Foundation dependency: `foundation.narration_design` — narration design consistently frames results positive-first | Confirming documents: Doc 1–5 | Blind passes: Document 3 (independently re-derived the same positive-first ordering with no visibility into the prior belief, before promotion to Confirmed) | Contradiction searches: Document 4 (searched, none found, before promotion to Established), Document 5 (searched, none found — this was the weakest-result document and still confirmed) | Related beliefs: none identified yet | Last checked: Document 5
 
 ---
 
@@ -262,7 +276,7 @@ After five or more comparable documents, a belief entry looks like this. The hea
 
 **Falsification test:** Two consecutive misses without a prior-period language shift would break the guidance reliability belief. A language shift that does not precede a miss would narrow the leading indicator belief.
 
-**Provenance:** Foundation dependency: `foundation.metrics.revenue_delivery` — revenue delivery is the primary commitment metric | Confirming documents: Q1–Q8 (8 comparable quarters) | Blind passes: Q2 (independently re-derived the same beat pattern with no visibility into the Q1 Candidate belief, before promotion to Provisional) | Contradiction searches: Q3 (searched — found the miss and the preceding language shift, recorded as the leading-indicator sub-claim rather than a break), Q6 (searched, none found) | Related beliefs: none identified yet | Last checked: Q8
+**Provenance:** Foundation dependency: `foundation.metrics.revenue_delivery` — revenue delivery is the primary commitment metric | Confirming documents: Q1–Q8 (8 comparable quarters) | Blind passes: Q3 (independently re-derived the same beat pattern with no visibility into the prior belief, before promotion to Confirmed) | Contradiction searches: Q4 (searched, none found, before promotion to Established), Q6 (searched — found the miss and the preceding language shift, recorded as the leading-indicator sub-claim rather than a break) | Related beliefs: none identified yet | Last checked: Q8
 
 ---
 
@@ -281,7 +295,7 @@ After five or more comparable documents, a belief entry looks like this. The hea
 
 **Falsification test:** A Q1 with the spend ratio in range that does not produce Q2 new customer volume by week 10 would indicate the mechanic has broken. Management no longer describing the Q1 spend as an intentional acquisition investment — a language shift in how they explain Q1 — would be an early warning signal worth tracking before the next cycle confirms or denies the break.
 
-**Provenance:** Foundation dependency: `foundation.metrics.spend_and_core_volume` — spend and the core volume metric are the two primary thesis metrics | Confirming documents: cycles 1–6 | Blind passes: cycle 2 (independently re-derived the same Q1→Q2 lag with no visibility into the cycle-1 Candidate belief, before promotion to Provisional) | Contradiction searches: cycle 3 (searched, none found, before promotion to Confirmed), cycle 5 (searched, none found) | Related beliefs: none identified yet | Last checked: cycle 6
+**Provenance:** Foundation dependency: `foundation.metrics.spend_and_core_volume` — spend and the core volume metric are the two primary thesis metrics | Confirming documents: cycles 1–6 | Blind passes: cycle 3 (independently re-derived the same Q1→Q2 lag with no visibility into the prior belief, before promotion to Confirmed) | Contradiction searches: cycle 4 (searched, none found, before promotion to Established), cycle 5 (searched, none found) | Related beliefs: none identified yet | Last checked: cycle 6
 
 ---
 
