@@ -290,4 +290,4 @@ After 3 documents: Candidates and first Provisionals — patterns spotted, the f
 After 10 documents: Confirmed baselines — patterns that survived independent re-derivation and contradiction searches.
 After 30+ documents: Established structural understanding — beliefs with multiple blind passes and empty contradiction searches on record.
 
-What compounds is not just document count — it is survived verification. A belief's trustworthiness is read from its Status and its Provenance record, not from a confidence number alone. The belief memory becomes more valuable the longer it runs. This is the behavior of understanding, not retrieval.
+What compounds is not just document count — it is survived verification. A belief's trustworthiness is read entirely from its Status and its Provenance record — there is no separate numeric confidence score running alongside them. The belief memory becomes more valuable the longer it runs. This is the behavior of understanding, not retrieval.

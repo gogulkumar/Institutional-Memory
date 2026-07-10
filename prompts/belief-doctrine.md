@@ -271,7 +271,7 @@ The verification gates moved down one rung from the earlier design: recurrence n
 
 Decay is not a single step from Established to Confirmed. A belief untouched by any relevant signal keeps walking *down* the ladder, one rung per configured silence window, because a belief that stopped being tested is not as trustworthy as one still being challenged. Established → Confirmed → Provisional on continued silence; at the Provisional floor it is marked **STALE** rather than dropping to Candidate (its evidence still exists — it is untested, not unfounded). Tag each downgrade `[DECAY]` in the changelog — distinct from `[SILENCE]`, which notes one document's silence without consequence. `[DECAY]` fires each time silence accumulates past the configured window (system default: 4 consecutive silent comparable documents per rung).
 
-The point is not to punish a belief for the world going quiet. It is to make sure "Established six months ago, untested since" and "Established and still being challenged every quarter" can never be cited with the same confidence — and to force a STALE belief back through verification if the pattern resurfaces, rather than letting it coast on a status it earned long ago.
+The point is not to punish a belief for the world going quiet. It is to make sure "Established six months ago, untested since" and "Established and still being challenged every quarter" can never be cited with the same weight — and to force a STALE belief back through verification if the pattern resurfaces, rather than letting it coast on a status it earned long ago.
 
 ### Plain-English Display Aliases (display only — never the record of truth)
 

@@ -64,7 +64,7 @@ The analyst analogy holds here too. A new analyst joining a business doesn't sta
 - A fact: Revenue was $2.3B in Q3.
 - A belief: Revenue growth is increasingly dependent on pricing rather than volume, suggesting the business is extracting from its existing base rather than expanding it.
 
-Facts are static. Beliefs carry direction, confidence, and trajectory. Beliefs tell you what to expect in the next document — and what would constitute a surprise worth investigating.
+Facts are static. Beliefs carry direction, Status, and trajectory. Beliefs tell you what to expect in the next document — and what would constitute a surprise worth investigating.
 
 ### What a Belief Is Not
 
@@ -123,7 +123,6 @@ A belief is a durable, falsifiable, actionable interpretation of how a business 
 - **Grounded** — depends on a named foundation claim (by claim ID, e.g. `foundation.business_model`), and is flagged `[FOUNDATION_CHANGED]` if a Foundation Review revises that claim
 - **Actionable** — it tells you what to expect next, and what would constitute a surprise worth investigating — provable with a concrete before/after answer to a stated query
 - **Direction** — Improving, Stable, Deteriorating, or Unclear
-- **Confidence** — a number from 0.05 to 0.95 reflecting how strongly it is held
 
 Each of the first four is a procedural test, not a descriptive claim — see "The Two-Test Gate" below for what process must have actually happened before each can be claimed.
 
@@ -166,24 +165,9 @@ A belief passes through maturity stages as more comparable documents are process
 | **Confirmed** | 3 | Three documents, and the pattern was independently re-derived blind. The first tier of real trust. | A blind pass independently found the same pattern. A belief-aware-only confirmation does not promote — flag for review. | Without hedging |
 | **Established** | 4+ | The pattern is structural; it survived an active contradiction search. Breaking it is meaningful signal. | Contradiction search reported clean ("searched, none found"). Holds across document types if applicable. Foundation claim still current. | Without hedging |
 
-**Decay walks a belief down the ladder.** A belief untouched by any relevant signal descends one rung per silence window (default 4 consecutive silent comparable documents): Established → Confirmed → Provisional. At the Provisional floor it is marked **STALE** rather than dropping to Candidate — its evidence still exists; it is untested, not unfounded. This changes Status, not just Confidence, and is tagged `[DECAY]`. The point is that "Established six months ago, untested since" and "Established and still being challenged" can never be cited with the same confidence — and a STALE belief whose pattern resurfaces re-enters verification rather than coasting on a status it earned long ago.
+**Decay walks a belief down the ladder.** A belief untouched by any relevant signal descends one rung per silence window (default 4 consecutive silent comparable documents): Established → Confirmed → Provisional. At the Provisional floor it is marked **STALE** rather than dropping to Candidate — its evidence still exists; it is untested, not unfounded. This is the system's only decay mechanism — one clock, measured in comparable documents, not days — and it is tagged `[DECAY]`. The point is that "Established six months ago, untested since" and "Established and still being challenged" can never be cited with the same weight — and a STALE belief whose pattern resurfaces re-enters verification rather than coasting on a status it earned long ago.
 
-### The Four Update States
-
-| State | What Happened | Confidence Change |
-|-------|---------------|-------------------|
-| **New Prior** | No existing belief covers this signal | Seed at 0.20 |
-| **Confirm** | New document supports this belief | +0.08 |
-| **Contradict** | New document challenges this belief | −0.15 |
-| **Decay** | Not seen in 90+ days | −0.05 per cycle |
-
-Cap: 0.95 (0.90 for causal beliefs). Floor: 0.05. Archive below 0.10.
-
-These arithmetic updates handle incremental revision. They don't handle perspective shifts. When contradictions accumulate to the point where the interpretive frame itself is wrong — not just weakened — the belief engine must assess whether a reframe is warranted rather than continued decay. See Section 07 (Scope Boundaries) for when to retire vs reframe.
-
-This day-based Decay row adjusts Confidence only. It is a separate mechanism from the document-count-based `[DECAY]` tag under the Durability Ladder above, which downgrades Status from Established to Confirmed after N silent comparable documents. A belief can lose Confidence without losing Status, and can lose Status without its Confidence score having crossed any threshold — they track different things.
-
-**Status outranks Confidence.** The two signals answer different questions and are not interchangeable. Status is earned through verification — a blind pass to reach Confirmed, a reported contradiction search to reach Established — and is the signal that governs how a belief may be cited. Confidence is arithmetic bookkeeping: it tracks incremental strengthening and staleness *within* a status and drives archival of neglected beliefs. Confidence can never promote a belief past the verification its status requires. A belief at Confidence 0.90 whose Provenance shows no blind pass is still Provisional at most, must be cited as unverified recurrence, and its high score means only that it has been repeatedly echoed — which is precisely the condition the Process Test exists to catch.
+**Status is the only trust signal.** There is no separate numeric confidence score to reconcile against it — a belief's trustworthiness is read entirely from its Status and its Provenance record (which documents confirmed it, whether a blind pass ran, whether a contradiction search came back clean). Status is earned through verification and governs how a belief may be cited; nothing about how "strong" a belief feels can be represented outside of that earned Status. When contradictions accumulate to the point where the interpretive frame itself is wrong — not just weakened — the belief engine must assess whether a reframe is warranted rather than continued decay. See Section 07 (Scope Boundaries) for when to retire vs reframe.
 
 ### The Fact-to-Belief Gate
 
@@ -193,9 +177,9 @@ Not everything in a document becomes a belief. Most things should produce silenc
 |------------|--------|
 | Fact only — a metric, a date, a result with no durable interpretation | Stay silent |
 | Supports or challenges an existing belief but cannot create a new one | Update existing belief |
-| Strengthens an existing belief without rewriting it | Confirm +0.08 |
-| Challenges an existing belief | Contradict −0.15 |
-| Implies something durable that no existing belief covers | New prior at 0.20 |
+| Strengthens an existing belief without rewriting it | `[DEEPEN]` |
+| Challenges an existing belief | `[CONTRADICT]` or `[TENSION]` |
+| Implies something durable that no existing belief covers | `[NEW_BELIEF]` |
 
 **The Two-Test Gate — both required before a belief is written or promoted:**
 
@@ -245,7 +229,7 @@ After five or more comparable documents, a belief entry looks like this. The hea
 **Stream 05 example — document-level patterns**
 
 **## Belief #7 — Every Variance Headline Opens With the Best-Performing Driver; the Negative Is Always the Second Clause**
-**Status:** Established | **Confidence:** 0.60 | **Direction:** Stable
+**Status:** Established | **Direction:** Stable
 
 **Statement:** Established across five documents. Every variance headline in every deck is structured positive-first without exception. Whether the overall result is a beat or a miss, the opening attribution clause names a positive driver. In beats, the leading positive is the dominant contributor. In misses or mixed results, the team still locates a positive to lead with before acknowledging the headwind. The negative driver is structurally relegated to the second clause in every instance across all five documents. This is a systematic narrative convention, not a neutral factual ordering.
 
@@ -264,7 +248,7 @@ After five or more comparable documents, a belief entry looks like this. The hea
 **Stream 02 example — performance track record**
 
 **## Belief #3 — Revenue Guidance Has Been Met or Exceeded in 7 of 8 Comparable Quarters; the One Miss Was Preceded by a Specific Language Shift**
-**Status:** Established | **Confidence:** 0.72 | **Direction:** Stable
+**Status:** Established | **Direction:** Stable
 
 **Statement:** This business delivers against its stated revenue guidance in 7 of 8 comparable quarters, median beat 1.4%. The single significant miss (−3.1%, Q3) was preceded in the prior-period document by a shift in forward commitment language from "we expect" to "we are targeting" — the only instance of that language shift in the record. Revenue guidance reliability is high; the language shift is a leading indicator that has now been confirmed once.
 
@@ -283,7 +267,7 @@ After five or more comparable documents, a belief entry looks like this. The hea
 **Stream 02 example — relationship claim initialized from document one, then deepened**
 
 **## Belief #5 — Spend Concentration Against the Core Volume Metric in Q1 Drives New Customer Volume in Q2 With a 6–8 Week Lag; the Chain Has Held in 6 Consecutive Cycles**
-**Status:** Established | **Confidence:** 0.78 | **Direction:** Stable
+**Status:** Established | **Direction:** Stable
 
 **Statement:** This business runs a deliberate spend-to-acquisition mechanic. Marketing spend rises against the core volume metric in Q1 (typically 28–34% range) as the business runs a concentrated acquisition push. New customer volume follows in Q2 with a 6–8 week lag from peak Q1 spend. This mechanic was first stated explicitly by management in the first document reviewed and has been confirmed across 6 consecutive Q1→Q2 cycles. Q1 spend concentration is not a problem — it is the thesis executing.
 
@@ -736,7 +720,7 @@ Every step in the pipeline has explicit prohibitions. These are not edge-case wa
 - Treat a REDEFINITION SIGNAL as belief evidence. It never enters belief classification or the Observation tier — it routes straight to Foundation Review.
 - Treat a lower-Source-Authority reading as evidence against a belief grounded in a higher-authority one. That is a document-quality difference, not a contradiction — defer to the named authority, or flag `[SOURCE_CONFLICT]` if the foundation names no winner between two equally-ranked document types.
 - Write a belief at higher than Candidate stage from a single document. A first-document entry is Candidate only — explicitly marked as pending confirmation.
-- Lower confidence precipitously on a single contradicting signal. One document showing tension does not revise an Established belief.
+- Downgrade a belief's Status or retire it on a single contradicting signal. One document showing tension does not revise an Established belief — it produces `[TENSION]`, held not revised; retirement requires sustained contradiction.
 - Write beliefs that fail the quality test: non-falsifiable, entity-generic, single-period, template artifacts, unsupported causality, not grounded in the foundation.
 - Use category labels as headings. The heading of every belief entry is the claim itself — a complete, specific, falsifiable sentence. Not a topic name.
 - Renumber beliefs. Once a belief is assigned #N, that number is permanent. Retired beliefs keep their number marked RETIRED.

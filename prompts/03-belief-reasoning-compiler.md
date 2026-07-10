@@ -325,7 +325,7 @@ Tell the belief engine exactly what inputs it will receive and what it must prod
 - Don't invent facts not present in the fact log.
 - Don't summarize the document.
 - Don't update a belief if the fact log has no signal for it.
-- Don't lower confidence precipitously based on a single contradicting signal.
+- Don't downgrade a belief's Status or retire it based on a single contradicting signal — one contradiction is `[TENSION]`, held not revised; retirement requires sustained contradiction (default 3 consecutive comparable documents).
 - Don't add beliefs that don't survive the Quality Test.
 - Don't produce statements that could not be proved wrong by a future document.
 - Don't use category labels as headings. The heading must be the claim.

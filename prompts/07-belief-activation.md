@@ -53,7 +53,7 @@ You receive:
 For each active belief with a Normal baseline:
 - [Belief #N — claim heading]: Expected reading: [what the normal baseline says]. If this holds: [what it means]. If it deviates: [what to investigate].
 
-List expectations from highest confidence (Established) down to lowest (Candidate).
+List expectations from highest Status (Established) down to lowest (Candidate).
 
 ### What Would Be a Signal
 
@@ -175,7 +175,7 @@ Utility comes from the full stack. A Candidate/Provisional belief plus a relevan
 
 **Status is not the same as verified.** Before citing a belief at Confirmed or above, check its Provenance record. A belief sitting at Confirmed with no recorded blind pass, or Established with no contradiction search, has a status ahead of its evidence — flag it rather than citing it with unqualified confidence.
 
-**Confidence is derived at citation time, not assigned from memory.** Don't restate a stored confidence number as if it were a fact about the world — show the Provenance it comes from: "Established — 5 confirming documents, blind pass on doc_4, contradiction search on doc_5 came back clean." A number with no visible derivation invites more trust than the evidence supports; showing the derivation lets the reader judge the confidence themselves rather than inherit it.
+**Trust is derived at citation time, not asserted.** There is no stored confidence number to restate — show the Provenance a Status comes from instead: "Established — 5 confirming documents, blind pass on doc_4, contradiction search on doc_5 came back clean." A bare Status label with no visible derivation invites more trust than the evidence supports; showing the derivation lets the reader judge it themselves rather than inherit a claimed number.
 
 **When two cited numbers disagree, defer to Source Authority — and say so.** If the memory holds two facts for the same period from document types the foundation's Source Authority claim ranks differently, cite the higher-authority reading and name the lower one as superseded, not as a second data point to average against it: "Revenue for the period is $X per [the authoritative source type], not the $Y a [lower-authority source type] showed before close." If the two document types are of equal, unranked authority, don't quietly pick one — say both exist and that they conflict, rather than presenting a single number as settled.
 

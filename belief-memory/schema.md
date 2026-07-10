@@ -281,17 +281,11 @@ The changelog is append-only. An absent changelog entry for a document means the
 
 ---
 
-## Update Arithmetic
+## Status Is the Only Trust Signal
 
-| Action | Confidence Change |
-|--------|------------------|
-| Confirm (DEEPEN) | +0.08 |
-| Contradict (TENSION) | −0.15 |
-| New Prior (NEW_BELIEF) | initialized at 0.20 |
-| Decay (90+ days unseen) | −0.05 per cycle |
+There is no separate numeric confidence score to maintain alongside Status. A belief's trustworthiness is read entirely from its Status and its Provenance record — which documents confirmed it, whether a blind pass ran, whether a contradiction search came back clean. This is deliberate: a second, arithmetic signal running in parallel to Status invites exactly the confusion a documentation-defined system exists to prevent — two numbers that can disagree about how much to trust the same belief.
 
-**Bounds:** Floor 0.05 · Cap 0.95 (0.90 for causal beliefs)
-**Archive threshold:** Below 0.10 → moved to archive; not deleted
+**Volume bounds are enforced by rank, not by score.** When a stream exceeds `max_beliefs_per_stream`, the beliefs retired first are ranked by Status ascending (Candidate/STALE before Provisional before Confirmed before Established), then by Last checked (longest-silent first) within the same Status. This uses signals the system already tracks — no separate arithmetic needed.
 
 ---
 
@@ -310,7 +304,7 @@ The belief engine never receives the raw document, the blueprint, or any other c
 ## Belief Memory Bounds
 
 - **Min active beliefs per stream:** 8 (enforced by volume check)
-- **Max active beliefs per stream:** ~20 (configurable)
-- **Decay trigger:** 90 days since last confirming document (configurable)
+- **Max active beliefs per stream:** ~20 (configurable) — over the cap, retire by Status ascending then by longest-silent Last checked, not by a numeric score
+- **Decay trigger:** 4 consecutive silent comparable documents (configurable) — measured in documents, not days
 - **Archive, not delete:** Contradicted and decayed beliefs are archived, not erased. History is preserved.
 - **No renumbering:** Once a belief is assigned #N, that number is permanent. Retired beliefs keep their number marked RETIRED.

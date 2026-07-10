@@ -74,13 +74,14 @@ belief_config:
   # heading text.
   match_ledger_enabled: true
 
-  # ─── LADDER DECAY (document-count-based, distinct from day-based decay below) ──
+  # ─── LADDER DECAY (the system's only decay mechanism, document-count-based) ──
   # A belief untouched by relevant signal walks DOWN the ladder, one rung per
   # this many consecutive silent comparable documents (tag: [DECAY]):
   # Established → Confirmed → Provisional. At the Provisional floor it is marked
   # STALE (evidence intact, untested) rather than dropping to Candidate. A STALE
-  # belief whose pattern resurfaces re-enters verification. This is a Status
-  # change, separate from the Confidence-score decay settings below.
+  # belief whose pattern resurfaces re-enters verification. Measured in
+  # comparable documents, not days -- a fast-cadence stream and a slow one
+  # shouldn't decay on the same wall-clock timer.
   decay_after_silent_documents: 4
   decay_floor: Provisional     # STALE-marked here rather than dropping to Candidate
 
@@ -152,19 +153,12 @@ belief_config:
   # Grounded exists to prevent.
   foundation_review_resolution: user_confirm    # user_confirm | automatic
 
-  # ─── DECAY SETTINGS (Confidence score, not Status) ─────────────────────────
-  # Beliefs not confirmed within this many days begin losing confidence.
-  decay_threshold_days: 90
-
-  # Confidence reduction per decay cycle for unseen beliefs.
-  decay_rate_per_cycle: 0.05
-
-  # Beliefs below this threshold are archived (not deleted).
-  archive_threshold: 0.10
-
   # ─── BELIEF MEMORY BOUNDS ────────────────────────────────────────────────────
-  # Maximum number of active beliefs per stream.
-  # Beliefs are ranked by confidence; lowest are archived first when this is exceeded.
+  # Maximum number of active beliefs per stream. There is no numeric confidence
+  # score to rank by -- when this is exceeded, beliefs are ranked by Status
+  # ascending (Candidate/STALE before Provisional before Confirmed before
+  # Established), then by Last checked (longest-silent first) within the same
+  # Status, and the weakest, stalest are retired first.
   max_beliefs_per_stream: 20
 
   # Minimum active beliefs before the engine flags over-collapse and audits for umbrella beliefs.
@@ -188,18 +182,3 @@ belief_config:
   # preserve states -- the belief memory after any document stays readable
   # forever, which is what makes a wrong belief diagnosable rather than gone.
   keep_belief_snapshots: true
-
-  # ─── CONFIDENCE ARITHMETIC ─────────────────────────────────────────────────
-  # Standard update values. Match the belief reasoning system prompts.
-  # NOTE: Confidence is bookkeeping, not trust. Status (Candidate/Provisional/
-  # Confirmed/Established) is earned through verification -- blind passes and
-  # contradiction searches recorded in the Provenance record -- and governs how
-  # a belief may be cited. Confidence tracks strengthening/staleness WITHIN a
-  # status and drives archival. It can never promote a belief past the
-  # verification its status requires.
-  confirm_delta: +0.08
-  contradict_delta: -0.15
-  new_prior_confidence: 0.20
-  confidence_cap: 0.95
-  confidence_cap_causal: 0.90    # causal beliefs are probabilistic, not deterministic
-  confidence_floor: 0.05

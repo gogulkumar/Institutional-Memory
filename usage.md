@@ -14,7 +14,7 @@ The first document can never produce a belief. What it produces is a set of **ca
 
 From the first document the engine initializes 8–15 specific Candidate entries. Not conclusions — hypotheses. Each one says: *I saw this once. It might be the pattern. The next document will tell me.*
 
-Every Candidate starts at confidence 0.20. The evolution trail says: "First seen in [doc]. Here is what it showed."
+Every Candidate starts unverified — not citable, nothing to check its Status against yet. The evolution trail says: "First seen in [doc]. Here is what it showed."
 
 Nothing is held strongly. Nothing should be.
 
@@ -46,7 +46,7 @@ To reach **Established**, a belief must survive an **active contradiction search
 
 The Provenance record shows the evidence that earned the status: which documents confirmed, which pass ran blind, which contradiction searches came back empty. A belief without that trail, no matter how well its prose reads, has not earned Established.
 
-Established is not permanent. If a belief goes untouched by relevant signal, it **decays down the ladder** — Established → Confirmed → Provisional, one rung per silence window (default 4 documents), tagged `[DECAY]`. At the Provisional floor it is marked **STALE**: its evidence still exists, but it is untested, and activation flags it as untested-since rather than citing it as current. "Established months ago, silent since" and "Established and still being challenged" must never be cited with the same confidence.
+Established is not permanent. If a belief goes untouched by relevant signal, it **decays down the ladder** — Established → Confirmed → Provisional, one rung per silence window (default 4 documents), tagged `[DECAY]`. At the Provisional floor it is marked **STALE**: its evidence still exists, but it is untested, and activation flags it as untested-since rather than citing it as current. "Established months ago, silent since" and "Established and still being challenged" must never be cited with the same weight.
 
 ---
 
@@ -211,7 +211,7 @@ Alongside the beliefs, an **Observation** tier accumulates from document one: re
 
 **Rigor follows citation weight.** The gates sit one rung lower than plain confirmation-by-count: recurrence forms a hypothesis cheaply, the blind pass earns the first un-hedged tier (Confirmed), the contradiction search earns Established. This is why the system yields something useful early — a Provisional hypothesis and a handful of Observations after two documents — instead of nearly nothing.
 
-**Status is the trust signal; Confidence is the bookkeeping.** The Status ladder is earned through verification recorded in the Provenance record. The Confidence score (0.05–0.95 arithmetic) tracks incremental strengthening and decay *within* a status. Confidence can never promote a belief past the verification its status requires: a belief at Confidence 0.90 with no blind pass on record is Provisional at most, cited as unverified recurrence.
+**Status is the only trust signal.** There is no separate numeric confidence score running alongside it. The Status ladder is earned entirely through verification recorded in the Provenance record: a belief with no blind pass on record is Provisional at most and cited as unverified recurrence, no matter how many documents have echoed it.
 
 Each document does not add proportionally. Early documents add the most — the first pattern signals, the first calibrations. Later documents deepen what is already held, refine the normal baseline, and occasionally break or reframe a belief that was holding incorrectly.
 
