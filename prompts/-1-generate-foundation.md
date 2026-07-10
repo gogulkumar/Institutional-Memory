@@ -18,10 +18,15 @@ Foundation claims have two sources, and every claim is labeled with its source. 
 
 **Source 2 — Corpus grounding (once fact logs exist).** After the first several documents have been processed (default: 3 — see `belief_config.yaml`), run a **corpus grounding pass**: read all fact logs produced so far *together*, and extract only what recurred *identically* across every one — the definitional, structural facts. Metric definitions that never varied. The benchmark sequence that appeared the same way every time. The decomposition structure, the segmentation, the fixed scaffold of how this business reports itself. Label: `source: corpus`, with the doc_ids that ground it.
 
-The discriminating test between a foundation claim and a belief:
+The discriminating test between a foundation claim and a belief is not "does it recur" — a genuine belief recurs too. The test is what kind of thing would ever change it:
 
-> **Recurs identically in every document and is definitional — it describes how the business is structured or measured, not how it performed → foundation claim.**
-> **Could vary period to period and needs testing across documents → belief. It goes to a stream, not the foundation.**
+> **Could this be argued against with new evidence — a document that performs differently, a metric that moves the other way — while the definition underneath stays the same? → belief.** It goes to a stream, and accumulates through the Durability Ladder like any other claim.
+> **Could this only ever change by someone redefining it — a new calculation basis, a new scope, a new benchmark structure — never by the business simply behaving differently? → foundation claim.** No accumulation of documents "argues" a definition into changing; only a stated redefinition does.
+
+**Worked example — same recurring observation, two different classifications:**
+
+- **WRONG**: "Gross margin has been above 40% in every document read so far" → filed as a foundation claim because it recurred identically each time. This is wrong: a future document showing gross margin at 35% would not mean the *definition* of gross margin changed — it would mean the business performed differently. That is exactly what a belief is for; forcing it into the foundation freezes a performance observation as if it were a structural constant.
+- **RIGHT**: "Gross margin is calculated after fulfillment cost but before marketing spend" recurs identically across every document *and* could only change if the entity explicitly redefined how it calculates the metric → foundation claim. "Gross margin has stayed above 40%" is a separate, testable belief that cites the foundation claim for how the number is computed, but stands or falls on its own evidence.
 
 The corpus grounding pass also reconciles the two sources:
 - An interview claim the fact logs **corroborate** is relabeled `source: interview+corpus` — the hypothesis earned its grounding.
@@ -34,7 +39,7 @@ This ordering preserves the system's core principle — *the business model is d
 
 ## Interview Structure
 
-Conduct a focused interview in five areas. Ask one question at a time. Do not move to the next area until the current one is answered. Do not invent content — only record what the user tells you.
+Conduct a focused interview in six areas. Ask one question at a time. Do not move to the next area until the current one is answered. Do not invent content — only record what the user tells you.
 
 ### Area 1 — Business Model and Profitability Thesis
 
@@ -87,6 +92,19 @@ Ask:
 - What does this entity consistently over- or under-represent in its documents?
 
 Record: A what-matters-vs-noise section. Two lists: signals to stress, and things to discount.
+
+### Area 6 — Source Authority
+
+Ask:
+- When two documents disagree on the same number for the same period — a deck shows one figure, a system export shows another — which one is authoritative?
+- What is the authoritative source for final actuals? (Typically the official system of record, not a deck built before close.)
+- What is the authoritative source for forecast or plan assumptions? (Typically the latest approved forecast file, not a verbal mention in a meeting.)
+- What is the authoritative source for internal narrative — how leadership explains performance internally?
+- What is the authoritative source for external narrative — how the entity explains performance publicly?
+- What is the authoritative source for metric definitions — a dictionary or data-owner documentation, or does the definition live only in this foundation?
+- Are there known cases where a document type is deliberately preferred over a "more official" one (e.g., an early flash read used before actuals finalize)?
+
+Record: A source authority table — for each question type (final actuals, forecast/plan assumptions, internal narrative, external narrative, metric definitions), the authoritative document type, and why. If two document types could plausibly claim the same question type, name the one that wins and say so explicitly — an unresolved tie here becomes a silent, undetectable inconsistency downstream.
 
 ---
 
@@ -162,6 +180,22 @@ What a deviation means: [How to interpret a move outside the normal range]
 
 ---
 
+## Source Authority
+<!-- claim: foundation.source_authority -->
+
+[Which document type is authoritative for each question type, and why. No ties — if two document types could both answer a question type, name the one that wins.]
+
+| Question type | Authoritative source | Why |
+|---|---|---|
+| Final actuals | [document type] | [reason] |
+| Forecast / plan assumptions | [document type] | [reason] |
+| Internal narrative | [document type] | [reason] |
+| External narrative | [document type] | [reason] |
+| Metric definitions | [document type, or "this foundation" if none exists] | [reason] |
+| [Additional question type, if named in interview] | [document type] | [reason] |
+
+---
+
 ## Foundation Revision Log
 
 Append-only. Empty at creation: "No revisions yet — foundation built from initial interview only."
@@ -185,19 +219,22 @@ Append-only. Empty at creation: "No revisions yet — foundation built from init
 
 The foundation is not append-only prose that sits untouched once written — see "The foundation is a living document" below. But it also cannot be silently rewritten by an automated pass every time a belief seems to add nuance; a claim built from a five-minute interview and a claim built from twelve documents of evidence are different kinds of authority, and the resolution between them should be visible, not silent.
 
-**This agent runs a second mode, distinct from the initial interview: Foundation Review.** It is invoked by the belief pipeline (see `lifecycle/ingestion-pipeline.md`, Step 7.5) when a belief in any stream meets the review trigger — reaching Confirmed or Established status while its Statement adds meaningful precision to, narrows, or outright contradicts the foundation claim named in its own Provenance → Foundation dependency field. A single Candidate or Provisional belief never triggers this; the evidence has to have already survived the Two-Test Gate.
+**This agent runs a second mode, distinct from the initial interview: Foundation Review.** It is invoked by the belief pipeline (see `lifecycle/ingestion-pipeline.md`, Step 7.5) through either of two independent trigger paths:
 
-**On a review call, you receive:** the current text of the flagged claim (with its claim ID), the triggering belief's Statement and Evolution trail, and its Provenance record.
+1. **Belief-maturity path.** A belief in any stream reaches Confirmed or Established status while its Statement adds meaningful precision to, narrows, or outright contradicts the foundation claim named in its own Provenance → Foundation dependency field. A single Candidate or Provisional belief never triggers this path; the evidence has to have already survived the Two-Test Gate.
+2. **Redefinition Signal path.** The document itself states, in plain language, that a definition, calculation, or scope changed — independent of any belief's maturity. This is not evidence accumulating toward an interpretation; it is the entity announcing the ground itself moved (a new calculation basis, a metric redefined, a benchmark restructured, a segment redrawn). Fact extraction (`06-fact-extractor.md`) tags these as `[REDEFINITION_SIGNAL]` and routes them here directly, at Candidate-belief speed, because waiting for a belief to mature would mean reasoning against a stale definition in the meantime.
+
+**On a review call, you receive:** the current text of the flagged claim (with its claim ID), and — depending on which path triggered the review — either the triggering belief's Statement, Evolution trail, and Provenance record (path 1), or the document's redefinition language verbatim with its doc_id (path 2).
 
 **You do:**
-1. State plainly what the foundation currently claims and what the belief independently found.
+1. State plainly what the foundation currently claims, and what triggered the review — the belief's independent finding (path 1), or the document's own redefinition language (path 2).
 2. Ask the user to resolve it — three options only:
    - **Adopt**: rewrite the claim to match the evidence. Append a Foundation Revision Log entry. Every other belief across every stream whose Provenance names this claim ID must now be flagged — record `[FOUNDATION_CHANGED]` against each in the changelog, and hold their Status where it is (not retired, not silently kept as-is) until their next document pass re-confirms grounding against the revised claim.
-   - **Hold**: the original claim stands. The belief's finding is treated as a narrower sub-case or a document-specific deviation, not a correction to the foundation. No Revision Log entry — this is a decision, not a change, but log the decision was considered and rejected, with why.
-   - **Defer**: not enough evidence yet to decide either way. No change. Note what would resolve it — typically, more documents confirming the same tension.
+   - **Hold**: the original claim stands. The triggering evidence is treated as a narrower sub-case or a document-specific deviation, not a correction to the foundation. No Revision Log entry — this is a decision, not a change, but log the decision was considered and rejected, with why.
+   - **Defer**: not enough evidence yet to decide either way. No change. Note what would resolve it — for path 1, typically more documents confirming the same tension; for path 2, confirmation that the redefinition is permanent rather than a one-off restatement.
 3. Do not decide Adopt vs. Hold yourself by default. Surface the conflict and let the user resolve it, unless the entity's configuration has explicitly set automatic resolution (see `belief_config.yaml`).
 
-**You must never:** rewrite a claim without logging the revision. Silently absorb a contradiction into the foundation's prose without a Revision Log entry — that is exactly the silent-drift failure Grounded exists to prevent. Treat a Candidate or Provisional belief as sufficient grounds for a review call.
+**You must never:** rewrite a claim without logging the revision. Silently absorb a contradiction into the foundation's prose without a Revision Log entry — that is exactly the silent-drift failure Grounded exists to prevent. Treat a Candidate or Provisional belief as sufficient grounds for a belief-maturity-path (path 1) review call — a Redefinition Signal (path 2) needs no belief maturity at all, by design.
 
 ---
 
@@ -211,6 +248,6 @@ The foundation is not append-only prose that sits untouched once written — see
 
 **Be specific.** Vague foundations produce generic beliefs. The test for every sentence: would this tell an AI something it could not infer from knowing the entity's industry alone?
 
-**The foundation is a living document — but only through Foundation Review, never by quiet edit.** After several streams have run and a belief reaches Confirmed or Established while bearing on a specific foundation claim, that claim may be refined through the Foundation Review process above. Refinement carries forward to every stream for this entity — and every belief whose Provenance names the revised claim ID is flagged for re-grounding, not silently left standing on a claim that no longer says what it said when the belief was created.
+**The foundation is a living document — but only through Foundation Review, never by quiet edit.** A claim is refined through the Foundation Review process above, via either trigger path: a belief reaching Confirmed or Established while bearing on that claim, or a document stating outright that the claim's definition changed. Refinement carries forward to every stream for this entity — and every belief whose Provenance names the revised claim ID is flagged for re-grounding, not silently left standing on a claim that no longer says what it said when the belief was created.
 
 **Claim IDs are permanent.** Once `foundation.metrics.revenue_growth` exists, it is never reassigned to mean something else. If the claim needs to split into two distinct claims, retire the original ID in the Revision Log and mint new ones — don't overload one ID with a different meaning than the beliefs pointing to it expected.

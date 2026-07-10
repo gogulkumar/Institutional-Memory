@@ -64,7 +64,7 @@ The analyst analogy holds here too. A new analyst joining a business doesn't sta
 - A fact: Revenue was $2.3B in Q3.
 - A belief: Revenue growth is increasingly dependent on pricing rather than volume, suggesting the business is extracting from its existing base rather than expanding it.
 
-Facts are static. Beliefs carry direction, confidence, and trajectory. Beliefs tell you what to expect in the next document — and what would constitute a surprise worth investigating.
+Facts are static. Beliefs carry direction, Status, and trajectory. Beliefs tell you what to expect in the next document — and what would constitute a surprise worth investigating.
 
 ### What a Belief Is Not
 
@@ -123,7 +123,6 @@ A belief is a durable, falsifiable, actionable interpretation of how a business 
 - **Grounded** — depends on a named foundation claim (by claim ID, e.g. `foundation.business_model`), and is flagged `[FOUNDATION_CHANGED]` if a Foundation Review revises that claim
 - **Actionable** — it tells you what to expect next, and what would constitute a surprise worth investigating — provable with a concrete before/after answer to a stated query
 - **Direction** — Improving, Stable, Deteriorating, or Unclear
-- **Confidence** — a number from 0.05 to 0.95 reflecting how strongly it is held
 
 Each of the first four is a procedural test, not a descriptive claim — see "The Two-Test Gate" below for what process must have actually happened before each can be claimed.
 
@@ -157,33 +156,18 @@ A perspective shift is not a failure of the previous belief. The previous belief
 
 ### The Durability Ladder
 
-A belief passes through maturity stages as more comparable documents are processed. Do not skip stages — and do not promote a stage without the verification that stage requires.
+A belief passes through maturity stages as more comparable documents are processed. Do not skip stages — and do not promote a stage without the verification that stage requires. **Rigor follows citation weight:** the gates sit one rung lower than plain confirmation-by-count, so that forming a hypothesis is cheap and the expensive verification is spent only where trust is actually consumed (the un-hedged tiers).
 
-| Stage | Documents | What It Means | Verification required to enter this stage |
-|-------|-----------|---------------|----------------------------------------------|
-| **Candidate** | 1 | A signal with the shape of a durable pattern. Not yet a belief. Every first-document entry is Candidate. | None — nothing exists yet to check blind against. |
-| **Provisional** | 2 | Two comparable documents support the pattern. Hold cautiously. | A blind pass on the second document independently found the same pattern. A confirmation seen only by a pass that already knew the Candidate belief does not promote — flag for review instead. |
-| **Confirmed** | 3 | Three comparable documents support the pattern. Treat as a baseline. | An active contradiction search on the third document found nothing. Confirmation without a contradiction search is an echo, not confirmation. |
-| **Established** | 4+ | The pattern is structural. Breaking it is meaningful signal, not noise. | Holds across multiple document types if applicable. Still traces to a foundation claim that has not since changed. |
+| Stage | Documents | What It Means | Verification required to enter | Citable as |
+|-------|-----------|---------------|--------------------------------|------------|
+| **Candidate** | 1 | A signal with the shape of a durable pattern. Every first-document entry is Candidate. | None — nothing to check against yet. | Not citable |
+| **Provisional** | 2 | Two comparable documents support the pattern. An honest hypothesis. | Plain recurrence across a second comparable document. Forming a hypothesis is cheap by design. | Only as "unverified recurrence" — hedged |
+| **Confirmed** | 3 | Three documents, and the pattern was independently re-derived blind. The first tier of real trust. | A blind pass independently found the same pattern. A belief-aware-only confirmation does not promote — flag for review. | Without hedging |
+| **Established** | 4+ | The pattern is structural; it survived an active contradiction search. Breaking it is meaningful signal. | Contradiction search reported clean ("searched, none found"). Holds across document types if applicable. Foundation claim still current. | Without hedging |
 
-**Established beliefs decay without new evidence.** An Established belief untouched by any relevant signal across N subsequent comparable documents downgrades to Confirmed automatically — not because it was proven wrong, but because "established several documents ago" and "established and still being actively tested" are different confidence levels the system must distinguish. This is a separate action from ordinary confidence decay (see below): it changes Status, not just Confidence, and is tagged `[DECAY]` in the changelog. System default: 4 consecutive silent comparable documents.
+**Decay walks a belief down the ladder.** A belief untouched by any relevant signal descends one rung per silence window (default 4 consecutive silent comparable documents): Established → Confirmed → Provisional. At the Provisional floor it is marked **STALE** rather than dropping to Candidate — its evidence still exists; it is untested, not unfounded. This is the system's only decay mechanism — one clock, measured in comparable documents, not days — and it is tagged `[DECAY]`. The point is that "Established six months ago, untested since" and "Established and still being challenged" can never be cited with the same weight — and a STALE belief whose pattern resurfaces re-enters verification rather than coasting on a status it earned long ago.
 
-### The Four Update States
-
-| State | What Happened | Confidence Change |
-|-------|---------------|-------------------|
-| **New Prior** | No existing belief covers this signal | Seed at 0.20 |
-| **Confirm** | New document supports this belief | +0.08 |
-| **Contradict** | New document challenges this belief | −0.15 |
-| **Decay** | Not seen in 90+ days | −0.05 per cycle |
-
-Cap: 0.95 (0.90 for causal beliefs). Floor: 0.05. Archive below 0.10.
-
-These arithmetic updates handle incremental revision. They don't handle perspective shifts. When contradictions accumulate to the point where the interpretive frame itself is wrong — not just weakened — the belief engine must assess whether a reframe is warranted rather than continued decay. See Section 07 (Scope Boundaries) for when to retire vs reframe.
-
-This day-based Decay row adjusts Confidence only. It is a separate mechanism from the document-count-based `[DECAY]` tag under the Durability Ladder above, which downgrades Status from Established to Confirmed after N silent comparable documents. A belief can lose Confidence without losing Status, and can lose Status without its Confidence score having crossed any threshold — they track different things.
-
-**Status outranks Confidence.** The two signals answer different questions and are not interchangeable. Status is earned through verification — a blind pass to reach Provisional, a reported contradiction search to reach Confirmed — and is the signal that governs how a belief may be cited. Confidence is arithmetic bookkeeping: it tracks incremental strengthening and staleness *within* a status and drives archival of neglected beliefs. Confidence can never promote a belief past the verification its status requires. A belief at Confidence 0.90 whose Provenance shows no blind pass is still a Candidate, must be cited as a Candidate, and its high score means only that it has been repeatedly echoed — which is precisely the condition the Process Test exists to catch.
+**Status is the only trust signal.** There is no separate numeric confidence score to reconcile against it — a belief's trustworthiness is read entirely from its Status and its Provenance record (which documents confirmed it, whether a blind pass ran, whether a contradiction search came back clean). Status is earned through verification and governs how a belief may be cited; nothing about how "strong" a belief feels can be represented outside of that earned Status. When contradictions accumulate to the point where the interpretive frame itself is wrong — not just weakened — the belief engine must assess whether a reframe is warranted rather than continued decay. See Section 07 (Scope Boundaries) for when to retire vs reframe.
 
 ### The Fact-to-Belief Gate
 
@@ -193,9 +177,9 @@ Not everything in a document becomes a belief. Most things should produce silenc
 |------------|--------|
 | Fact only — a metric, a date, a result with no durable interpretation | Stay silent |
 | Supports or challenges an existing belief but cannot create a new one | Update existing belief |
-| Strengthens an existing belief without rewriting it | Confirm +0.08 |
-| Challenges an existing belief | Contradict −0.15 |
-| Implies something durable that no existing belief covers | New prior at 0.20 |
+| Strengthens an existing belief without rewriting it | `[DEEPEN]` |
+| Challenges an existing belief | `[CONTRADICT]` or `[TENSION]` |
+| Implies something durable that no existing belief covers | `[NEW_BELIEF]` |
 
 **The Two-Test Gate — both required before a belief is written or promoted:**
 
@@ -208,11 +192,25 @@ Not everything in a document becomes a belief. Most things should produce silenc
 1. **Independent re-derivation** — has at least one blind pass (extraction with no visibility into the existing belief) found the same pattern, or has every confirmation come from a pass that already knew what it was supposed to find?
 2. **Active contradiction search** — has a pass actually searched for evidence against this belief and reported the result — "searched, none found" — rather than simply not encountering contradiction?
 
-A belief can pass the Content Test and still fail the Process Test — insightful, but never verified independently, meaning its confirmations may be an echo of confirmation bias rather than real evidence. It can also pass the Process Test and fail the Content Test — a rigorously verified claim that turns out to be something any competent analyst already knew. Both tests are required; passing one does not excuse the other.
+The two tests do different jobs. **The Content Test decides the tier; the Process Test decides the rung.** A recurring regularity that fails the Content Test is not discarded — it is reclassified as an **Observation** (see below). A belief that passes the Content Test but fails the Process Test is not discarded either — it is held at the highest rung its evidence supports (recurrence alone → Provisional, cited as unverified). Passing one test does not excuse the other, but failing one is never a reason to throw useful memory away.
 
-### Facts, Memory, and Beliefs Are Three Different Things
+### Three Tiers of Memory — the Master Test Classifies, It Does Not Discard
 
-A belief is not a fact with better writing, and it is not the same thing as memory either. The system holds three distinct layers:
+The earlier design treated the master test as an admission gate: pass it and become a belief, fail it and be thrown away. That optimized for the purity of the apex and discarded the useful middle of the pyramid — and with only a handful of documents almost nothing can *legitimately* be a verified belief, so the system yielded nearly nothing. A convention held stable across every document ("they always report three benchmarks in this fixed order") fails the master test, yet it is exactly the institutional memory a new analyst wants on day one.
+
+So the master test is a **classification rule, not an admission gate.** Everything entity-specific and recurring is stored, at the tier its evidence and interpretation earn:
+
+| Tier | Where | What it holds | Cited as |
+|------|-------|---------------|----------|
+| **Foundation fact** | `foundation.md` | Definitional constants — metric definitions, benchmark structure, the reporting scaffold. Recurs *identically* and is definitional. | As fact |
+| **Observation** | `observations.md` | Entity-specific recurring regularities that carry little or no interpretation — reporting conventions, vocabulary habits, structural patterns. **Fails the master test** (findable in one document). | As "unverified pattern," never as a belief |
+| **Belief** | `belief.md` | Durable, falsifiable *interpretation* — something the documents collectively reveal that none states directly. **Passes the master test.** | By Status, hedged below Confirmed |
+
+When the engine finds a recurring regularity it asks the master test: does this say something no single document says? Yes → belief candidate, subject to the Two-Test Gate. No → an **Observation**, stored in a lightweight two-field form, citable honestly as an unverified pattern. Nothing useful is thrown away; nothing weak impersonates a belief. An Observation that later acquires genuine interpretation is *promoted* to a new belief — the only bridge between the tiers.
+
+### Facts, Memory, and Beliefs Are Different Things
+
+Beyond the three storage tiers, the system distinguishes what a fact log *is* from what a belief *is*:
 
 - **Facts** — what a document literally states. Captured per document in the fact log.
 - **Memory** — the full, permanent, addressable record of every fact log ever produced for this stream. Not compressed. Not discarded once a belief has been drawn from it.
@@ -220,7 +218,7 @@ A belief is not a fact with better writing, and it is not the same thing as memo
 
 A fact log is not disposable intermediate output consumed once by the belief engine and thrown away. It is the memory a belief's Provenance record points back into. The Evolution trail is a readable narrative generated from that memory — it doesn't compete with the Provenance record for truth, and it isn't itself the record of what happened.
 
-This distinction is what makes a Retired or Contradicted belief diagnosable rather than a dead end. Marking a belief Retired tells you it failed. It doesn't tell you *why* — whether the verification process broke down, whether the foundation claim it depended on was wrong, or whether the sample was simply unlucky. That diagnosis is only possible if the memory the belief was built from is still there, addressable, to trace back to.
+This distinction is what makes a Retired or Contradicted belief diagnosable rather than a dead end. Marking a belief Retired tells you it failed. It doesn't tell you *why* — whether the verification process broke down, whether the foundation claim it depended on was wrong, whether the match ledger routed evidence into the wrong belief, or whether the sample was simply unlucky. That diagnosis is only possible if the memory the belief was built from — the fact logs, the match ledger, the version snapshots — is still there, addressable, to trace back to.
 
 ### What a Mature Belief Looks Like
 
@@ -231,7 +229,7 @@ After five or more comparable documents, a belief entry looks like this. The hea
 **Stream 05 example — document-level patterns**
 
 **## Belief #7 — Every Variance Headline Opens With the Best-Performing Driver; the Negative Is Always the Second Clause**
-**Status:** Established | **Confidence:** 0.60 | **Direction:** Stable
+**Status:** Established | **Direction:** Stable
 
 **Statement:** Established across five documents. Every variance headline in every deck is structured positive-first without exception. Whether the overall result is a beat or a miss, the opening attribution clause names a positive driver. In beats, the leading positive is the dominant contributor. In misses or mixed results, the team still locates a positive to lead with before acknowledging the headwind. The negative driver is structurally relegated to the second clause in every instance across all five documents. This is a systematic narrative convention, not a neutral factual ordering.
 
@@ -243,14 +241,14 @@ After five or more comparable documents, a belief entry looks like this. The hea
 
 **Falsification test:** A headline that opens with a miss, headwind, or structural deterioration before stating any positive contributor would indicate a break in the team's narrative sequencing convention and should be investigated immediately.
 
-**Provenance:** Foundation dependency: `foundation.narration_design` — narration design consistently frames results positive-first | Confirming documents: Doc 1–5 | Blind passes: Document 2 (independently re-derived the same positive-first ordering with no visibility into the Document 1 Candidate belief, before promotion to Provisional) | Contradiction searches: Document 4 (searched, none found), Document 5 (searched, none found — this was the weakest-result document and still confirmed) | Related beliefs: none identified yet | Last checked: Document 5
+**Provenance:** Foundation dependency: `foundation.narration_design` — narration design consistently frames results positive-first | Confirming documents: Doc 1–5 | Blind passes: Document 3 (independently re-derived the same positive-first ordering with no visibility into the prior belief, before promotion to Confirmed) | Contradiction searches: Document 4 (searched, none found, before promotion to Established), Document 5 (searched, none found — this was the weakest-result document and still confirmed) | Related beliefs: none identified yet | Last checked: Document 5
 
 ---
 
 **Stream 02 example — performance track record**
 
 **## Belief #3 — Revenue Guidance Has Been Met or Exceeded in 7 of 8 Comparable Quarters; the One Miss Was Preceded by a Specific Language Shift**
-**Status:** Established | **Confidence:** 0.72 | **Direction:** Stable
+**Status:** Established | **Direction:** Stable
 
 **Statement:** This business delivers against its stated revenue guidance in 7 of 8 comparable quarters, median beat 1.4%. The single significant miss (−3.1%, Q3) was preceded in the prior-period document by a shift in forward commitment language from "we expect" to "we are targeting" — the only instance of that language shift in the record. Revenue guidance reliability is high; the language shift is a leading indicator that has now been confirmed once.
 
@@ -262,14 +260,14 @@ After five or more comparable documents, a belief entry looks like this. The hea
 
 **Falsification test:** Two consecutive misses without a prior-period language shift would break the guidance reliability belief. A language shift that does not precede a miss would narrow the leading indicator belief.
 
-**Provenance:** Foundation dependency: `foundation.metrics.revenue_delivery` — revenue delivery is the primary commitment metric | Confirming documents: Q1–Q8 (8 comparable quarters) | Blind passes: Q2 (independently re-derived the same beat pattern with no visibility into the Q1 Candidate belief, before promotion to Provisional) | Contradiction searches: Q3 (searched — found the miss and the preceding language shift, recorded as the leading-indicator sub-claim rather than a break), Q6 (searched, none found) | Related beliefs: none identified yet | Last checked: Q8
+**Provenance:** Foundation dependency: `foundation.metrics.revenue_delivery` — revenue delivery is the primary commitment metric | Confirming documents: Q1–Q8 (8 comparable quarters) | Blind passes: Q3 (independently re-derived the same beat pattern with no visibility into the prior belief, before promotion to Confirmed) | Contradiction searches: Q4 (searched, none found, before promotion to Established), Q6 (searched — found the miss and the preceding language shift, recorded as the leading-indicator sub-claim rather than a break) | Related beliefs: none identified yet | Last checked: Q8
 
 ---
 
 **Stream 02 example — relationship claim initialized from document one, then deepened**
 
 **## Belief #5 — Spend Concentration Against the Core Volume Metric in Q1 Drives New Customer Volume in Q2 With a 6–8 Week Lag; the Chain Has Held in 6 Consecutive Cycles**
-**Status:** Established | **Confidence:** 0.78 | **Direction:** Stable
+**Status:** Established | **Direction:** Stable
 
 **Statement:** This business runs a deliberate spend-to-acquisition mechanic. Marketing spend rises against the core volume metric in Q1 (typically 28–34% range) as the business runs a concentrated acquisition push. New customer volume follows in Q2 with a 6–8 week lag from peak Q1 spend. This mechanic was first stated explicitly by management in the first document reviewed and has been confirmed across 6 consecutive Q1→Q2 cycles. Q1 spend concentration is not a problem — it is the thesis executing.
 
@@ -281,7 +279,7 @@ After five or more comparable documents, a belief entry looks like this. The hea
 
 **Falsification test:** A Q1 with the spend ratio in range that does not produce Q2 new customer volume by week 10 would indicate the mechanic has broken. Management no longer describing the Q1 spend as an intentional acquisition investment — a language shift in how they explain Q1 — would be an early warning signal worth tracking before the next cycle confirms or denies the break.
 
-**Provenance:** Foundation dependency: `foundation.metrics.spend_and_core_volume` — spend and the core volume metric are the two primary thesis metrics | Confirming documents: cycles 1–6 | Blind passes: cycle 2 (independently re-derived the same Q1→Q2 lag with no visibility into the cycle-1 Candidate belief, before promotion to Provisional) | Contradiction searches: cycle 3 (searched, none found, before promotion to Confirmed), cycle 5 (searched, none found) | Related beliefs: none identified yet | Last checked: cycle 6
+**Provenance:** Foundation dependency: `foundation.metrics.spend_and_core_volume` — spend and the core volume metric are the two primary thesis metrics | Confirming documents: cycles 1–6 | Blind passes: cycle 3 (independently re-derived the same Q1→Q2 lag with no visibility into the prior belief, before promotion to Confirmed) | Contradiction searches: cycle 4 (searched, none found, before promotion to Established), cycle 5 (searched, none found) | Related beliefs: none identified yet | Last checked: cycle 6
 
 ---
 
@@ -511,9 +509,13 @@ The foundation captures three things: entity identity (name, organizational scop
 
 **What the foundation does NOT pre-specify:** The business model, operating chain, causal relationships between metrics, normal ranges, narration patterns, and what matters vs. noise. These are discovered by reading documents — they are outputs of the belief streams, not inputs to them.
 
+**One exception: Source Authority.** Which document type is authoritative when two documents disagree on the same number for the same period (a draft deck's early figure versus the official system of record's later one; a meeting note's assumption versus the latest forecast file) is *not* discoverable from reading alone — documents that happen to agree in the corpus so far never reveal which one *should* win once they eventually disagree. This is captured by interview, optionally, as `foundation.source_authority`, and used at both extraction (tagging a fact with its document type's authority for that question type) and belief evolution (deferring to the higher-authority reading rather than treating a lower-authority disagreement as evidence). Left unset, a disagreement between equally unranked sources is flagged (`[SOURCE_CONFLICT]`), never silently resolved.
+
 On the first 1–3 documents, Stream 02 (Business Dynamics) operates in model-discovery mode: its primary job is to extract explicit relationship claims from documents and initialize them as Candidate beliefs. Those accumulated beliefs become the discovered business model. Stream 00 (Factual Understanding) builds the metric definition baseline. Stream 05 (Narrative Understanding) begins mapping communication patterns. Stream 01 (Business Model Understanding) starts forming interpretations of the economic engine. By document 3–4, the belief memory holds a preliminary model of the business — built from what the documents said, not from what the user specified.
 
-The foundation is updated — not rewritten — as the streams accumulate understanding, and only through a defined **Foundation Review** (see `lifecycle/ingestion-pipeline.md`, Step 7.5), never by silent edit. Each atomic foundation claim carries a stable claim ID that belief Provenance records reference directly. When a belief reaches Confirmed or Established while adding precision to, narrowing, or contradicting the claim it depends on, that triggers a review: the user resolves it as Adopt (the foundation claim is revised, logged in the Foundation Revision Log, and every other belief citing that claim ID is flagged `[FOUNDATION_CHANGED]` for re-grounding), Hold (the original claim stands), or Defer (not enough evidence yet). The understanding flows from reading to foundation, not the other way around — but that flow is now an auditable, triggered process rather than an implied one.
+The foundation is updated — not rewritten — as the streams accumulate understanding, and only through a defined **Foundation Review** (see `lifecycle/ingestion-pipeline.md`, Step 7.5), never by silent edit. Each atomic foundation claim carries a stable claim ID that belief Provenance records reference directly. The review triggers on either of two independent paths: a belief reaches Confirmed or Established while adding precision to, narrowing, or contradicting the claim it depends on; or a document explicitly states that a claim's definition, calculation, or scope changed — a **Redefinition Signal** (extracted at `06-fact-extractor.md`), which fires immediately regardless of any belief's maturity, because a stated redefinition needs no accumulated evidence to be taken seriously. Either way, the user resolves it as Adopt (the foundation claim is revised, logged in the Foundation Revision Log, and every other belief citing that claim ID is flagged `[FOUNDATION_CHANGED]` for re-grounding), Hold (the original claim stands), or Defer (not enough evidence yet). The understanding flows from reading to foundation, not the other way around — but that flow is now an auditable, triggered process rather than an implied one.
+
+The discriminating test for whether something belongs in the foundation or in a stream is not whether it recurs — a real belief recurs too. It is what kind of thing could ever change it: if new evidence of the entity performing differently could argue against it, it belongs to a stream as a belief; if only a stated redefinition could change it, it belongs in the foundation as a claim. "Gross margin has stayed above 40% all year" is a belief — a future document showing 35% would mean the business performed differently, not that the definition moved. "Gross margin is calculated after fulfillment cost but before marketing spend" is a foundation claim — it can only change if the entity redefines the calculation.
 
 Every belief stream for the entity inherits the foundation as its prior context. The foundation keeps the streams aligned to the same entity definition, even as each stream builds its own understanding independently.
 
@@ -675,6 +677,8 @@ Every step in the pipeline has explicit prohibitions. These are not edge-case wa
 - Revise a claim silently. Every change to a foundation claim goes through Foundation Review with a Revision Log entry — and the Adopt/Hold/Defer decision belongs to the user, never to the agent alone.
 - Reassign a claim ID. Once minted, a claim ID means one thing forever; a claim that needs to split gets new IDs and the old one is retired in the log.
 - Promote an interview answer to corpus-grounded. A claim's source label (interview / corpus / interview+corpus) reflects where the evidence actually came from — an interview claim stays labeled a hypothesis until fact logs corroborate it.
+- Wait for belief maturity before reviewing a Redefinition Signal. A document stating outright that a definition changed triggers Foundation Review immediately — treating it as ordinary belief evidence that must first accumulate is exactly the silent-drift failure this path exists to close.
+- Infer a Source Authority ranking from which documents happen to agree so far. Documents that have never disagreed in the corpus reveal nothing about which one should win once they do — Source Authority is recorded only from what the user states, never inferred from apparent consensus.
 
 ### What the Document Profile (Prompt 00) Must Never Do
 
@@ -706,14 +710,17 @@ Every step in the pipeline has explicit prohibitions. These are not edge-case wa
 - Extract signals the blueprint's signal matrix says the document type cannot carry.
 - Create or update beliefs. It reads documents; it does not reason about them.
 - Silently adapt to a changed document structure. Every fact log opens with a STRUCTURE OBSERVED block; deviations from the profile's Structural Map are reported there, and resolved visibly at the Structural Drift Check (Recalibrate / Signal / Defer) — never absorbed. A document changing shape is sometimes the story, and the extractor is not the one who decides which.
+- Bury a redefinition inside a number-based signal. A document stating that a metric's definition, calculation, or scope changed is captured as its own REDEFINITION SIGNAL, ranked ahead of relationship claims, and routed to Foundation Review directly — not folded into an ordinary metric reading as a footnote.
 
 ### What the Belief Engine Must Never Do
 
 - Receive the raw document at runtime. It reads only the compiled belief reasoning prompt, the existing `belief.md`, and the fact log.
 - Receive the blueprint at runtime. Everything it needs from the blueprint is already encoded in the compiled prompt.
 - Invent evidence not present in the fact log. If the fact log does not contain it, the belief engine does not hold it.
+- Treat a REDEFINITION SIGNAL as belief evidence. It never enters belief classification or the Observation tier — it routes straight to Foundation Review.
+- Treat a lower-Source-Authority reading as evidence against a belief grounded in a higher-authority one. That is a document-quality difference, not a contradiction — defer to the named authority, or flag `[SOURCE_CONFLICT]` if the foundation names no winner between two equally-ranked document types.
 - Write a belief at higher than Candidate stage from a single document. A first-document entry is Candidate only — explicitly marked as pending confirmation.
-- Lower confidence precipitously on a single contradicting signal. One document showing tension does not revise an Established belief.
+- Downgrade a belief's Status or retire it on a single contradicting signal. One document showing tension does not revise an Established belief — it produces `[TENSION]`, held not revised; retirement requires sustained contradiction.
 - Write beliefs that fail the quality test: non-falsifiable, entity-generic, single-period, template artifacts, unsupported causality, not grounded in the foundation.
 - Use category labels as headings. The heading of every belief entry is the claim itself — a complete, specific, falsifiable sentence. Not a topic name.
 - Renumber beliefs. Once a belief is assigned #N, that number is permanent. Retired beliefs keep their number marked RETIRED.

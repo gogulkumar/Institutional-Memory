@@ -9,7 +9,9 @@ Belief is built in four layers plus an activation surface. Quality flows **forwa
 │  LAYER 0 — ENTITY FOUNDATION                                  │
 │  foundation.md — atomic claims with stable claim IDs          │
 │  Every claim labeled: source: interview | corpus | both       │
-│  Pass 1 (setup): interview → hypotheses                       │
+│  Pass 1 (setup): interview → hypotheses, incl. Source          │
+│    Authority (which doc type wins per question type — the     │
+│    one interview claim NOT discoverable from reading alone)    │
 │  Pass 2 (after first N fact logs): corpus grounding →         │◄──┐
 │    what recurred identically becomes source: corpus           │   │
 │  Revised ONLY via Foundation Review — never silent edit       │◄──┼─┐
@@ -39,20 +41,26 @@ Belief is built in four layers plus an activation surface. Quality flows **forwa
 │  LAYER 3 — EXECUTION (every new document)                     │   │ │ │
 │  5   intake → L3 raw units (immutable, once)                  │   │ │ │
 │  6   extract → L2 fact log:                                   │   │ │ │
-│        opens with STRUCTURE OBSERVED (skeleton walked)        │   │ │ │
+│        opens with STRUCTURE OBSERVED (skeleton walked),       │   │ │ │
+│        then REDEFINITION SIGNALS (ranked above relationship   │   │ │ │
+│        claims — routes straight to 7.5, never to the engine)  │   │ │ │
 │        + BLIND PASS in parallel when a belief is up           │   │ │ │
 │          for promotion (belief withheld from extractor)       │   │ │ │
 │  6.5 STRUCTURAL DRIFT CHECK — observed vs Structural Map:     │───┼─┼─┘
 │        match / Recalibrate (map revised + logged,             │   │ │
 │        extractor recompiled) / Signal (change is              │   │ │
 │        communication behavior → feeds beliefs) / Defer        │   │ │
-│  7   evolve belief.md — promotion GATED by Provenance:        │   │ │
-│        blind pass → Provisional · contradiction search        │   │ │
-│        → Confirmed · doc-type + current claim → Established   │   │ │
-│        · 4 silent docs → [DECAY] back to Confirmed            │   │ │
+│  7   classify (master test → belief | observation, never     │   │ │
+│        discard) · route (match_ledger) · evolve belief.md —   │   │ │
+│        promotion GATED: recurrence → Provisional (hedged) ·   │   │ │
+│        blind pass → Confirmed (first un-hedged tier) ·        │   │ │
+│        contradiction search → Established · silence walks     │   │ │
+│        DOWN the ladder → [DECAY] → STALE at Provisional floor │   │ │
 │  7.5 FOUNDATION REVIEW — Confirmed/Established belief vs      │───┼─┘
-│        its named claim ID: Adopt (revise + flag dependents    │   │
-│        [FOUNDATION_CHANGED]) / Hold / Defer — user decides    │   │
+│        its named claim ID, OR a REDEFINITION SIGNAL (fires    │   │
+│        immediately, no belief maturity required): Adopt       │   │
+│        (revise + flag dependents [FOUNDATION_CHANGED]) /      │   │
+│        Hold / Defer — user decides                            │   │
 │  8   changelog — append-only, one action per belief           │   │
 │      (fact logs accumulate → corpus grounding, Pass 2)        │───┘
 └──────────────────────────┬───────────────────────────────────┘
@@ -64,12 +72,18 @@ Belief is built in four layers plus an activation surface. Quality flows **forwa
 │  whose status outruns its verification is flagged, not cited  │
 └──────────────────────────────────────────────────────────────┘
 
+THREE TIERS (the master test classifies, it never discards):
+  foundation.md (facts) · belief.md (tested interpretation) ·
+  observations.md (recurring regularities that fail the master
+  test — cited as unverified patterns, never as beliefs)
+
 PERMANENT MEMORY (nothing a belief cites is ever discarded):
   L3 raw archive · L2 fact logs (addressable by doc_id — the
   pointer target of every Provenance record) · L1 belief.md
   + belief_versions/ snapshots (the memory's state after every
-  document, forever) · changelog · Foundation Revision Log ·
-  Structural Map Revision Log
+  document, forever) · match_ledger.md (every evidence-routing
+  decision, so routing is auditable) · changelog ·
+  Foundation Revision Log · Structural Map Revision Log
 ```
 
 ### The Three Return Loops
@@ -79,7 +93,7 @@ The forward cascade sets quality; the return loops keep it honest. Each loop has
 | Loop | From → To | Trigger | Resolution |
 |------|-----------|---------|------------|
 | **Corpus grounding** | Fact logs → Foundation | First N fact logs exist (default 3) | What recurred identically becomes `source: corpus`; contradicted interview claims go to Foundation Review |
-| **Foundation Review** (Step 7.5) | Belief memory → Foundation | A belief reaches Confirmed/Established bearing on its named claim ID | Adopt (claim revised, logged, dependents flagged) / Hold / Defer — user decides |
+| **Foundation Review** (Step 7.5) | Belief memory → Foundation, OR Document → Foundation directly | A belief reaches Confirmed/Established bearing on its named claim ID, OR a document's Redefinition Signal fires regardless of belief maturity | Adopt (claim revised, logged, dependents flagged) / Hold / Defer — user decides |
 | **Structural Drift Check** (Step 6.5) | Fact log → Profile + Compiled prompts | STRUCTURE OBSERVED deviates from the Structural Map | Recalibrate (map revised, extractor recompiled) / Signal (feeds beliefs) / Defer |
 
 ### The Cascade Principle
@@ -203,15 +217,27 @@ check (Step 6.5)   → match: no action
                      engine) / Defer (watch next document)
 
 belief_engine.py   ← belief_reasoning_prompt.md (system)
-                   + existing belief.md (or NULL)
+                   + existing belief.md + observations.md (or NULL)
                    + fact log (+ blind-pass fact log when run)
-                   → belief.md (evolved, Provenance records updated)
+                   → belief.md (evolved, Provenance updated)
+                   → observations.md (regularities that fail master test)
+                   → match_ledger.md (every routing decision + basis)
                    → belief_changelog.md (appended)
-                   (promotion gated: blind pass for Provisional,
-                    reported contradiction search for Confirmed)
+                   (classify: master test → belief | observation;
+                    a REDEFINITION SIGNAL skips classification, routes
+                    straight to foundation review below; a disagreement
+                    explained by Source Authority defers to the named
+                    winner — not treated as CONTRADICT/TENSION evidence;
+                    an unranked tie logs [SOURCE_CONFLICT], resolved by
+                    neither reading until a human decides;
+                    promotion gated: recurrence → Provisional (hedged),
+                    blind pass → Confirmed, contradiction search →
+                    Established; silence decays DOWN the ladder → STALE)
 
 foundation review  ← any belief reaching Confirmed/Established that
-(Step 7.5)           bears on its named foundation claim
+(Step 7.5)           bears on its named foundation claim, OR a
+                     document's REDEFINITION SIGNAL (fires immediately,
+                     independent of any belief's maturity)
                    → user resolves Adopt / Hold / Defer
                    → foundation.md revised + revision logged (if Adopt)
                    → dependent beliefs flagged [FOUNDATION_CHANGED]
@@ -264,4 +290,4 @@ After 3 documents: Candidates and first Provisionals — patterns spotted, the f
 After 10 documents: Confirmed baselines — patterns that survived independent re-derivation and contradiction searches.
 After 30+ documents: Established structural understanding — beliefs with multiple blind passes and empty contradiction searches on record.
 
-What compounds is not just document count — it is survived verification. A belief's trustworthiness is read from its Status and its Provenance record, not from a confidence number alone. The belief memory becomes more valuable the longer it runs. This is the behavior of understanding, not retrieval.
+What compounds is not just document count — it is survived verification. A belief's trustworthiness is read entirely from its Status and its Provenance record — there is no separate numeric confidence score running alongside them. The belief memory becomes more valuable the longer it runs. This is the behavior of understanding, not retrieval.

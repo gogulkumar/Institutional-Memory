@@ -17,15 +17,19 @@ compiled/{stream_id}/
 └── fact_extractor_prompt.md
 
 streams/{stream_id}/
-├── belief.md                    ← the belief memory (L1) — current state
+├── belief.md                    ← the belief memory (L1) — current state, the interpretation tier
+├── observations.md              ← the Observation tier — recurring entity-specific regularities that failed the master test
 ├── belief_versions/
 │   └── {doc_id}_belief.md      ← snapshot of belief.md after each document (version history)
+├── match_ledger.md              ← append-only log of every evidence-routing decision (which signal → which belief, or why not)
 ├── belief_changelog.md          ← append-only audit trail
 ├── L2_factlogs/
 │   └── {doc_id}_fact_log.md    ← per-document extracted signals
 └── L3_raw/
     └── {doc_id}.json            ← immutable transcription archive
 ```
+
+Three tiers of memory live here, and the master test decides which tier a recurring regularity lands in — it classifies, it never discards (see `prompts/belief-doctrine.md`, "Three Tiers of Memory"). Foundation facts live in `foundation.md`; interpretations that pass the master test live in `belief.md`; recurring regularities that fail it (reporting conventions, vocabulary habits, structural patterns) live in `observations.md`. Everything entity-specific and recurring is stored somewhere — the tier is set by how much interpretation it carries and how far its evidence has climbed.
 
 ---
 
@@ -67,20 +71,62 @@ The narrative fields are for humans and for agent-generated explanation. The Pro
 
 ---
 
+## Observation Entry Format
+
+Observations (`observations.md`) are the lightweight tier — recurring entity-specific regularities that failed the master test but are worth remembering. Two fields, own number sequence, never cited as beliefs.
+
+```markdown
+## Observation #N — [The recurring regularity, stated plainly as a convention or habit.]   Status: seen ×[count]
+
+**Pattern**: What recurs, described concretely — a reporting convention, a vocabulary habit, a structural regularity. No interpretation. The moment it starts explaining what the pattern *means*, run the master test and promote it to a belief.
+
+**Seen in**: [doc_ids]. Last seen: [doc_id].
+```
+
+An Observation that acquires genuine interpretation is promoted: open a new belief with its own number, mark the Observation `→ promoted to Belief #M`, keep it for history. Promotion is the only path from Observation to belief — nothing becomes a belief by accumulating a count alone.
+
+---
+
 ## Durability Ladder
 
-The **Status** field tracks how many comparable documents have supported the pattern. Don't skip stages — and don't promote a stage without the verification it requires (see the Provenance record above).
+The **Status** field tracks how far a belief has climbed. Don't skip stages — and don't promote a stage without the verification it requires (see the Provenance record above). Verification follows citation weight: recurrence forms a hypothesis, the blind pass earns the first un-hedged tier, the contradiction search earns the top.
 
-| Stage | Documents | Meaning | Verification required to enter this stage |
-|-------|-----------|---------|----------------------------------------------|
-| **Candidate** | 1 | A signal with the shape of a durable pattern. Not yet a belief. Explicitly subject to confirmation. Every first-document entry is Candidate. | None — nothing exists yet to check blind against. |
-| **Provisional** | 2 | Two comparable documents support the pattern. Hold cautiously. | A blind pass on the second document independently found the same pattern. A confirmation seen only by a pass already shown the Candidate belief does not promote — flag for review instead. |
-| **Confirmed** | 3 | Three comparable documents support the pattern. Treat as a baseline. | An active contradiction search on the third document found nothing. Confirmation without a contradiction search is an echo, not confirmation. |
-| **Established** | 4+ | Four or more documents support the pattern. Breaking it is meaningful signal, not noise. | Holds across multiple document types if applicable. Still traces to a foundation claim that has not since changed. |
+| Stage | Documents | Meaning | Verification required to enter | Citable as |
+|-------|-----------|---------|--------------------------------|------------|
+| **Candidate** | 1 | A signal with the shape of a durable pattern. Every first-document entry is Candidate. | None — nothing to check against yet. | Not citable |
+| **Provisional** | 2 | Two comparable documents support the pattern. An honest hypothesis. | Plain recurrence across a second comparable document. | Only as "unverified recurrence" — hedged |
+| **Confirmed** | 3 | Three documents, pattern independently re-derived blind. First tier of real trust. | A blind pass independently found the same pattern. Belief-aware-only confirmation does not promote — flag for review. | Without hedging |
+| **Established** | 4+ | Four or more; survived an active contradiction search. | Contradiction search reported clean ("searched, none found"). Holds across document types if applicable. Foundation claim still current. | Without hedging |
 
-**Decay**: an Established belief untouched by relevant signal across 4 consecutive comparable documents (configurable per stream) downgrades to Confirmed automatically. Tag `[DECAY]` in the changelog — distinct from `[SILENCE]`, which notes an individual document's silence without changing Status.
+**Decay walks down the ladder.** A belief untouched by relevant signal keeps descending one rung per silence window (default 4 consecutive silent comparable documents): Established → Confirmed → Provisional. At the Provisional floor it is marked **STALE** rather than dropping to Candidate — its evidence still exists, it is untested, not unfounded. Tag each downgrade `[DECAY]` — distinct from `[SILENCE]`, which notes one document's silence without changing Status. If a STALE belief's pattern resurfaces, it re-enters verification rather than coasting on a status it earned long ago.
 
-A Candidate entry is subject to confirmation by the next comparable document. An Established belief requires substantially stronger contradicting evidence before revision.
+A Candidate entry is subject to confirmation by the next comparable document. An Established belief requires sustained contradiction — never one anomalous document — before revision or retirement (default: 3 consecutive contradicting comparable documents to retire).
+
+**Plain-English display aliases** for these stages and the changelog action tags (e.g. "Verified" for Confirmed, "Went stale from disuse" for `[DECAY]`) live in `prompts/belief-doctrine.md` — display-only, never a second source of truth. Matching and audit always resolve against the canonical Status name and bracket tag written here.
+
+---
+
+## Match Ledger
+
+`match_ledger.md` is append-only. Every time the engine routes a signal — to an existing belief, a new belief, a new observation, or deliberately *not* to a belief it superficially resembles — it logs one line. This is what makes evidence-routing auditable; without it, the decision that a signal "belongs" to Belief #5 is the one unfalsifiable step in a falsifiability-first system.
+
+```markdown
+## [doc_id] — match decisions
+
+[doc_id] SIGNAL "spend ratio elevated in Q1, new-customer volume rose in Q2"
+  → MATCHED Belief #5
+  Basis: same underlying mechanic (Q1 spend → Q2 volume with a lag), not just shared vocabulary.
+
+[doc_id] SIGNAL "management used the word 'disciplined' about cost three times"
+  → NEW_OBSERVATION #12
+  Basis: recurring vocabulary habit, no interpretation yet — fails the master test.
+
+[doc_id] SIGNAL "margin rose while volume fell"
+  → NO_MATCH — considered Belief #5, rejected
+  Basis: superficially about the same metrics, but asserts a different (opposite-direction) mechanic. Opened Belief #14 instead.
+```
+
+Match by the **underlying mechanical claim, not the heading text.** The ledger answers two questions no silent routing can: "which beliefs have not had a clean match in N documents?" (staleness) and "did an anomalous or injected document warp a routing decision?" (integrity).
 
 ---
 
@@ -112,7 +158,7 @@ On the first document, the belief engine must initialize between 8 and 15 specif
 **Provenance**:
 - Foundation dependency: `foundation.metrics.volume_growth` — volume growth is the primary thesis metric
 - Confirming documents: Q4 2025, Q1 2026, Q2 2026
-- Blind passes: Q1 2026 (independently re-derived the same slide-ordering pattern with no visibility into the Q4 2025 Candidate belief, before promotion to Provisional)
+- Blind passes: Q2 2026 (independently re-derived the same slide-ordering pattern with no visibility into the prior belief, before promotion to Confirmed)
 - Contradiction searches: Q2 2026 (searched, none found — checked specifically whether the ordering inverted in the one period where volume growth had slowed; it held)
 - Related beliefs: none identified yet
 - Last checked: Q2 2026
@@ -138,7 +184,7 @@ On the first document, the belief engine must initialize between 8 and 15 specif
 **Provenance**:
 - Foundation dependency: `foundation.metrics.revenue_delivery` — revenue delivery is the primary commitment metric
 - Confirming documents: Q4 2023, Q1 2024, Q2 2024, Q3 2024, Q4 2024, Q1 2025, Q2 2025
-- Blind passes: Q1 2024 (independently re-derived the same beat pattern with no visibility into the Q4 2023 Candidate belief, before promotion to Provisional)
+- Blind passes: Q2 2024 (independently re-derived the same beat pattern with no visibility into the prior belief, before promotion to Confirmed)
 - Contradiction searches: Q2 2024 (searched, none found, before promotion to Confirmed); Q3 2024 (searched — found the miss and the preceding language shift, recorded as TENSION rather than a break); Q1 2025 (searched, none found)
 - Related beliefs: none identified yet
 - Last checked: Q2 2025
@@ -220,23 +266,26 @@ After every document, `belief_changelog.md` records what changed — one entry p
 | `[RETIRE]` | Belief archived — the pattern ended. The number is kept; the belief marked RETIRED. |
 | `[MERGE_BELIEFS]` | Two beliefs collapsed into one more precise claim |
 | `[SPLIT_BELIEF]` | One belief divided into two distinct, separately falsifiable claims |
+| `[DECAY]` | Belief dropped one rung (Established→Confirmed→Provisional) after N consecutive silent comparable documents; STALE at the Provisional floor — a Status change, distinct from `[SILENCE]` |
+| `[NEW_OBSERVATION]` | A recurring regularity that failed the master test was recorded in `observations.md` — cited only as unverified pattern |
+| `[PROMOTE_OBSERVATION]` | An Observation acquired genuine interpretation and was promoted to a new belief; the Observation entry is kept, marked promoted |
+| `[STRUCTURE_DRIFT]` | The document's observed structure deviated from the Structural Map; resolution (Recalibrate/Signal/Defer) recorded — document-level, not per-belief |
+| `[FOUNDATION_REVIEW]` | A belief reaching Confirmed/Established, or a document's Redefinition Signal, triggered a Foundation Review; resolution (Adopt/Hold/Defer) recorded |
+| `[FOUNDATION_CHANGED]` | A foundation claim this belief depends on was revised (Adopted) elsewhere; belief held pending re-grounding on its next document pass |
+| `[SOURCE_CONFLICT]` | Two documents of equal, unranked Source Authority disagreed on the same question for the same period; neither reading used as evidence until a human resolves the tie |
 | `[NO CHANGE]` | Document processed; no update warranted for this belief |
+
+Evidence-routing decisions are logged separately in `match_ledger.md` (not the changelog): which signal was matched to which belief, opened as new, filed as an observation, or deliberately not matched — each with a one-line basis.
 
 The changelog is append-only. An absent changelog entry for a document means the pipeline did not complete for that document.
 
 ---
 
-## Update Arithmetic
+## Status Is the Only Trust Signal
 
-| Action | Confidence Change |
-|--------|------------------|
-| Confirm (DEEPEN) | +0.08 |
-| Contradict (TENSION) | −0.15 |
-| New Prior (NEW_BELIEF) | initialized at 0.20 |
-| Decay (90+ days unseen) | −0.05 per cycle |
+There is no separate numeric confidence score to maintain alongside Status. A belief's trustworthiness is read entirely from its Status and its Provenance record — which documents confirmed it, whether a blind pass ran, whether a contradiction search came back clean. This is deliberate: a second, arithmetic signal running in parallel to Status invites exactly the confusion a documentation-defined system exists to prevent — two numbers that can disagree about how much to trust the same belief.
 
-**Bounds:** Floor 0.05 · Cap 0.95 (0.90 for causal beliefs)
-**Archive threshold:** Below 0.10 → moved to archive; not deleted
+**Volume bounds are enforced by rank, not by score.** When a stream exceeds `max_beliefs_per_stream`, the beliefs retired first are ranked by Status ascending (Candidate/STALE before Provisional before Confirmed before Established), then by Last checked (longest-silent first) within the same Status. This uses signals the system already tracks — no separate arithmetic needed.
 
 ---
 
@@ -255,7 +304,7 @@ The belief engine never receives the raw document, the blueprint, or any other c
 ## Belief Memory Bounds
 
 - **Min active beliefs per stream:** 8 (enforced by volume check)
-- **Max active beliefs per stream:** ~20 (configurable)
-- **Decay trigger:** 90 days since last confirming document (configurable)
+- **Max active beliefs per stream:** ~20 (configurable) — over the cap, retire by Status ascending then by longest-silent Last checked, not by a numeric score
+- **Decay trigger:** 4 consecutive silent comparable documents (configurable) — measured in documents, not days
 - **Archive, not delete:** Contradicted and decayed beliefs are archived, not erased. History is preserved.
 - **No renumbering:** Once a belief is assigned #N, that number is permanent. Retired beliefs keep their number marked RETIRED.
