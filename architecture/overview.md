@@ -9,7 +9,9 @@ Belief is built in four layers plus an activation surface. Quality flows **forwa
 │  LAYER 0 — ENTITY FOUNDATION                                  │
 │  foundation.md — atomic claims with stable claim IDs          │
 │  Every claim labeled: source: interview | corpus | both       │
-│  Pass 1 (setup): interview → hypotheses                       │
+│  Pass 1 (setup): interview → hypotheses, incl. Source          │
+│    Authority (which doc type wins per question type — the     │
+│    one interview claim NOT discoverable from reading alone)    │
 │  Pass 2 (after first N fact logs): corpus grounding →         │◄──┐
 │    what recurred identically becomes source: corpus           │   │
 │  Revised ONLY via Foundation Review — never silent edit       │◄──┼─┐
@@ -223,7 +225,11 @@ belief_engine.py   ← belief_reasoning_prompt.md (system)
                    → belief_changelog.md (appended)
                    (classify: master test → belief | observation;
                     a REDEFINITION SIGNAL skips classification, routes
-                    straight to foundation review below;
+                    straight to foundation review below; a disagreement
+                    explained by Source Authority defers to the named
+                    winner — not treated as CONTRADICT/TENSION evidence;
+                    an unranked tie logs [SOURCE_CONFLICT], resolved by
+                    neither reading until a human decides;
                     promotion gated: recurrence → Provisional (hedged),
                     blind pass → Confirmed, contradiction search →
                     Established; silence decays DOWN the ladder → STALE)

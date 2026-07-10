@@ -24,7 +24,7 @@ A single document can never manufacture a belief. Beliefs are earned across comp
 ### Step −1 — Entity Foundation (Prompt −1)
 
 **Who:** LLM, in two passes — a structured interview with the user at setup, and a corpus grounding pass once the first fact logs exist
-**Input:** Pass 1: user interview across five areas (business model, thesis-defining metrics, normalization model, narration design, what matters vs. noise). Pass 2: all fact logs produced so far, read together (default trigger: 3 fact logs — `foundation_grounding_min_documents` in config)
+**Input:** Pass 1: user interview across six areas (business model, thesis-defining metrics, normalization model, narration design, what matters vs. noise, source authority). Pass 2: all fact logs produced so far, read together (default trigger: 3 fact logs — `foundation_grounding_min_documents` in config)
 **Output:** `entities/{entity_id}/foundation.md`
 
 Produces the institutional business understanding that every belief stream for this entity reads as its prior. Not a document summary. Not a belief. The mental model a strong analyst carries before opening any document — what kind of business this is, what its profitability thesis rests on, which metrics are thesis-defining, what normal looks like, and how this entity narrates its own performance.
@@ -219,6 +219,8 @@ Like Foundation Review, the Recalibrate-vs-Signal decision is surfaced to the us
 
 **Log every routing decision to the match ledger.** Before writing any belief update, decide which existing belief (if any) this signal is evidence for — matching by the **underlying mechanical claim, not the heading text** — and append one line to `match_ledger.md`: MATCHED Belief #N / NEW_BELIEF / NEW_OBSERVATION / NO_MATCH (considered #N, rejected, with the distinguishing basis). This is what makes evidence-routing auditable; a silent match is the one unfalsifiable step in a falsifiability-first system.
 
+**Resolve Source Authority before treating a disagreement as evidence.** If a fact disagrees with existing evidence only because it comes from a document type the foundation's Source Authority claim ranks lower for that question type (e.g., a draft deck's early figure versus the official system of record's later one), that is a document-quality difference, not a CONTRADICT or TENSION signal — defer to the higher-authority reading and note the lower one as superseded. If the two document types are of equal, unranked authority, do not silently pick a winner: record `[SOURCE_CONFLICT]` and leave the belief untouched by either reading until a human resolves the tie.
+
 **On first document (belief.md is NULL):**
 Initialize between 8 and 15 specific Candidate beliefs drawn from the fact log. Beliefs must use the candidate seed set from Blueprint Section 4 as a starting frame, but are grounded in what the first document actually showed. Every entry marked Status: Candidate. Evolution trail says "First seen in [doc_id] — [brief observation]." Normal baseline: "not yet established." Provenance record initialized with the foundation dependency named and all other fields empty — nothing exists yet to check against. Recurring regularities that fail the master test on this first document open `observations.md`. No umbrella beliefs.
 
@@ -295,6 +297,7 @@ For each belief affected, records:
 | `[STRUCTURE_DRIFT]` | The document's observed structure deviated from the Structural Map; resolution (Recalibrate/Signal/Defer) recorded — document-level entry, not per-belief |
 | `[FOUNDATION_REVIEW]` | A belief reaching Confirmed/Established, or a document's REDEFINITION SIGNAL, triggered a Foundation Review; resolution (Adopt/Hold/Defer) recorded |
 | `[FOUNDATION_CHANGED]` | A foundation claim this belief depends on was revised (Adopted) elsewhere; this belief is held pending re-grounding on its next document pass |
+| `[SOURCE_CONFLICT]` | Two documents of equal, unranked Source Authority disagreed on the same question for the same period; neither reading was used as evidence until a human resolves the tie |
 | `[NO CHANGE]` | Document processed; no update warranted for this belief |
 
 Evidence-routing decisions are logged separately in `match_ledger.md` (not the changelog): which signal was matched to which belief, opened as new, filed as an observation, or deliberately not matched — each with a one-line basis. The changelog records what changed in the beliefs; the match ledger records why each signal went where it did.

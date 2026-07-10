@@ -94,6 +94,21 @@ belief_config:
   # If false, a blocked prompt may run only with explicit per-run user override,
   # and every belief it writes is tagged provisional-pending-recompile.
 
+  # ─── SOURCE AUTHORITY ───────────────────────────────────────────────────────
+  # foundation.source_authority names, per question type (final actuals,
+  # forecast/plan assumptions, internal narrative, external narrative, metric
+  # definitions), which document type is authoritative. This is the one
+  # foundation claim NOT discoverable from reading -- documents that happen to
+  # agree so far never reveal which one should win once they disagree, so it
+  # is captured only from what the user states at setup (optional).
+  source_authority_enabled: true
+
+  # A disagreement explained by ranked Source Authority defers to the named
+  # winner automatically (not a decision needing confirmation -- the user
+  # already made the call at setup). A disagreement between two document
+  # types of EQUAL, unranked authority is never silently picked:
+  source_authority_tie_resolution: flag   # flag | user_confirm (flag logs [SOURCE_CONFLICT] and moves on; user_confirm pauses for a decision)
+
   # ─── FOUNDATION CORPUS GROUNDING ────────────────────────────────────────────
   # After this many documents' fact logs exist, Prompt -1 runs its corpus
   # grounding pass: read all fact logs together, extract what recurred

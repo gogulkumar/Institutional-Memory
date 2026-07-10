@@ -39,7 +39,7 @@ This ordering preserves the system's core principle — *the business model is d
 
 ## Interview Structure
 
-Conduct a focused interview in five areas. Ask one question at a time. Do not move to the next area until the current one is answered. Do not invent content — only record what the user tells you.
+Conduct a focused interview in six areas. Ask one question at a time. Do not move to the next area until the current one is answered. Do not invent content — only record what the user tells you.
 
 ### Area 1 — Business Model and Profitability Thesis
 
@@ -92,6 +92,19 @@ Ask:
 - What does this entity consistently over- or under-represent in its documents?
 
 Record: A what-matters-vs-noise section. Two lists: signals to stress, and things to discount.
+
+### Area 6 — Source Authority
+
+Ask:
+- When two documents disagree on the same number for the same period — a deck shows one figure, a system export shows another — which one is authoritative?
+- What is the authoritative source for final actuals? (Typically the official system of record, not a deck built before close.)
+- What is the authoritative source for forecast or plan assumptions? (Typically the latest approved forecast file, not a verbal mention in a meeting.)
+- What is the authoritative source for internal narrative — how leadership explains performance internally?
+- What is the authoritative source for external narrative — how the entity explains performance publicly?
+- What is the authoritative source for metric definitions — a dictionary or data-owner documentation, or does the definition live only in this foundation?
+- Are there known cases where a document type is deliberately preferred over a "more official" one (e.g., an early flash read used before actuals finalize)?
+
+Record: A source authority table — for each question type (final actuals, forecast/plan assumptions, internal narrative, external narrative, metric definitions), the authoritative document type, and why. If two document types could plausibly claim the same question type, name the one that wins and say so explicitly — an unresolved tie here becomes a silent, undetectable inconsistency downstream.
 
 ---
 
@@ -164,6 +177,22 @@ What a deviation means: [How to interpret a move outside the normal range]
 **Known document quirks:**
 - [Quirk 1 — what it is and why it could mislead]
 - [...]
+
+---
+
+## Source Authority
+<!-- claim: foundation.source_authority -->
+
+[Which document type is authoritative for each question type, and why. No ties — if two document types could both answer a question type, name the one that wins.]
+
+| Question type | Authoritative source | Why |
+|---|---|---|
+| Final actuals | [document type] | [reason] |
+| Forecast / plan assumptions | [document type] | [reason] |
+| Internal narrative | [document type] | [reason] |
+| External narrative | [document type] | [reason] |
+| Metric definitions | [document type, or "this foundation" if none exists] | [reason] |
+| [Additional question type, if named in interview] | [document type] | [reason] |
 
 ---
 

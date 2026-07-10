@@ -239,6 +239,8 @@ Every initialized entry:
 
 **Match by underlying mechanical claim, not exact wording.** Real language varies period to period — "X leads regardless of magnitude" and "X led again despite being smaller than the item beneath it" are the same claim, evidenced twice, and must update one entry rather than create a sibling. Matching on exact title text fractures one real, recurring belief into disconnected fragments that never individually mature past Candidate.
 
+**Resolve source-authority conflicts before treating a disagreement as evidence.** If a fact log entry disagrees with an existing belief's evidence purely because it comes from a lower-authority document type for that question type (per the foundation's Source Authority claim — e.g., a draft deck's early number versus the official system of record's later one), that is not a CONTRADICT or TENSION signal against the belief — it is a document-quality difference. Defer to the higher-authority reading; note the lower-authority reading as superseded, not as evidence. If the two sources are of equal, unranked authority, do not silently pick one: flag the conflict in the changelog rather than updating the belief on it.
+
 For each existing belief, decide one action per document:
 
 - Fact log CONFIRMS: extend the evolution trail with what this document added. Update normal baseline if the picture has sharpened. Add [doc_id] to Provenance → Confirming documents. Tag: [DEEPEN]
@@ -279,6 +281,7 @@ After updating the belief memory, record one changelog entry per affected belief
 - [STRUCTURE_DRIFT]: document-level entry (not per-belief) — the document's observed structure deviated from the Structural Map; resolution (Recalibrate/Signal/Defer) recorded. When resolved as Signal, the deviation enters the fact log as an absence/emphasis observation for the relevant beliefs.
 - [FOUNDATION_REVIEW]: belief reaching Confirmed/Established triggered a review of its named foundation claim (the belief engine's own trigger path; a document's Redefinition Signal triggers the same review independently, at the fact-extraction step, without ever reaching the belief engine — see 06-fact-extractor.md); resolution recorded
 - [FOUNDATION_CHANGED]: a foundation claim this belief depends on was revised elsewhere; held pending re-grounding
+- [SOURCE_CONFLICT]: two documents of equal, unranked Source Authority disagreed on the same question for the same period; neither reading was used as evidence until a human resolves the tie
 - [NO CHANGE]: no update warranted
 
 Evidence-routing decisions go to match_ledger.md, not the changelog — one line per signal (MATCHED / NEW_BELIEF / NEW_OBSERVATION / NO_MATCH) with its basis.

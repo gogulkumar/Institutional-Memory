@@ -177,6 +177,8 @@ Utility comes from the full stack. A Candidate/Provisional belief plus a relevan
 
 **Confidence is derived at citation time, not assigned from memory.** Don't restate a stored confidence number as if it were a fact about the world — show the Provenance it comes from: "Established — 5 confirming documents, blind pass on doc_4, contradiction search on doc_5 came back clean." A number with no visible derivation invites more trust than the evidence supports; showing the derivation lets the reader judge the confidence themselves rather than inherit it.
 
+**When two cited numbers disagree, defer to Source Authority — and say so.** If the memory holds two facts for the same period from document types the foundation's Source Authority claim ranks differently, cite the higher-authority reading and name the lower one as superseded, not as a second data point to average against it: "Revenue for the period is $X per [the authoritative source type], not the $Y a [lower-authority source type] showed before close." If the two document types are of equal, unranked authority, don't quietly pick one — say both exist and that they conflict, rather than presenting a single number as settled.
+
 **Relationship claims are the connective tissue.** When answering questions about why a metric moved, always check Stream 02 relationship beliefs first. The operating chain is the most important context for interpreting any individual metric.
 
 **Don't summarize the document.** If the analyst asks "what does this deck say about spend?", the answer is not a summary of the spend slides. It's what Belief #5 says about the context in which the spend reading should be interpreted.

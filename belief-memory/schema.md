@@ -272,6 +272,7 @@ After every document, `belief_changelog.md` records what changed — one entry p
 | `[STRUCTURE_DRIFT]` | The document's observed structure deviated from the Structural Map; resolution (Recalibrate/Signal/Defer) recorded — document-level, not per-belief |
 | `[FOUNDATION_REVIEW]` | A belief reaching Confirmed/Established, or a document's Redefinition Signal, triggered a Foundation Review; resolution (Adopt/Hold/Defer) recorded |
 | `[FOUNDATION_CHANGED]` | A foundation claim this belief depends on was revised (Adopted) elsewhere; belief held pending re-grounding on its next document pass |
+| `[SOURCE_CONFLICT]` | Two documents of equal, unranked Source Authority disagreed on the same question for the same period; neither reading used as evidence until a human resolves the tie |
 | `[NO CHANGE]` | Document processed; no update warranted for this belief |
 
 Evidence-routing decisions are logged separately in `match_ledger.md` (not the changelog): which signal was matched to which belief, opened as new, filed as an observation, or deliberately not matched — each with a one-line basis.

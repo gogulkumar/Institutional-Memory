@@ -74,7 +74,8 @@ This document is: [document type from signal matrix]
 - The thesis metrics relevant to this stream — these are the high-value signal areas
 - The normalization model: normal ranges, seasonal patterns, deviation thresholds
 - Narration design: what to expect in this entity's documents — what leads, what gets buried
-- Signals vs. noise: what to stress, what to discount, known document quirks]
+- Signals vs. noise: what to stress, what to discount, known document quirks
+- Source Authority: which document type is authoritative for which question type (final actuals, forecast/plan assumptions, internal narrative, external narrative, metric definitions) — this document's own authority tier for each applicable question type]
 
 Your output will be read by the belief reasoning engine. Organize extracted signals to support individual belief claims — not by watch area. Surface distinct patterns as separate entries.
 ```
@@ -365,6 +366,8 @@ DO NOT summarize. A summary is not a fact log.
 DO NOT extract signals the blueprint's signal matrix says this document type cannot carry.
 
 DO NOT route a REDEFINITION SIGNAL to the belief engine as if it were ordinary evidence. It goes to Foundation Review directly, at full priority, regardless of what any belief's current status is.
+
+DO NOT resolve a source-authority conflict yourself — you have no visibility into other documents, so you structurally cannot know whether this document's reading agrees or disagrees with another. Simply tag each relevant numeric or narrative fact with this document type's Source Authority standing for that question type (from Section A) — "final actuals, and this document type is the named authority" or "internal narrative, not the named authority for this question type." Resolving any actual disagreement across documents is the belief engine's job.
 
 STAY SILENT when no signal is present. "NO SIGNAL IN THIS WINDOW" is a valid and useful output.
 

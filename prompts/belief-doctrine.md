@@ -12,6 +12,14 @@ Every belief in every stream for an entity is grounded in that entity's foundati
 
 The foundation lives at `entities/{entity_id}/foundation.md`. It is built once per entity, before any belief stream. It is a living document — refined as streams accumulate deeper understanding.
 
+### Source Authority — Which Document Wins When Sources Disagree
+
+Documents disagree. A deck built before close shows one number; the official system of record shows another once it finalizes. A meeting note quotes an assumption that the latest forecast file has since revised. None of this is noise to average away — it is a conflict, and conflicts are resolved by a rule set by the user in advance, not invented at extraction time.
+
+The foundation's **Source Authority** claim (`foundation.source_authority`) names, for each question type — final actuals, forecast/plan assumptions, internal narrative, external narrative, metric definitions — which document type is authoritative. Fact extraction (`06-fact-extractor.md`) tags every numeric or narrative fact with the document type it came from; the belief engine and activation layer defer to the named authority when two facts about the same period disagree, rather than picking whichever document was read most recently or averaging the two.
+
+**Two facts of equal authority disagreeing is not silently resolved.** If the foundation names no winner between two document types for a question type, or two documents of the *same* type disagree, that is a flagged conflict — surfaced, not silently picked — because a silent pick here is indistinguishable from a wrong pick, and nothing downstream would ever know the difference.
+
 ---
 
 ## What a Belief Is
