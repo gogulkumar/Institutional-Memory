@@ -147,7 +147,7 @@ No revisions yet — foundation built from initial interview only.
 [Append-only. Every later change to a claim goes through Foundation Review or corpus grounding and gets an entry here: what changed, why, triggered by what, and which beliefs were flagged for re-grounding. Never edit a claim silently.]
 ```
 
-**Corpus grounding — after the third document.** Once three comparable documents have been processed, revisit this foundation: read all the fact logs together and pull out what recurred *identically* in every one — metric definitions, benchmark sequences, the fixed reporting scaffold. Those become foundation claims with stable claim IDs (`foundation.metrics.{name}` etc.), labeled `source: corpus`. Anything the user stated at setup that the fact logs corroborated gets relabeled `interview+corpus`; anything contradicted gets surfaced to the user before changing. The test: recurs identically and is definitional → foundation claim; could vary period to period and needs testing → belief.
+**Corpus grounding — after the third document.** Once three comparable documents have been processed, revisit this foundation: read all the fact logs together and pull out what recurred *identically* in every one — metric definitions, benchmark sequences, the fixed reporting scaffold. Those become foundation claims with stable claim IDs (`foundation.metrics.{name}` etc.), labeled `source: corpus`. Anything the user stated at setup that the fact logs corroborated gets relabeled `interview+corpus`; anything contradicted gets surfaced to the user before changing. The test is not recurrence — it's what could change it: could new evidence of different performance argue against it → belief; could only a stated redefinition change it → foundation claim.
 
 **Success check — Stage 1:**
 Show the foundation. Ask: Is the entity identity correct? Are the document types right? Anything you want to add to the known prior context?
@@ -327,8 +327,22 @@ Using the `fact_extractor_prompt.md` as your system context, read the document a
 **Part 0 — Structure Observed (always opens the fact log):**
 Record the skeleton you walked through: section inventory in order (verbatim titles), benchmarks as labeled (verbatim), apparatus present (footnotes/appendix/definitions), and every deviation from the profile's Structural Map — sections added, removed, renamed, reordered; benchmarks changed; anything expected but absent. If the profile's map was marked `UNGROUNDED — pending first document`, this block becomes the Structural Map: ground it, mark the profile grounded, and revisit the CAN/CANNOT sections and compiled extractor prompt against it before trusting their output. Never adapt to a changed structure silently — report the difference; deciding what it means happens in the drift check, not here.
 
-**First pass — Relationship Discovery:**
-Before anything else, scan the entire document for explicit relationship claims — any statement where the document says that one metric, factor, or business component drives, causes, enables, or predicts another. These are the most valuable signals in the document because they reveal how the business works. Capture every one.
+**First pass — Redefinition Discovery:**
+Before anything else, scan for explicit statements that a definition, calculation basis, or scope changed — "we now calculate X net of Y," "beginning this period, X excludes Z." This ranks above even relationship claims: it is not evidence about how the business behaved, it is the entity stating that a definition itself moved, and it routes straight to Foundation Review (Step 7.5), never through belief classification.
+
+For each redefinition signal:
+```
+## REDEFINITION SIGNAL — [Metric or claim affected]
+What changed: [old basis → new basis, in the document's own words]
+Verbatim: "[Exact quote from document]"
+Source position: [Where in the document this appeared]
+Foundation claim affected: [claim ID, or "no matching foundation claim — flag as new"]
+```
+
+If no redefinition signals: output `NO REDEFINITION SIGNALS IN THIS DOCUMENT`
+
+**Second pass — Relationship Discovery:**
+Scan the entire document for explicit relationship claims — any statement where the document says that one metric, factor, or business component drives, causes, enables, or predicts another. These are the most valuable signals in the document because they reveal how the business works. Capture every one.
 
 For each relationship claim:
 ```
@@ -344,7 +358,7 @@ Source position: [Where in the document this appeared]
 
 If no relationship claims: output `NO RELATIONSHIP CLAIMS IN THIS DOCUMENT`
 
-**Second pass — Named Candidate Signals:**
+**Third pass — Named Candidate Signals:**
 For each signal related to named candidates:
 ```
 ## SIGNAL — [Brief label]
@@ -363,11 +377,13 @@ If no signal for a named candidate: output `CANDIDATE #N — NO SIGNAL IN THIS W
 **Always close the fact log with a Gaps section** — one line per learning direction with no evidence in this document, so a later reader never wonders whether gaps were simply forgotten. And enforce the banned words: "confirmed," "again," "consistently," "as before," "still," "continues" — this pass has seen one document and structurally cannot know if those are true. Out-of-lens observations are omitted silently, never surfaced with a caveat.
 
 **Success check — Step 6:**
-Show the fact log, starting with any relationship claims found. Ask: Do these relationship claims accurately represent what the document stated? Did the extraction miss any explicit causal statements? Do the named candidate signals look accurate?
+Show the fact log, starting with any redefinition signals and relationship claims found. Ask: Do these accurately represent what the document stated? Did the extraction miss any explicit redefinition or causal statements? Do the named candidate signals look accurate?
 
 ### Step 7 — Initialize Belief Memory
 
 Using the `belief_reasoning_prompt.md` as your system context, read the fact log and initialize `belief.md`.
+
+**Redefinition signals never become beliefs.** If the fact log carries a REDEFINITION SIGNAL, skip belief classification entirely for it and go straight to Step 7.5's Redefinition Signal path — even on the first document.
 
 **Start with relationship claims.** For every relationship claim in the fact log, initialize a Stream 02 Candidate belief. A single explicit statement in a document is sufficient — the stated relationship is the evidence. Do not wait for multiple documents to confirm a relationship that the document already asserted directly.
 
@@ -493,7 +509,7 @@ For each belief, decide and apply one action:
 | `[NEW_OBSERVATION]` | A recurring regularity that failed the master test — recorded in observations.md |
 | `[PROMOTE_OBSERVATION]` | An Observation acquired interpretation — promoted to a new belief, Observation kept and marked |
 | `[STRUCTURE_DRIFT]` | Document-level entry from Step 6.5 — observed structure deviated from the Structural Map; resolution (Recalibrate/Signal/Defer) recorded |
-| `[FOUNDATION_REVIEW]` | This belief just reached Confirmed/Established while bearing on a foundation claim — Foundation Review triggered, resolution recorded |
+| `[FOUNDATION_REVIEW]` | Foundation Review triggered — either this belief just reached Confirmed/Established while bearing on a foundation claim, or a document's Redefinition Signal fired the review directly — resolution recorded |
 | `[FOUNDATION_CHANGED]` | A foundation claim this belief depends on was revised elsewhere — held pending re-grounding |
 | `[NO CHANGE]` | No update warranted |
 
@@ -512,9 +528,11 @@ Every action that touches a belief updates its **Provenance record** — add the
 
 ### Step 7.5 — Foundation Review Trigger Check
 
-For every belief that just reached Confirmed or Established this round, check whether its Statement adds meaningful precision to, narrows, or contradicts the foundation claim named in its Provenance → Foundation dependency. A Candidate or Provisional belief never triggers this.
+Two independent trigger paths, either sufficient alone:
+- **Path 1 — belief maturity.** For every belief that just reached Confirmed or Established this round, check whether its Statement adds meaningful precision to, narrows, or contradicts the foundation claim named in its Provenance → Foundation dependency. A Candidate or Provisional belief never triggers this path.
+- **Path 2 — Redefinition Signal.** If this document's fact log carried a REDEFINITION SIGNAL (Step 6), trigger the review immediately on this document, regardless of any belief's maturity — the document itself said the definition changed.
 
-If it does, run `prompts/-1-generate-foundation.md` in Foundation Review mode: show the current foundation claim, the triggering belief's Statement and Evolution trail, and ask the user to resolve it — **Adopt** (rewrite the claim, log the revision in `foundation.md`'s Foundation Revision Log, and flag every other belief across every stream naming that claim ID as `[FOUNDATION_CHANGED]`), **Hold** (keep the claim, treat the belief's finding as a narrower sub-case), or **Defer** (not enough evidence yet). Record `[FOUNDATION_REVIEW]` in the changelog either way.
+If either path fires, run `prompts/-1-generate-foundation.md` in Foundation Review mode: show the current foundation claim, and either the triggering belief's Statement and Evolution trail (path 1) or the document's redefinition language verbatim (path 2), and ask the user to resolve it — **Adopt** (rewrite the claim, log the revision in `foundation.md`'s Foundation Revision Log, and flag every other belief across every stream naming that claim ID as `[FOUNDATION_CHANGED]`), **Hold** (keep the claim, treat the triggering evidence as a narrower sub-case), or **Defer** (not enough evidence yet). Record `[FOUNDATION_REVIEW]` in the changelog either way.
 
 Do not resolve Adopt vs. Hold yourself. Surface the conflict and let the user decide.
 
@@ -530,7 +548,7 @@ If more documents are queued, move to the next one only now — it must see the 
 
 ### Corpus Grounding Check (fires once, after the third comparable document)
 
-If this pass just produced the third fact log for this stream (configurable), run the corpus grounding pass before continuing: read all fact logs so far *together* and pull out what recurred **identically** in every one — metric definitions, benchmark sequences, the fixed reporting scaffold. Write those into the foundation's Discovered Understanding as claims with stable claim IDs and `source: corpus (doc_ids)`. Then reconcile: interview claims the corpus corroborates get relabeled `interview+corpus`; interview claims the corpus **contradicts** get surfaced to the user (never silently changed — log the resolution in the Foundation Revision Log); claims the corpus is silent on stay labeled hypotheses. The test: recurs identically and is definitional → foundation claim; could vary period to period and needs testing → belief. Tell the user this fired and show what was grounded.
+If this pass just produced the third fact log for this stream (configurable), run the corpus grounding pass before continuing: read all fact logs so far *together* and pull out what recurred **identically** in every one — metric definitions, benchmark sequences, the fixed reporting scaffold. Write those into the foundation's Discovered Understanding as claims with stable claim IDs and `source: corpus (doc_ids)`. Then reconcile: interview claims the corpus corroborates get relabeled `interview+corpus`; interview claims the corpus **contradicts** get surfaced to the user (never silently changed — log the resolution in the Foundation Revision Log); claims the corpus is silent on stay labeled hypotheses. The test is what could ever change the claim, not whether it recurs: new evidence of different performance → belief; only a stated redefinition → foundation claim. Tell the user this fired and show what was grounded.
 
 **Success check — Stage 5:**
 Show a summary of what changed:

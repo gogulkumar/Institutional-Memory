@@ -118,14 +118,21 @@ belief_config:
   structural_drift_resolution: user_confirm     # user_confirm | automatic
 
   # ─── FOUNDATION REVIEW ──────────────────────────────────────────────────────
-  # A belief reaching this status while bearing on a named foundation claim
-  # triggers Foundation Review (lifecycle/ingestion-pipeline.md, Step 7.5).
-  # A Candidate or Provisional belief never triggers this — see belief-doctrine.md.
-  foundation_review_trigger_status: Confirmed   # Confirmed or Established
+  # Two independent trigger paths, either sufficient on its own
+  # (lifecycle/ingestion-pipeline.md, Step 7.5):
+  #   Path 1 — a belief reaches this status while bearing on a named foundation
+  #            claim. A Candidate or Provisional belief never triggers path 1.
+  #   Path 2 — a document's fact log carries a REDEFINITION SIGNAL (see
+  #            06-fact-extractor.md). Fires immediately, independent of any
+  #            belief's maturity — the document itself stated the definition
+  #            changed, so there is no evidence to accumulate first.
+  foundation_review_trigger_status: Confirmed   # Confirmed or Established (path 1 only)
+  redefinition_signal_triggers_review: true     # path 2 — set false only to disable entirely
 
   # How the Adopt/Hold/Defer decision gets made. "user_confirm" surfaces the
   # conflict and waits for the analyst; "automatic" lets the engine Adopt
-  # without confirmation whenever the triggering belief is Established.
+  # without confirmation whenever the triggering belief is Established (path 1)
+  # or whenever a Redefinition Signal fires (path 2).
   # Default is user_confirm — silent foundation edits are the failure mode
   # Grounded exists to prevent.
   foundation_review_resolution: user_confirm    # user_confirm | automatic

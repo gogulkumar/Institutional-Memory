@@ -29,7 +29,7 @@ A single document can never manufacture a belief. Beliefs are earned across comp
 
 Produces the institutional business understanding that every belief stream for this entity reads as its prior. Not a document summary. Not a belief. The mental model a strong analyst carries before opening any document — what kind of business this is, what its profitability thesis rests on, which metrics are thesis-defining, what normal looks like, and how this entity narrates its own performance.
 
-**Every claim is labeled with its source.** Interview claims are hypotheses (`source: interview`) — the user's stated understanding, useful but unverified. The corpus grounding pass reads the first N fact logs together and extracts what recurred *identically* across all of them — the definitional scaffold: metric definitions, benchmark sequences, decomposition structure. Those claims are `source: corpus`. Interview claims the corpus corroborates become `interview+corpus`; claims the corpus contradicts trigger an immediate Foundation Review; claims the corpus is silent on remain labeled hypotheses. The test separating a foundation claim from a belief: recurs identically and is definitional → foundation; could vary period to period and needs testing → belief.
+**Every claim is labeled with its source.** Interview claims are hypotheses (`source: interview`) — the user's stated understanding, useful but unverified. The corpus grounding pass reads the first N fact logs together and extracts what recurred *identically* across all of them — the definitional scaffold: metric definitions, benchmark sequences, decomposition structure. Those claims are `source: corpus`. Interview claims the corpus corroborates become `interview+corpus`; claims the corpus contradicts trigger an immediate Foundation Review; claims the corpus is silent on remain labeled hypotheses. The test separating a foundation claim from a belief is not recurrence — it's what could ever change it: could new evidence of different performance argue against it → belief; could only a stated redefinition change it → foundation (see `-1-generate-foundation.md`).
 
 Without the foundation, a belief stream produces document-level facts. With it, it produces grounded business judgment.
 
@@ -161,7 +161,7 @@ No interpretation. No extraction. Pure transcription and chunking.
 
 Extracts the evidence packet — angle-scoped, foundation-grounded, pattern-direction-aware. Organized to support individual belief claims, not watch areas.
 
-The fact log is NOT a summary. It preserves for each extracted item its type: fact / metric / benchmark / attribution / relationship / pattern evidence / fingerprint candidate / silence / contradiction / template risk / out-of-scope.
+The fact log is NOT a summary. It preserves for each extracted item its type: redefinition signal / fact / metric / benchmark / attribution / relationship / pattern evidence / fingerprint candidate / silence / contradiction / template risk / out-of-scope.
 
 Distinct signals are surfaced separately. If two different patterns appear in the same section of a document, they are two separate fact log entries — not one collapsed observation. This granularity is required to support 8–15 Candidate beliefs on the first document.
 
@@ -215,6 +215,8 @@ Like Foundation Review, the Recalibrate-vs-Signal decision is surfaced to the us
 
 **Classify before you route — the master test decides the tier, not admission.** For every recurring entity-specific regularity in the fact log, ask the master test: does this say something no single document says? If yes → it is a belief candidate (below). If no → it is an **Observation** — a reporting convention, vocabulary habit, or structural regularity — written to `observations.md` in the two-field form, cited only as an unverified pattern, never discarded. Nothing useful is thrown away; nothing weak is allowed to impersonate a belief.
 
+**A REDEFINITION SIGNAL never enters this classification at all.** If the fact log carries one (Part 1 of the fact log, ahead of relationship claims — see `06-fact-extractor.md`), it is not weighed as belief evidence or Observation evidence — it routes straight to Step 7.5's Redefinition Signal path, at full priority, regardless of any belief's current maturity.
+
 **Log every routing decision to the match ledger.** Before writing any belief update, decide which existing belief (if any) this signal is evidence for — matching by the **underlying mechanical claim, not the heading text** — and append one line to `match_ledger.md`: MATCHED Belief #N / NEW_BELIEF / NEW_OBSERVATION / NO_MATCH (considered #N, rejected, with the distinguishing basis). This is what makes evidence-routing auditable; a silent match is the one unfalsifiable step in a falsifiability-first system.
 
 **On first document (belief.md is NULL):**
@@ -243,9 +245,12 @@ The belief engine does NOT invent evidence. Only holds what the fact log provide
 **Input:** The just-updated `belief.md`, each affected belief's Provenance → Foundation dependency, and `entities/{entity_id}/foundation.md`
 **Output:** Zero or more `[FOUNDATION_REVIEW]` changelog entries; if resolved this round, an updated `foundation.md` with an appended Foundation Revision Log entry
 
-For every belief touched this round (any action in Step 7, not just DEEPEN), check: did this belief just reach Confirmed or Established status, and does its Statement add meaningful precision to, narrow, or contradict the foundation claim named in its own Provenance? A Candidate or Provisional belief never triggers this — the evidence has to have survived the Two-Test Gate first.
+This step has two independent trigger paths — either alone is sufficient to hand off to Foundation Review:
 
-If the trigger fires, hand off to Prompt −1 running in **Foundation Review** mode (see `prompts/-1-generate-foundation.md`, "Foundation Review"). That pass surfaces the conflict between the recorded claim and the belief's independent finding, and the user resolves it as Adopt, Hold, or Defer.
+- **Path 1 — belief-maturity trigger.** For every belief touched this round (any action in Step 7, not just DEEPEN), check: did this belief just reach Confirmed or Established status, and does its Statement add meaningful precision to, narrow, or contradict the foundation claim named in its own Provenance? A Candidate or Provisional belief never triggers this path — the evidence has to have survived the Two-Test Gate first.
+- **Path 2 — Redefinition Signal trigger.** If this document's fact log carried a REDEFINITION SIGNAL (Step 6), it triggers Foundation Review immediately, on this document, regardless of any belief's maturity. No belief has to have reached any status at all — the document stating outright that a definition changed is the trigger by itself.
+
+If either trigger fires, hand off to Prompt −1 running in **Foundation Review** mode (see `prompts/-1-generate-foundation.md`, "Foundation Review"). That pass surfaces the conflict — the recorded claim against the belief's independent finding (path 1), or the recorded claim against the document's own redefinition language (path 2) — and the user resolves it as Adopt, Hold, or Defer.
 
 - **Adopt**: `foundation.md`'s claim text is rewritten, a Foundation Revision Log entry is appended, and every other belief in every stream whose Provenance names that claim ID is flagged `[FOUNDATION_CHANGED]` in its own changelog — its Status is held, not retired, until its next document pass re-confirms grounding against the revised claim.
 - **Hold**: no foundation change. The changelog records `[FOUNDATION_REVIEW]` with the resolution noted as Held and why.
@@ -288,7 +293,7 @@ For each belief affected, records:
 | `[NEW_OBSERVATION]` | A recurring regularity that failed the master test was recorded in observations.md — the lightweight tier, cited only as unverified pattern |
 | `[PROMOTE_OBSERVATION]` | An Observation acquired genuine interpretation and was promoted to a new belief; the Observation is kept, marked promoted |
 | `[STRUCTURE_DRIFT]` | The document's observed structure deviated from the Structural Map; resolution (Recalibrate/Signal/Defer) recorded — document-level entry, not per-belief |
-| `[FOUNDATION_REVIEW]` | A belief reaching Confirmed or Established triggered a Foundation Review; resolution (Adopt/Hold/Defer) recorded |
+| `[FOUNDATION_REVIEW]` | A belief reaching Confirmed/Established, or a document's REDEFINITION SIGNAL, triggered a Foundation Review; resolution (Adopt/Hold/Defer) recorded |
 | `[FOUNDATION_CHANGED]` | A foundation claim this belief depends on was revised (Adopted) elsewhere; this belief is held pending re-grounding on its next document pass |
 | `[NO CHANGE]` | Document processed; no update warranted for this belief |
 
@@ -334,13 +339,17 @@ DOC 4+ ─ steady state, every document, in order:
       │   6.5  STRUCTURAL DRIFT CHECK — match / Recalibrate
       │        (map revised, extractor recompiled) / Signal
       │        (feeds beliefs) / Defer
-      │   7    classify (master test → belief or observation) ·
-      │        route (match_ledger) · evolve — DEEPEN / TENSION /
+      │   7    classify (master test → belief or observation;
+      │        a REDEFINITION SIGNAL skips classification, routes
+      │        straight to 7.5) · route (match_ledger) · evolve —
+      │        DEEPEN / TENSION /
       │        NARROW / CONTRADICT / SILENCE / RETIRE; Confirmed →
       │        Established gated by contradiction search; silence
       │        walks a belief DOWN the ladder → [DECAY] → STALE
       │   7.5  FOUNDATION REVIEW — fires on Confirmed/Established
-      │        transitions that bear on a named claim ID
+      │        transitions that bear on a named claim ID, OR
+      │        immediately on any REDEFINITION SIGNAL, regardless
+      │        of belief maturity
       │   8    changelog appended — every pass, no exceptions
       │        + belief.md snapshotted to belief_versions/{doc_id}
       ▼

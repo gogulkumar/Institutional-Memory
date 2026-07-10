@@ -39,7 +39,9 @@ Belief is built in four layers plus an activation surface. Quality flows **forwa
 │  LAYER 3 — EXECUTION (every new document)                     │   │ │ │
 │  5   intake → L3 raw units (immutable, once)                  │   │ │ │
 │  6   extract → L2 fact log:                                   │   │ │ │
-│        opens with STRUCTURE OBSERVED (skeleton walked)        │   │ │ │
+│        opens with STRUCTURE OBSERVED (skeleton walked),       │   │ │ │
+│        then REDEFINITION SIGNALS (ranked above relationship   │   │ │ │
+│        claims — routes straight to 7.5, never to the engine)  │   │ │ │
 │        + BLIND PASS in parallel when a belief is up           │   │ │ │
 │          for promotion (belief withheld from extractor)       │   │ │ │
 │  6.5 STRUCTURAL DRIFT CHECK — observed vs Structural Map:     │───┼─┼─┘
@@ -53,8 +55,10 @@ Belief is built in four layers plus an activation surface. Quality flows **forwa
 │        contradiction search → Established · silence walks     │   │ │
 │        DOWN the ladder → [DECAY] → STALE at Provisional floor │   │ │
 │  7.5 FOUNDATION REVIEW — Confirmed/Established belief vs      │───┼─┘
-│        its named claim ID: Adopt (revise + flag dependents    │   │
-│        [FOUNDATION_CHANGED]) / Hold / Defer — user decides    │   │
+│        its named claim ID, OR a REDEFINITION SIGNAL (fires    │   │
+│        immediately, no belief maturity required): Adopt       │   │
+│        (revise + flag dependents [FOUNDATION_CHANGED]) /      │   │
+│        Hold / Defer — user decides                            │   │
 │  8   changelog — append-only, one action per belief           │   │
 │      (fact logs accumulate → corpus grounding, Pass 2)        │───┘
 └──────────────────────────┬───────────────────────────────────┘
@@ -87,7 +91,7 @@ The forward cascade sets quality; the return loops keep it honest. Each loop has
 | Loop | From → To | Trigger | Resolution |
 |------|-----------|---------|------------|
 | **Corpus grounding** | Fact logs → Foundation | First N fact logs exist (default 3) | What recurred identically becomes `source: corpus`; contradicted interview claims go to Foundation Review |
-| **Foundation Review** (Step 7.5) | Belief memory → Foundation | A belief reaches Confirmed/Established bearing on its named claim ID | Adopt (claim revised, logged, dependents flagged) / Hold / Defer — user decides |
+| **Foundation Review** (Step 7.5) | Belief memory → Foundation, OR Document → Foundation directly | A belief reaches Confirmed/Established bearing on its named claim ID, OR a document's Redefinition Signal fires regardless of belief maturity | Adopt (claim revised, logged, dependents flagged) / Hold / Defer — user decides |
 | **Structural Drift Check** (Step 6.5) | Fact log → Profile + Compiled prompts | STRUCTURE OBSERVED deviates from the Structural Map | Recalibrate (map revised, extractor recompiled) / Signal (feeds beliefs) / Defer |
 
 ### The Cascade Principle
@@ -218,12 +222,16 @@ belief_engine.py   ← belief_reasoning_prompt.md (system)
                    → match_ledger.md (every routing decision + basis)
                    → belief_changelog.md (appended)
                    (classify: master test → belief | observation;
+                    a REDEFINITION SIGNAL skips classification, routes
+                    straight to foundation review below;
                     promotion gated: recurrence → Provisional (hedged),
                     blind pass → Confirmed, contradiction search →
                     Established; silence decays DOWN the ladder → STALE)
 
 foundation review  ← any belief reaching Confirmed/Established that
-(Step 7.5)           bears on its named foundation claim
+(Step 7.5)           bears on its named foundation claim, OR a
+                     document's REDEFINITION SIGNAL (fires immediately,
+                     independent of any belief's maturity)
                    → user resolves Adopt / Hold / Defer
                    → foundation.md revised + revision logged (if Adopt)
                    → dependent beliefs flagged [FOUNDATION_CHANGED]

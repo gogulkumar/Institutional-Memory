@@ -277,7 +277,7 @@ After updating the belief memory, record one changelog entry per affected belief
 - [NEW_OBSERVATION]: a recurring regularity that failed the master test was recorded in observations.md
 - [PROMOTE_OBSERVATION]: an Observation acquired interpretation and was promoted to a new belief; Observation kept, marked promoted
 - [STRUCTURE_DRIFT]: document-level entry (not per-belief) — the document's observed structure deviated from the Structural Map; resolution (Recalibrate/Signal/Defer) recorded. When resolved as Signal, the deviation enters the fact log as an absence/emphasis observation for the relevant beliefs.
-- [FOUNDATION_REVIEW]: belief reaching Confirmed/Established triggered a review of its named foundation claim; resolution recorded
+- [FOUNDATION_REVIEW]: belief reaching Confirmed/Established triggered a review of its named foundation claim (the belief engine's own trigger path; a document's Redefinition Signal triggers the same review independently, at the fact-extraction step, without ever reaching the belief engine — see 06-fact-extractor.md); resolution recorded
 - [FOUNDATION_CHANGED]: a foundation claim this belief depends on was revised elsewhere; held pending re-grounding
 - [NO CHANGE]: no update warranted
 

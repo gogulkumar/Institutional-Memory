@@ -39,6 +39,8 @@ A relationship claim is any statement where the document asserts that:
 
 These claims are the building blocks of the operating model. Every one that appears in a document must be captured — verbatim, with both metrics named, with the stated direction and lag, and with the structural position in the document. The belief engine will turn them into Stream 02 Candidate beliefs. On the first document, these may be the most valuable signals produced.
 
+**Ranked above even the relationship claim is the REDEFINITION SIGNAL.** Scan first for any explicit statement that a definition, calculation basis, or scope changed — "we now calculate X net of Y," "beginning this period, X excludes Z," "X has been restated to include W." This is not evidence about how the business behaved; it is the entity stating that the ground itself moved. It does not go to the belief engine at all — it routes directly to Foundation Review (`-1-generate-foundation.md`, Redefinition Signal path), because reasoning about behavior against a stale definition for even one more document is worse than pausing for a review call.
+
 ---
 
 ## Input
@@ -81,9 +83,28 @@ Your output will be read by the belief reasoning engine. Organize extracted sign
 
 ### Section B — What to Extract
 
-Encode an extraction manifest in two parts: relationship discovery first, then named candidates.
+Encode an extraction manifest in three parts: redefinition discovery first, then relationship discovery, then named candidates.
 
-**Part 1 — Relationship Discovery (always runs first, on every document)**
+**Part 0 — Redefinition Discovery (always runs first, on every document, ahead of relationship discovery)**
+
+```
+## Redefinition Discovery
+
+For every explicit statement that a definition, calculation basis, or scope changed:
+
+REDEFINITION SIGNAL: [Metric or claim affected]
+What changed: [old basis → new basis, in the document's own words]
+Verbatim language: [exact quote — do not paraphrase]
+Source position: [where in the document this appeared]
+Foundation claim affected: [the claim ID this bears on, if the foundation context names one; otherwise "no matching foundation claim — flag as new"]
+
+If no redefinition language is present in this document window:
+Output: NO REDEFINITION SIGNALS IN THIS WINDOW
+```
+
+This section routes directly to Foundation Review — never to the belief engine. A redefinition is not evidence for or against a behavioral belief; it is the entity changing what a term means.
+
+**Part 1 — Relationship Discovery (always runs second, on every document)**
 
 Before scanning for any named candidate signals, scan the entire document window for explicit relationship claims. These take priority because they are the source material for the business model that all other streams depend on.
 
@@ -169,7 +190,7 @@ For number-based signals (Stream 00 — Factual Understanding, Stream 01 — Bus
 - Do not strip any of these four elements — an incomplete number is not a signal, it is a fragment
 - Capture the label the document uses for the metric — not a normalized version
 - Cross-reference the foundation's normalization model: note whether the reading is within normal range, at a deviation threshold, or outside normal range
-- Note if the metric definition changed from prior documents
+- Note if the metric definition changed from prior documents — if the document itself states this, it is a REDEFINITION SIGNAL (Part 0), not a note buried in a number-based signal
 - For Stream 06: also note whether this reading is the original Plan, a revision, or an Actual — and which prior Plan/Forecast it should be compared against
 
 For conversion chain signals (Stream 02 — Business Dynamics):
@@ -258,7 +279,22 @@ You read the whole document to extract signals — record the skeleton you walke
 
 Do NOT interpret deviations. A missing section might be a template change or a communication choice — deciding which is the Structural Drift Check's job (Step 6.5), not yours. Report the difference; never adapt to it silently.
 
-**Part 1 — Relationship Claims** (always first among signals)
+**Part 1 — Redefinition Signals** (always first among signals, ahead of relationship claims)
+
+For each redefinition signal found:
+
+---
+## REDEFINITION SIGNAL — [Metric or claim affected]
+
+**What changed**: [old basis → new basis, in the document's own words]
+**Verbatim**: "[Exact quote from document]"
+**Source position**: [Where in the document this appeared]
+**Foundation claim affected**: [claim ID, or "no matching foundation claim — flag as new"]
+---
+
+If no redefinition signals: ## NO REDEFINITION SIGNALS IN THIS WINDOW
+
+**Part 2 — Relationship Claims**
 
 For each relationship claim found:
 
@@ -276,7 +312,7 @@ For each relationship claim found:
 
 If no relationship claims: ## NO RELATIONSHIP CLAIMS IN THIS WINDOW
 
-**Part 2 — Named Candidate Signals**
+**Part 3 — Named Candidate Signals**
 
 For each signal extracted for a named candidate:
 
@@ -296,11 +332,11 @@ For each signal extracted for a named candidate:
 If no signal is present for a named candidate, output:
 ## CANDIDATE #N — NO SIGNAL IN THIS WINDOW
 
-**Part 3 — Gaps** (always closes the fact log, even when every direction had some evidence)
+**Part 4 — Gaps** (always closes the fact log, even when every direction had some evidence)
 
 For each of this stream's learning directions with no evidence in this document, one line: "No evidence in this document on [direction] — [why it cannot be assessed here]." Closing with an explicit Gaps section — rather than omitting it — prevents a later reader wondering whether the gaps were simply forgotten.
 
-Don't include general document summaries. Each distinct signal is a separate entry. Relationship claims are always extracted before named candidate signals.
+Don't include general document summaries. Each distinct signal is a separate entry. Redefinition signals are always extracted before relationship claims, which are always extracted before named candidate signals.
 ```
 
 ---
@@ -327,6 +363,8 @@ DO NOT invent signals. If the document window does not contain a signal, say so.
 DO NOT summarize. A summary is not a fact log.
 
 DO NOT extract signals the blueprint's signal matrix says this document type cannot carry.
+
+DO NOT route a REDEFINITION SIGNAL to the belief engine as if it were ordinary evidence. It goes to Foundation Review directly, at full priority, regardless of what any belief's current status is.
 
 STAY SILENT when no signal is present. "NO SIGNAL IN THIS WINDOW" is a valid and useful output.
 

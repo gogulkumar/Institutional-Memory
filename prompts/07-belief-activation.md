@@ -175,6 +175,8 @@ Utility comes from the full stack. A Candidate/Provisional belief plus a relevan
 
 **Status is not the same as verified.** Before citing a belief at Confirmed or above, check its Provenance record. A belief sitting at Confirmed with no recorded blind pass, or Established with no contradiction search, has a status ahead of its evidence — flag it rather than citing it with unqualified confidence.
 
+**Confidence is derived at citation time, not assigned from memory.** Don't restate a stored confidence number as if it were a fact about the world — show the Provenance it comes from: "Established — 5 confirming documents, blind pass on doc_4, contradiction search on doc_5 came back clean." A number with no visible derivation invites more trust than the evidence supports; showing the derivation lets the reader judge the confidence themselves rather than inherit it.
+
 **Relationship claims are the connective tissue.** When answering questions about why a metric moved, always check Stream 02 relationship beliefs first. The operating chain is the most important context for interpreting any individual metric.
 
 **Don't summarize the document.** If the analyst asks "what does this deck say about spend?", the answer is not a summary of the spend slides. It's what Belief #5 says about the context in which the spend reading should be interpreted.

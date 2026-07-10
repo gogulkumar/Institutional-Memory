@@ -152,7 +152,9 @@ But: carries an explicit dependency on a named foundation claim, and is automati
 
 A belief that cannot be connected to the foundation — to the business model, the thesis metrics, or the narration design — is either too generic or based on a document artifact rather than how the business works. But "grounded in the foundation," checked once at creation and never revisited, means that if the foundation itself becomes outdated or wrong, every belief built on it stays wrong silently, with no mechanism to catch it.
 
-Every belief entry names the specific foundation claim it depends on — by claim ID (e.g. `foundation.business_model`), not a vague prose reference. This is what makes the flagging mechanism real rather than aspirational: when a belief reaches Confirmed or Established while adding precision to, narrowing, or contradicting the claim it depends on, that triggers a Foundation Review (see `lifecycle/ingestion-pipeline.md`, Step 7.5). If the review Adopts a revised claim, every other belief across every stream naming that claim ID is flagged `[FOUNDATION_CHANGED]` and held at its current Status until it re-confirms grounding on its next document pass — not left standing on a foundation that no longer says what it said when the belief was created.
+Every belief entry names the specific foundation claim it depends on — by claim ID (e.g. `foundation.business_model`), not a vague prose reference. This is what makes the flagging mechanism real rather than aspirational: a Foundation Review (see `lifecycle/ingestion-pipeline.md`, Step 7.5) triggers on either of two independent paths — a belief reaching Confirmed or Established while adding precision to, narrowing, or contradicting the claim it depends on, *or* a document explicitly stating that a claim's definition, calculation, or scope changed (a **Redefinition Signal**, extracted at `06-fact-extractor.md`), which fires immediately regardless of any belief's maturity. If the review Adopts a revised claim, every other belief across every stream naming that claim ID is flagged `[FOUNDATION_CHANGED]` and held at its current Status until it re-confirms grounding on its next document pass — not left standing on a foundation that no longer says what it said when the belief was created.
+
+**The test for whether something is a foundation claim or a belief is not recurrence — a real belief recurs too.** It is what kind of thing could ever change it: if new evidence of the entity behaving differently could argue against it, it's a belief; if only a stated redefinition could change it, it's a foundation claim (see `-1-generate-foundation.md`).
 
 ### 4. Actionable
 
@@ -262,6 +264,36 @@ The verification gates moved down one rung from the earlier design: recurrence n
 Decay is not a single step from Established to Confirmed. A belief untouched by any relevant signal keeps walking *down* the ladder, one rung per configured silence window, because a belief that stopped being tested is not as trustworthy as one still being challenged. Established → Confirmed → Provisional on continued silence; at the Provisional floor it is marked **STALE** rather than dropping to Candidate (its evidence still exists — it is untested, not unfounded). Tag each downgrade `[DECAY]` in the changelog — distinct from `[SILENCE]`, which notes one document's silence without consequence. `[DECAY]` fires each time silence accumulates past the configured window (system default: 4 consecutive silent comparable documents per rung).
 
 The point is not to punish a belief for the world going quiet. It is to make sure "Established six months ago, untested since" and "Established and still being challenged every quarter" can never be cited with the same confidence — and to force a STALE belief back through verification if the pattern resurfaces, rather than letting it coast on a status it earned long ago.
+
+### Plain-English Display Aliases (display only — never the record of truth)
+
+The bracket tags above are canonical: they are what gets written, matched, and audited. But a reader who has never seen this system before shouldn't have to learn `[DECAY]` before understanding what happened to a belief. When presenting the belief memory to a human (an activation output, a summary, a UI), a plain-English alias may accompany the canonical tag — never replace it in the underlying record.
+
+| Canonical Status | Display alias |
+|---|---|
+| Candidate | New pattern noticed |
+| Provisional | Recurring, not yet verified |
+| Confirmed | Verified |
+| Established | Well-established |
+| STALE | Untested — gone quiet |
+| Retired / Contradicted | No longer holds |
+
+| Canonical action tag | Display alias |
+|---|---|
+| `[NEW_BELIEF]` | New belief opened |
+| `[DEEPEN]` | Reinforced by this document |
+| `[NARROW]` | Scope narrowed |
+| `[CONTRADICT]` | Contradicted |
+| `[TENSION]` | Under tension |
+| `[SILENCE]` | No signal this round |
+| `[RETIRE]` | Retired |
+| `[DECAY]` | Went stale from disuse |
+| `[NEW_OBSERVATION]` | New pattern logged (unverified) |
+| `[PROMOTE_OBSERVATION]` | Pattern promoted to a belief |
+| `[FOUNDATION_REVIEW]` | Foundation claim under review |
+| `[FOUNDATION_CHANGED]` | Foundation claim changed — re-grounding pending |
+
+Matching, audit, and Provenance always resolve against the canonical tag. The alias is a courtesy to the reader, not a second source of truth — if the two ever disagree, the canonical tag wins and the alias table is wrong.
 
 ---
 

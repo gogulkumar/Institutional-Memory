@@ -102,6 +102,8 @@ The **Status** field tracks how far a belief has climbed. Don't skip stages — 
 
 A Candidate entry is subject to confirmation by the next comparable document. An Established belief requires sustained contradiction — never one anomalous document — before revision or retirement (default: 3 consecutive contradicting comparable documents to retire).
 
+**Plain-English display aliases** for these stages and the changelog action tags (e.g. "Verified" for Confirmed, "Went stale from disuse" for `[DECAY]`) live in `prompts/belief-doctrine.md` — display-only, never a second source of truth. Matching and audit always resolve against the canonical Status name and bracket tag written here.
+
 ---
 
 ## Match Ledger
@@ -264,7 +266,15 @@ After every document, `belief_changelog.md` records what changed — one entry p
 | `[RETIRE]` | Belief archived — the pattern ended. The number is kept; the belief marked RETIRED. |
 | `[MERGE_BELIEFS]` | Two beliefs collapsed into one more precise claim |
 | `[SPLIT_BELIEF]` | One belief divided into two distinct, separately falsifiable claims |
+| `[DECAY]` | Belief dropped one rung (Established→Confirmed→Provisional) after N consecutive silent comparable documents; STALE at the Provisional floor — a Status change, distinct from `[SILENCE]` |
+| `[NEW_OBSERVATION]` | A recurring regularity that failed the master test was recorded in `observations.md` — cited only as unverified pattern |
+| `[PROMOTE_OBSERVATION]` | An Observation acquired genuine interpretation and was promoted to a new belief; the Observation entry is kept, marked promoted |
+| `[STRUCTURE_DRIFT]` | The document's observed structure deviated from the Structural Map; resolution (Recalibrate/Signal/Defer) recorded — document-level, not per-belief |
+| `[FOUNDATION_REVIEW]` | A belief reaching Confirmed/Established, or a document's Redefinition Signal, triggered a Foundation Review; resolution (Adopt/Hold/Defer) recorded |
+| `[FOUNDATION_CHANGED]` | A foundation claim this belief depends on was revised (Adopted) elsewhere; belief held pending re-grounding on its next document pass |
 | `[NO CHANGE]` | Document processed; no update warranted for this belief |
+
+Evidence-routing decisions are logged separately in `match_ledger.md` (not the changelog): which signal was matched to which belief, opened as new, filed as an observation, or deliberately not matched — each with a one-line basis.
 
 The changelog is append-only. An absent changelog entry for a document means the pipeline did not complete for that document.
 
