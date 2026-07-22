@@ -1,5 +1,7 @@
 # Institutional Intelligence: Turning Corporate Knowledge into an Operating System for Agents
 
+See also: [`BLUEPRINT.md`](./BLUEPRINT.md) for the full layered framework, and [`skills/institutional-intelligence-framework/SKILL.md`](./skills/institutional-intelligence-framework/SKILL.md) for the operational skill — the purpose-document discipline, the context-needs analysis, and the belief-writing rules that keep Layer 3/4 records precise instead of collapsing into generic summaries.
+
 ## The thesis
 
 You do not need to build an LLM to build artificial intelligence. The LLM is the reasoning engine - the CPU. It is general-purpose, increasingly commoditized, and available to your competitors on identical terms. The intelligence you can build, and the only intelligence that is defensible, is the enterprise brain around the model: the memory, judgment, definitions, source hierarchy, workflows, and beliefs that make general reasoning useful inside one specific business.
