@@ -54,7 +54,7 @@ On every later run, read the current state from these files rather than asking t
 
 ## Stage 0 — Orientation
 
-Start by asking these two questions. Ask both at once.
+Start by asking these three questions. Ask all three at once.
 
 > **Question 1:** What do you want to do?
 > - **Start from scratch** — new entity, no documents processed yet
@@ -65,6 +65,10 @@ Start by asking these two questions. Ask both at once.
 > **Question 2:** Do you have an entity foundation already built (`foundation.md`)?
 > - **Yes** → Paste it in and I will read it before we start
 > - **No** → I will build it first — it takes about 5 minutes
+>
+> **Question 3** (new setups only): In your own words, what is this actually for? And does it need to feed a workflow skill or an agent (producing CFO-ready explanations, meeting briefs, or similar on demand) from day one — or is a human reading the belief memory occasionally enough for now?
+
+**Record the answer to Question 3 before building anything — don't let it stay implicit in the conversation.** A goal like "understand how this entity explains variance" and a goal like "generate a CFO-ready variance explanation on demand" both start from the same documents, but the second one means Stage 7 (Belief Activation) and any downstream workflow skill matter from day one, not as an afterthought once the belief memory exists. Write the answer into the foundation's Known Prior Context section (`foundation.prior_context.purpose`) so a later session — or a later stage in this one — doesn't have to guess it back from the conversation history. If the goal changes materially later (a human-read memory becomes an agent-facing one), update this claim through the same visible path as any other foundation revision — don't silently start building Stage 7 output against a foundation that never said it needed to support that.
 
 Based on the answers, take one of these paths:
 
@@ -403,7 +407,7 @@ For relationship beliefs:
 ```
 ## Belief #N — [Metric A] drives [Metric B] [with/in/within lag if stated]   [NEW_BELIEF]   Status: Candidate
 
-**Statement**: [One falsifiable sentence: A drives B, with stated direction, lag, and mechanism if given]
+**Statement**: [One plain, read-aloud-testable sentence: A drives B, with stated direction, lag, and mechanism if given — no evidence counts, no framework vocabulary; see `prompts/belief-doctrine.md`, "Writing the Statement"]
 **Why it matters**: [What this relationship means for how the business generates or loses value]
 **Evolution trail**: First stated in [doc_id] — document explicitly said: "[verbatim]". Initialized as Candidate from explicit management statement. Not yet confirmed by observation across periods.
 **Normal baseline**: Not yet established — will be set once the relationship has been observed playing out in a subsequent document.
@@ -423,7 +427,7 @@ Every non-relationship belief entry:
 ```
 ## Belief #N — [The claim as a complete, falsifiable sentence]   [NEW_BELIEF]   Status: Candidate
 
-**Statement**: [One falsifiable sentence, present tense, specific to this entity]
+**Statement**: [One plain, read-aloud-testable sentence, present tense, specific to this entity — no evidence counts, no framework vocabulary]
 **Why it matters**: [Why this matters for how the business operates]
 **Evolution trail**: First seen in [doc_id] — [brief observation of what this document showed]
 **Normal baseline**: Not yet established — awaiting second comparable document.
@@ -723,7 +727,7 @@ Every belief uses this structure: five narrative fields plus a structured Proven
 ```
 ## Belief #N — [The claim as a complete, falsifiable sentence]   [ACTION_TAG]   Status: [Candidate / Provisional / Confirmed / Established]
 
-**Statement**: [One falsifiable sentence, present tense, entity-specific]
+**Statement**: [One plain, read-aloud-testable sentence, present tense, entity-specific — no evidence counts, no framework vocabulary]
 **Why it matters**: [Connection to thesis metric and business model]
 **Evolution trail**: [First-person, per-document account of how the pattern developed]
 **Normal baseline**: [What the next comparable document should show if holding]

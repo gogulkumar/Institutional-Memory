@@ -20,6 +20,12 @@ The foundation's **Source Authority** claim (`foundation.source_authority`) name
 
 **Two facts of equal authority disagreeing is not silently resolved.** If the foundation names no winner between two document types for a question type, or two documents of the *same* type disagree, that is a flagged conflict — surfaced, not silently picked — because a silent pick here is indistinguishable from a wrong pick, and nothing downstream would ever know the difference.
 
+### Ownership — the System Drafts, the Person Approves
+
+One line governs every human-in-the-loop moment in this system: **the system drafts, the person approves.** The engine can propose a foundation claim, a Foundation Review resolution, a new belief, a promoted Observation — but every point where durable memory would change carries an explicit approval step (the initial foundation interview, Foundation Review's Adopt/Hold/Defer, a flagged Source Authority tie) that defaults to a person deciding, not the engine deciding for them.
+
+This is not caution for its own sake. The system owns the mechanics — extraction, classification, routing, decay, the audit trail. A person owns the meaning — whether a claim is right, whether a conflict resolves one way or the other, whether a belief's framing reflects how the business actually works. Collapsing that split (letting the engine silently resolve what a person should have decided) is exactly the failure mode the compilation gate, the injection boundary, and Foundation Review all exist to prevent.
+
 ---
 
 ## What a Belief Is
@@ -338,7 +344,7 @@ Every belief entry must use this structure. The heading is the claim. The five n
 ```markdown
 ## Belief #N — [The claim stated as a complete, falsifiable sentence.]   [ACTION_TAG]   Status: Candidate | Provisional | Confirmed | Established | Retired
 
-**Statement**: The claim restated precisely and falsifiably, as business judgment grounded in how the business works (per the foundation). One sentence. Present tense. No hedging.
+**Statement**: The claim restated precisely and falsifiably, as business judgment grounded in how the business works (per the foundation). One plain sentence. Present tense. No hedging. No evidence counts, no framework vocabulary — see "Writing the Statement" below.
 
 **Why it matters**: How this belief connects to the foundation — why it matters for how the business operates, which thesis metric it touches, what it reveals about business behavior.
 
@@ -358,6 +364,40 @@ Every belief entry must use this structure. The heading is the claim. The five n
 ```
 
 A well-written Evolution trail and an actually-verified belief must not be allowed to look identical. The Provenance record is the difference — it is what lets an agent citing a belief, or a person auditing one, determine trustworthiness without reading every sentence of the prose.
+
+### Writing the Statement — Plain Sentence, Evidence Elsewhere
+
+A Statement field is a description of what happens in the business, not a report on how the belief system feels about it. Eight rules, checked on every Statement (and its heading — see below) before it is finalized. The first four are the core rules; the rest are failure modes that show up when the first four get overcorrected or under-applied:
+
+1. **Evidence lives in Evolution trail and Provenance, never in the Statement.** "Established across five documents," "confirmed across 6 consecutive cycles," "in every instance reviewed" — this is exactly what the Provenance record already tracks (Confirming documents, Blind passes, Contradiction searches). Writing it a second time inside the Statement doesn't add information, it duplicates the audit trail in unstructured prose and makes the Statement do two jobs at once. The Statement states the fact plainly; the Provenance record is where "how do we know" lives.
+2. **Read it out loud.** Would you say this sentence to someone across a table, or does it only sound right typed into a document? "A recurring phrase pattern that reframes flat margin as a deliberate strategic choice" fails this test — nobody talks like that. "Management says margin didn't improve because they chose to invest in growth, not because something went wrong" passes.
+3. **Ban this system's own vocabulary from the Statement text.** Words like "pattern," "belief," "observation," "framing," "convention," "signal" are fine as field names, action tags, and doctrine terms — they describe the machinery. They do not belong inside the sentence that describes the business. If a Statement needs the word "pattern" to make its point, it is describing itself instead of describing the business.
+4. **Reuse a small set of plain sentence shapes** instead of inventing new grammar per belief. A few that cover most cases:
+   - "Whenever X happens, management says Y."
+   - "Every [period], when X comes up, management does Y."
+   - "The first thing management says is X."
+   - "Even in a weak period, management says X."
+   - "When X moves, Y moves with it [lag/condition]."
+
+   Not every belief fits one of these exactly, but reaching for a known shape first — rather than building a bespoke grammatical structure for each new concept — is what keeps the belief memory readable as it grows past a handful of entries.
+
+Two more failure modes, both overcorrections of the four rules above:
+
+5. **Don't smuggle in an accusation the evidence doesn't support.** Words like "excuse," "spin," "bragged," "deflect," "defensive," "evasion" assert dishonesty or bad intent — a conclusion the record itself usually can't support. What the record actually shows is a repeated phrase or framing choice, not a proven intent to mislead. Describe the observed behavior neutrally: not *"Management used the same excuse again,"* but *"Management has explained flat B2B margin the same way for three consecutive quarters — and has not needed to say this about Consumer margin."* Neutral language isn't diplomacy for its own sake — it's what keeps the Statement falsifiable. "They made an excuse" can't be checked against a future document; "they used this phrase again" can.
+6. **Plain does not mean empty.** Rules 1–4 can be overcorrected into a Statement so scrubbed of specifics that it says nothing a reader couldn't have guessed. The test: could someone who has *not* read the source documents tell you, from the Statement alone, roughly what was actually said and when? If they'd have to open the Evolution trail to find out what the pattern even consists of, the Statement has been simplified past the point of being useful. Compare:
+   - Too generic (plain but empty): *"Whenever promotions are mentioned, management specifies that partners are paying for them, not the business's own margin."*
+   - Plain and specific: *"Partner-funded promotions have grown every quarter for a year, and management frames it as the partner's money each time, never the business's own margin."*
+
+   Plain language is about sentence *structure* — short, spoken, no jargon — not about deleting the figure, the quote, or the timeframe that makes the claim checkable.
+
+Two more, both about where the sentence's authority actually comes from:
+
+7. **Don't repeat the entity's own claim as if it were a finding.** If the Statement just restates what management said, in management's own framing, with no independent observation added, it is a transcript excerpt wearing a belief's clothing — it reads like the entity's press release, not like analysis. A belief has to add something the entity itself didn't say: that the framing recurred, that it changed under pressure, that it wasn't used somewhere it plausibly could have been. "Management says growth is durable" is their claim. "Management calls growth durable every quarter it's driven by price, but drops the word the one quarter volume drove it" is the belief — the same words, plus the pattern the entity itself never pointed out.
+8. **A number is not automatically detail.** Bolting a percentage onto a vague sentence doesn't make it specific — *"Partner-funded promotions grew 15%"* sounds concrete but tells a reader nothing about the actual mechanism or wording pattern being claimed. The real information is usually the mechanism (what moves with what, and why), the exact phrase (what words recur), or the structural position (where in the document it appears) — not a magnitude standing in for them. A number is worth including when it's part of what was actually said or observed; it's a substitute for detail when it's the only specific thing in an otherwise generic sentence.
+
+**Both the heading and the Statement follow every rule above — not just the Statement body.** The heading (`## Belief #N — [claim]`) is the first and sometimes only line a reader sees; a heading stuffed with evidence-counts or jargon while the Statement below it is clean has fixed only half the entry. Check both, every time — correcting one and leaving the other stale is exactly the kind of half-applied fix these rules exist to prevent.
+
+**This set of rules applies more strictly to a belief's Statement than to a foundation claim's prose.** A foundation claim (see `-1-generate-foundation.md`) can stay structural and general — its evidence sits one field away in the same record (the source line), and nobody reads a foundation claim expecting a mechanism. A belief's Statement is different: it is the thing an activation output actually surfaces to a reader with no other context, so it has to carry the real quote, number, or mechanism itself, not just point at where one could be found.
 
 ### Observation Entry Structure
 
