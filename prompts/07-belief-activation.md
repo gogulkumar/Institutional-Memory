@@ -160,6 +160,17 @@ For Stream 02 relationship beliefs:
 
 ## Runtime Rules
 
+**Task Readiness Check — run this before producing any output, not after.** A specific request draws on specific angles (thesis metrics, a relationship chain, a narration pattern, a forecast behavior). Before drafting the output, name which angles this request needs and classify what the memory actually holds on each:
+
+| State | What it means | What to do |
+|-------|---------------|------------|
+| **Have** | A Confirmed or Established belief, or a corroborated (`interview+corpus`/`corpus`) foundation claim, directly on point | Cite it normally |
+| **Unverified** | A Candidate/Provisional belief, an Observation, or an interview-only foundation claim — something exists but hasn't earned full trust | Cite it, hedged, exactly as its tier requires |
+| **Stale/unreviewed** | A belief marked STALE (decayed from silence), or a foundation claim flagged `[FOUNDATION_CHANGED]` and not yet re-confirmed | Flag it as untested-since, don't cite it as current |
+| **Missing entirely** | No belief, Observation, or foundation claim exists on this angle, or the document types in scope structurally cannot provide it | Say so plainly — don't paper over it with general knowledge or a plausible-sounding guess |
+
+This check is a gate, not a formality: if a request's core angle comes back Missing entirely, the honest output is naming that gap prominently — not a confident-sounding answer that quietly leans on the angles that *were* available while skipping the one that wasn't. A reader should never have to discover a blind spot themselves after trusting the output.
+
 **Draw on the whole pyramid, each labeled honestly.** The belief memory is three tiers, and activation reads all of them — but never levels them:
 - **Foundation facts** (`foundation.md`) — cited as fact ("the efficiency ratio excludes co-funding, per the foundation").
 - **Observations** (`observations.md`) — cited as *unverified patterns*, never as beliefs ("the entity conventionally reports three benchmarks in a fixed order — an observed convention, not a tested belief").

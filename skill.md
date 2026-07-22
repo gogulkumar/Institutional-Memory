@@ -615,6 +615,8 @@ Ask which use case:
 > - **Answer a question** — I have a specific question about how this business works or what a metric means
 > - **Meeting prep** — I'm about to go into a business review and want to know what to push on
 
+**Before drafting any output: run the Task Readiness Check.** Name which angles this specific request needs, and classify each against what the memory actually holds — **Have** (Confirmed/Established belief or corroborated foundation claim), **Unverified** (Candidate/Provisional belief, Observation, or interview-only claim), **Stale/unreviewed** (STALE belief or `[FOUNDATION_CHANGED]`-flagged claim not yet re-confirmed), or **Missing entirely** (nothing exists, or the document types in scope structurally can't carry it — see `prompts/07-belief-activation.md`, Runtime Rules). If a core angle comes back Missing entirely, say so prominently before drafting anything — don't produce a confident-sounding answer that quietly skips it.
+
 **Rules for every use case:** draw on all three tiers, each labeled honestly — foundation facts as facts, Observations as "unverified patterns," beliefs by Status. Cite by number and Status ("Belief #5, Established"; "Belief #9, Provisional — unverified recurrence"; "Observation #3, seen ×4"). Hedge everything below Confirmed. Flag any STALE belief as untested-since rather than citing it as current. Status is not the same as verified — a belief at Confirmed with no blind pass on record, or Established with no contradiction search, has a status ahead of its evidence; flag it. Name gaps honestly; never fill them from general knowledge.
 
 ### Use Case A — Pre-Read Briefing

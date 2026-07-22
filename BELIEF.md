@@ -606,7 +606,7 @@ Three phases. Entity foundation runs once per entity. Stream setup runs once per
 
 | Prompt | What It Does |
 |--------|-------------|
-| **Prompt 07 — Belief Activation** | Reads the current belief memory and produces a specific output for a specific use case: pre-read briefing (what to expect from the next document), analytical Q&A (answers a specific question using the belief memory), or meeting prep (what to push on, what to watch for, what can be skipped). This is how the belief memory is used, not just built. |
+| **Prompt 07 — Belief Activation** | Reads the current belief memory and produces a specific output for a specific use case: pre-read briefing (what to expect from the next document), analytical Q&A (answers a specific question using the belief memory), or meeting prep (what to push on, what to watch for, what can be skipped). This is how the belief memory is used, not just built. Runs a **Task Readiness Check** before drafting anything — classifying each angle the request needs as Have / Unverified / Stale-unreviewed / Missing entirely — so a gap surfaces before the output is written, not as an afterthought inside it. |
 
 The cascade principle: quality injected at the blueprint propagates forward without additional configuration. The belief engine at runtime receives only its compiled prompt, the existing `belief.md`, and the fact log. It never receives the foundation, the blueprint, or the raw document — everything it needs is encoded inside the compiled prompt.
 
