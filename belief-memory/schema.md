@@ -195,7 +195,7 @@ On the first document, the belief engine must initialize between 8 and 15 specif
 ### Stream 02 example — Business Dynamics, relationship belief, initialized from document one, deepened across 6 cycles
 
 ```markdown
-## Belief #5 — Spend in Q1 drives new customer volume in Q2 with a 6–8 week lag — stated explicitly by management, confirmed in 6 consecutive cycles.   [DEEPEN]   Status: Established
+## Belief #5 — Spend in Q1 drives new customer volume in Q2 with a 6–8 week lag, stated explicitly by management.   [DEEPEN]   Status: Established
 
 **Statement**: This business runs a deliberate spend-to-acquisition mechanic: when the spend ratio against the core volume metric rises in Q1 (28–34%), new customer volume follows in Q2 within 6–8 weeks — and when the ratio falls below 26%, Q2 volume underperforms by a median of 4.2 percentage points.
 

@@ -367,7 +367,7 @@ A well-written Evolution trail and an actually-verified belief must not be allow
 
 ### Writing the Statement — Plain Sentence, Evidence Elsewhere
 
-A Statement field is a description of what happens in the business, not a report on how the belief system feels about it. Four rules, checked on every Statement before it is finalized:
+A Statement field is a description of what happens in the business, not a report on how the belief system feels about it. Eight rules, checked on every Statement (and its heading — see below) before it is finalized. The first four are the core rules; the rest are failure modes that show up when the first four get overcorrected or under-applied:
 
 1. **Evidence lives in Evolution trail and Provenance, never in the Statement.** "Established across five documents," "confirmed across 6 consecutive cycles," "in every instance reviewed" — this is exactly what the Provenance record already tracks (Confirming documents, Blind passes, Contradiction searches). Writing it a second time inside the Statement doesn't add information, it duplicates the audit trail in unstructured prose and makes the Statement do two jobs at once. The Statement states the fact plainly; the Provenance record is where "how do we know" lives.
 2. **Read it out loud.** Would you say this sentence to someone across a table, or does it only sound right typed into a document? "A recurring phrase pattern that reframes flat margin as a deliberate strategic choice" fails this test — nobody talks like that. "Management says margin didn't improve because they chose to invest in growth, not because something went wrong" passes.
@@ -389,6 +389,15 @@ Two more failure modes, both overcorrections of the four rules above:
    - Plain and specific: *"Partner-funded promotions have grown every quarter for a year, and management frames it as the partner's money each time, never the business's own margin."*
 
    Plain language is about sentence *structure* — short, spoken, no jargon — not about deleting the figure, the quote, or the timeframe that makes the claim checkable.
+
+Two more, both about where the sentence's authority actually comes from:
+
+7. **Don't repeat the entity's own claim as if it were a finding.** If the Statement just restates what management said, in management's own framing, with no independent observation added, it is a transcript excerpt wearing a belief's clothing — it reads like the entity's press release, not like analysis. A belief has to add something the entity itself didn't say: that the framing recurred, that it changed under pressure, that it wasn't used somewhere it plausibly could have been. "Management says growth is durable" is their claim. "Management calls growth durable every quarter it's driven by price, but drops the word the one quarter volume drove it" is the belief — the same words, plus the pattern the entity itself never pointed out.
+8. **A number is not automatically detail.** Bolting a percentage onto a vague sentence doesn't make it specific — *"Partner-funded promotions grew 15%"* sounds concrete but tells a reader nothing about the actual mechanism or wording pattern being claimed. The real information is usually the mechanism (what moves with what, and why), the exact phrase (what words recur), or the structural position (where in the document it appears) — not a magnitude standing in for them. A number is worth including when it's part of what was actually said or observed; it's a substitute for detail when it's the only specific thing in an otherwise generic sentence.
+
+**Both the heading and the Statement follow every rule above — not just the Statement body.** The heading (`## Belief #N — [claim]`) is the first and sometimes only line a reader sees; a heading stuffed with evidence-counts or jargon while the Statement below it is clean has fixed only half the entry. Check both, every time — correcting one and leaving the other stale is exactly the kind of half-applied fix these rules exist to prevent.
+
+**This set of rules applies more strictly to a belief's Statement than to a foundation claim's prose.** A foundation claim (see `-1-generate-foundation.md`) can stay structural and general — its evidence sits one field away in the same record (the source line), and nobody reads a foundation claim expecting a mechanism. A belief's Statement is different: it is the thing an activation output actually surfaces to a reader with no other context, so it has to carry the real quote, number, or mechanism itself, not just point at where one could be found.
 
 ### Observation Entry Structure
 

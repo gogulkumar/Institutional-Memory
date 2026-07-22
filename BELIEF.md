@@ -266,7 +266,7 @@ After five or more comparable documents, a belief entry looks like this. The hea
 
 **Stream 02 example — relationship claim initialized from document one, then deepened**
 
-**## Belief #5 — Spend Concentration Against the Core Volume Metric in Q1 Drives New Customer Volume in Q2 With a 6–8 Week Lag; the Chain Has Held in 6 Consecutive Cycles**
+**## Belief #5 — Spend Concentration Against the Core Volume Metric in Q1 Drives New Customer Volume in Q2 With a 6–8 Week Lag**
 **Status:** Established | **Direction:** Stable
 
 **Statement:** When this business raises marketing spend against the core volume metric in Q1 (28–34% of it), new customer volume rises in Q2 with a 6–8 week lag — the Q1 concentration is the acquisition investment working, not a cost problem.
