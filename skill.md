@@ -54,7 +54,7 @@ On every later run, read the current state from these files rather than asking t
 
 ## Stage 0 — Orientation
 
-Start by asking these two questions. Ask both at once.
+Start by asking these three questions. Ask all three at once.
 
 > **Question 1:** What do you want to do?
 > - **Start from scratch** — new entity, no documents processed yet
@@ -65,6 +65,10 @@ Start by asking these two questions. Ask both at once.
 > **Question 2:** Do you have an entity foundation already built (`foundation.md`)?
 > - **Yes** → Paste it in and I will read it before we start
 > - **No** → I will build it first — it takes about 5 minutes
+>
+> **Question 3** (new setups only): In your own words, what is this actually for? And does it need to feed a workflow skill or an agent (producing CFO-ready explanations, meeting briefs, or similar on demand) from day one — or is a human reading the belief memory occasionally enough for now?
+
+**Record the answer to Question 3 before building anything — don't let it stay implicit in the conversation.** A goal like "understand how this entity explains variance" and a goal like "generate a CFO-ready variance explanation on demand" both start from the same documents, but the second one means Stage 7 (Belief Activation) and any downstream workflow skill matter from day one, not as an afterthought once the belief memory exists. Write the answer into the foundation's Known Prior Context section (`foundation.prior_context.purpose`) so a later session — or a later stage in this one — doesn't have to guess it back from the conversation history. If the goal changes materially later (a human-read memory becomes an agent-facing one), update this claim through the same visible path as any other foundation revision — don't silently start building Stage 7 output against a foundation that never said it needed to support that.
 
 Based on the answers, take one of these paths:
 

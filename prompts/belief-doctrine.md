@@ -20,6 +20,12 @@ The foundation's **Source Authority** claim (`foundation.source_authority`) name
 
 **Two facts of equal authority disagreeing is not silently resolved.** If the foundation names no winner between two document types for a question type, or two documents of the *same* type disagree, that is a flagged conflict — surfaced, not silently picked — because a silent pick here is indistinguishable from a wrong pick, and nothing downstream would ever know the difference.
 
+### Ownership — the System Drafts, the Person Approves
+
+One line governs every human-in-the-loop moment in this system: **the system drafts, the person approves.** The engine can propose a foundation claim, a Foundation Review resolution, a new belief, a promoted Observation — but every point where durable memory would change carries an explicit approval step (the initial foundation interview, Foundation Review's Adopt/Hold/Defer, a flagged Source Authority tie) that defaults to a person deciding, not the engine deciding for them.
+
+This is not caution for its own sake. The system owns the mechanics — extraction, classification, routing, decay, the audit trail. A person owns the meaning — whether a claim is right, whether a conflict resolves one way or the other, whether a belief's framing reflects how the business actually works. Collapsing that split (letting the engine silently resolve what a person should have decided) is exactly the failure mode the compilation gate, the injection boundary, and Foundation Review all exist to prevent.
+
 ---
 
 ## What a Belief Is
@@ -374,6 +380,15 @@ A Statement field is a description of what happens in the business, not a report
    - "When X moves, Y moves with it [lag/condition]."
 
    Not every belief fits one of these exactly, but reaching for a known shape first — rather than building a bespoke grammatical structure for each new concept — is what keeps the belief memory readable as it grows past a handful of entries.
+
+Two more failure modes, both overcorrections of the four rules above:
+
+5. **Don't smuggle in an accusation the evidence doesn't support.** Words like "excuse," "spin," "bragged," "deflect," "defensive," "evasion" assert dishonesty or bad intent — a conclusion the record itself usually can't support. What the record actually shows is a repeated phrase or framing choice, not a proven intent to mislead. Describe the observed behavior neutrally: not *"Management used the same excuse again,"* but *"Management has explained flat B2B margin the same way for three consecutive quarters — and has not needed to say this about Consumer margin."* Neutral language isn't diplomacy for its own sake — it's what keeps the Statement falsifiable. "They made an excuse" can't be checked against a future document; "they used this phrase again" can.
+6. **Plain does not mean empty.** Rules 1–4 can be overcorrected into a Statement so scrubbed of specifics that it says nothing a reader couldn't have guessed. The test: could someone who has *not* read the source documents tell you, from the Statement alone, roughly what was actually said and when? If they'd have to open the Evolution trail to find out what the pattern even consists of, the Statement has been simplified past the point of being useful. Compare:
+   - Too generic (plain but empty): *"Whenever promotions are mentioned, management specifies that partners are paying for them, not the business's own margin."*
+   - Plain and specific: *"Partner-funded promotions have grown every quarter for a year, and management frames it as the partner's money each time, never the business's own margin."*
+
+   Plain language is about sentence *structure* — short, spoken, no jargon — not about deleting the figure, the quote, or the timeframe that makes the claim checkable.
 
 ### Observation Entry Structure
 
