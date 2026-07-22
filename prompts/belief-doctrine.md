@@ -338,7 +338,7 @@ Every belief entry must use this structure. The heading is the claim. The five n
 ```markdown
 ## Belief #N — [The claim stated as a complete, falsifiable sentence.]   [ACTION_TAG]   Status: Candidate | Provisional | Confirmed | Established | Retired
 
-**Statement**: The claim restated precisely and falsifiably, as business judgment grounded in how the business works (per the foundation). One sentence. Present tense. No hedging.
+**Statement**: The claim restated precisely and falsifiably, as business judgment grounded in how the business works (per the foundation). One plain sentence. Present tense. No hedging. No evidence counts, no framework vocabulary — see "Writing the Statement" below.
 
 **Why it matters**: How this belief connects to the foundation — why it matters for how the business operates, which thesis metric it touches, what it reveals about business behavior.
 
@@ -358,6 +358,22 @@ Every belief entry must use this structure. The heading is the claim. The five n
 ```
 
 A well-written Evolution trail and an actually-verified belief must not be allowed to look identical. The Provenance record is the difference — it is what lets an agent citing a belief, or a person auditing one, determine trustworthiness without reading every sentence of the prose.
+
+### Writing the Statement — Plain Sentence, Evidence Elsewhere
+
+A Statement field is a description of what happens in the business, not a report on how the belief system feels about it. Four rules, checked on every Statement before it is finalized:
+
+1. **Evidence lives in Evolution trail and Provenance, never in the Statement.** "Established across five documents," "confirmed across 6 consecutive cycles," "in every instance reviewed" — this is exactly what the Provenance record already tracks (Confirming documents, Blind passes, Contradiction searches). Writing it a second time inside the Statement doesn't add information, it duplicates the audit trail in unstructured prose and makes the Statement do two jobs at once. The Statement states the fact plainly; the Provenance record is where "how do we know" lives.
+2. **Read it out loud.** Would you say this sentence to someone across a table, or does it only sound right typed into a document? "A recurring phrase pattern that reframes flat margin as a deliberate strategic choice" fails this test — nobody talks like that. "Management says margin didn't improve because they chose to invest in growth, not because something went wrong" passes.
+3. **Ban this system's own vocabulary from the Statement text.** Words like "pattern," "belief," "observation," "framing," "convention," "signal" are fine as field names, action tags, and doctrine terms — they describe the machinery. They do not belong inside the sentence that describes the business. If a Statement needs the word "pattern" to make its point, it is describing itself instead of describing the business.
+4. **Reuse a small set of plain sentence shapes** instead of inventing new grammar per belief. A few that cover most cases:
+   - "Whenever X happens, management says Y."
+   - "Every [period], when X comes up, management does Y."
+   - "The first thing management says is X."
+   - "Even in a weak period, management says X."
+   - "When X moves, Y moves with it [lag/condition]."
+
+   Not every belief fits one of these exactly, but reaching for a known shape first — rather than building a bespoke grammatical structure for each new concept — is what keeps the belief memory readable as it grows past a handful of entries.
 
 ### Observation Entry Structure
 

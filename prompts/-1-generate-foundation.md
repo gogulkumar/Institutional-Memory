@@ -116,6 +116,12 @@ Every atomic claim carries a stable **claim ID** — an HTML comment immediately
 
 Every claim also carries a **source line** immediately after its claim ID comment: `source: interview` | `source: corpus (doc_1, doc_2, doc_3)` | `source: interview+corpus (doc_ids)`. This is how a reader — human or agent — tells a stated assumption from an observed constant without leaving the file.
 
+**Writing claim text — plain sentence, evidence elsewhere.** The same four rules that govern a belief's Statement (see `belief-doctrine.md`, "Writing the Statement") apply to foundation claim prose:
+1. **Evidence lives in the source line, not the claim.** "This has held in every document reviewed" is what `source: corpus (doc_ids)` already records — don't restate it in the claim text itself.
+2. **Read it out loud.** A claim you wouldn't say in a sentence to a colleague needs rewriting.
+3. **Ban this system's own vocabulary from the claim text.** Words like "foundation," "claim," "thesis-defining" are field labels and doctrine terms, not words that belong inside the sentence describing the business.
+4. **Reuse plain sentence shapes** rather than inventing new grammar per claim — e.g., "This business makes money by X," "[Metric] is calculated as X, not Y," "A normal reading for [metric] is the X–Y range."
+
 ```markdown
 # [Entity Name] — Business Foundation
 

@@ -119,7 +119,7 @@ The example must follow the full belief entry structure:
 ```markdown
 ## Belief #1 — [The claim as a complete, falsifiable sentence.]   [NEW_BELIEF]   Status: Candidate
 
-**Statement**: [One falsifiable sentence, present tense, specific to this entity — grounded in the foundation]
+**Statement**: [One plain, read-aloud-testable sentence, present tense, specific to this entity, grounded in the foundation — no evidence counts, no framework vocabulary; see `prompts/belief-doctrine.md`, "Writing the Statement"]
 
 **Why it matters**: [How this connects to the foundation — which thesis metric, why it matters for how the business operates]
 

@@ -403,7 +403,7 @@ For relationship beliefs:
 ```
 ## Belief #N — [Metric A] drives [Metric B] [with/in/within lag if stated]   [NEW_BELIEF]   Status: Candidate
 
-**Statement**: [One falsifiable sentence: A drives B, with stated direction, lag, and mechanism if given]
+**Statement**: [One plain, read-aloud-testable sentence: A drives B, with stated direction, lag, and mechanism if given — no evidence counts, no framework vocabulary; see `prompts/belief-doctrine.md`, "Writing the Statement"]
 **Why it matters**: [What this relationship means for how the business generates or loses value]
 **Evolution trail**: First stated in [doc_id] — document explicitly said: "[verbatim]". Initialized as Candidate from explicit management statement. Not yet confirmed by observation across periods.
 **Normal baseline**: Not yet established — will be set once the relationship has been observed playing out in a subsequent document.
@@ -423,7 +423,7 @@ Every non-relationship belief entry:
 ```
 ## Belief #N — [The claim as a complete, falsifiable sentence]   [NEW_BELIEF]   Status: Candidate
 
-**Statement**: [One falsifiable sentence, present tense, specific to this entity]
+**Statement**: [One plain, read-aloud-testable sentence, present tense, specific to this entity — no evidence counts, no framework vocabulary]
 **Why it matters**: [Why this matters for how the business operates]
 **Evolution trail**: First seen in [doc_id] — [brief observation of what this document showed]
 **Normal baseline**: Not yet established — awaiting second comparable document.
@@ -723,7 +723,7 @@ Every belief uses this structure: five narrative fields plus a structured Proven
 ```
 ## Belief #N — [The claim as a complete, falsifiable sentence]   [ACTION_TAG]   Status: [Candidate / Provisional / Confirmed / Established]
 
-**Statement**: [One falsifiable sentence, present tense, entity-specific]
+**Statement**: [One plain, read-aloud-testable sentence, present tense, entity-specific — no evidence counts, no framework vocabulary]
 **Why it matters**: [Connection to thesis metric and business model]
 **Evolution trail**: [First-person, per-document account of how the pattern developed]
 **Normal baseline**: [What the next comparable document should show if holding]

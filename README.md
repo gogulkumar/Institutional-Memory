@@ -94,7 +94,7 @@ Custom belief streams are also supported: Marketing Efficiency Memory, Forecast 
 
 Each belief carries:
 - **Claim as heading** — `## Belief #N — [specific, falsifiable sentence]`
-- **Statement** — the claim restated precisely as business judgment grounded in the foundation
+- **Statement** — the claim restated precisely as business judgment grounded in the foundation, in one plain sentence — evidence and framework vocabulary live in Evolution trail and Provenance, not here
 - **Why it matters** — how it connects to the entity's profitability thesis
 - **Evolution trail** — first-person, per-document journey of how the pattern developed
 - **Normal baseline** — what the next comparable document should show if holding

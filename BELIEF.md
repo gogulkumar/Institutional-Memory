@@ -231,7 +231,7 @@ After five or more comparable documents, a belief entry looks like this. The hea
 **## Belief #7 — Every Variance Headline Opens With the Best-Performing Driver; the Negative Is Always the Second Clause**
 **Status:** Established | **Direction:** Stable
 
-**Statement:** Established across five documents. Every variance headline in every deck is structured positive-first without exception. Whether the overall result is a beat or a miss, the opening attribution clause names a positive driver. In beats, the leading positive is the dominant contributor. In misses or mixed results, the team still locates a positive to lead with before acknowledging the headwind. The negative driver is structurally relegated to the second clause in every instance across all five documents. This is a systematic narrative convention, not a neutral factual ordering.
+**Statement:** Every variance headline in this business's decks names a positive driver first and puts the negative driver second, whether the overall result is a beat or a miss.
 
 **Why it matters:** A reader who knows this pattern knows to find the actual commercial story in the offset clause, not the headline. A reader who doesn't know this pattern will systematically overweight the opening attribution because it leads.
 
@@ -250,7 +250,7 @@ After five or more comparable documents, a belief entry looks like this. The hea
 **## Belief #3 — Revenue Guidance Has Been Met or Exceeded in 7 of 8 Comparable Quarters; the One Miss Was Preceded by a Specific Language Shift**
 **Status:** Established | **Direction:** Stable
 
-**Statement:** This business delivers against its stated revenue guidance in 7 of 8 comparable quarters, median beat 1.4%. The single significant miss (−3.1%, Q3) was preceded in the prior-period document by a shift in forward commitment language from "we expect" to "we are targeting" — the only instance of that language shift in the record. Revenue guidance reliability is high; the language shift is a leading indicator that has now been confirmed once.
+**Statement:** This business has delivered on its stated revenue guidance in 7 of 8 comparable quarters, and the one miss was preceded by management softening its forward language from "we expect" to "we are targeting."
 
 **Why it matters:** High guidance reliability means a miss is signal, not noise. The language shift pattern, if it recurs before another miss, becomes an early warning indicator one period ahead of the result.
 
@@ -269,7 +269,7 @@ After five or more comparable documents, a belief entry looks like this. The hea
 **## Belief #5 — Spend Concentration Against the Core Volume Metric in Q1 Drives New Customer Volume in Q2 With a 6–8 Week Lag; the Chain Has Held in 6 Consecutive Cycles**
 **Status:** Established | **Direction:** Stable
 
-**Statement:** This business runs a deliberate spend-to-acquisition mechanic. Marketing spend rises against the core volume metric in Q1 (typically 28–34% range) as the business runs a concentrated acquisition push. New customer volume follows in Q2 with a 6–8 week lag from peak Q1 spend. This mechanic was first stated explicitly by management in the first document reviewed and has been confirmed across 6 consecutive Q1→Q2 cycles. Q1 spend concentration is not a problem — it is the thesis executing.
+**Statement:** When this business raises marketing spend against the core volume metric in Q1 (28–34% of it), new customer volume rises in Q2 with a 6–8 week lag — the Q1 concentration is the acquisition investment working, not a cost problem.
 
 **Why it matters:** An agent reading the Q1 spend ratio in isolation will flag it as elevated. An agent that holds this belief will correctly interpret it as the acquisition-investment phase of a mechanic that management has stated explicitly and that the delivery record has confirmed across 6 cycles. The calibration changes the entire downstream interpretation.
 

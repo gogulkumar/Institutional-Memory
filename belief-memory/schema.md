@@ -48,7 +48,7 @@ Each belief is one numbered block inside `belief.md`. The heading is the claim i
 ```markdown
 ## Belief #N — [The claim stated as a complete, falsifiable sentence.]   [ACTION_TAG]   Status: Candidate | Provisional | Confirmed | Established | Retired
 
-**Statement**: The claim restated precisely and falsifiably, as business judgment grounded in how the business works (per the foundation). One sentence. Present tense. No hedging.
+**Statement**: The claim restated precisely and falsifiably, as business judgment grounded in how the business works (per the foundation). One plain sentence, read-aloud-testable, present tense, no hedging, no evidence counts or framework vocabulary — see `prompts/belief-doctrine.md`, "Writing the Statement."
 
 **Why it matters**: How this belief connects to the foundation — why it matters for how the business operates, which thesis metric it touches, what it reveals about business behavior that is not obvious from any single document.
 
@@ -197,7 +197,7 @@ On the first document, the belief engine must initialize between 8 and 15 specif
 ```markdown
 ## Belief #5 — Spend in Q1 drives new customer volume in Q2 with a 6–8 week lag — stated explicitly by management, confirmed in 6 consecutive cycles.   [DEEPEN]   Status: Established
 
-**Statement**: This business runs a deliberate spend-to-acquisition mechanic. The spend ratio against the core volume metric rises in Q1 (typically 28–34%), which drives new customer volume in Q2 within 6–8 weeks. The chain has held in all 6 comparable cycles observed. When the spend ratio falls below 26% in Q1, Q2 new customer volume has underperformed by a median of 4.2 percentage points.
+**Statement**: This business runs a deliberate spend-to-acquisition mechanic: when the spend ratio against the core volume metric rises in Q1 (28–34%), new customer volume follows in Q2 within 6–8 weeks — and when the ratio falls below 26%, Q2 volume underperforms by a median of 4.2 percentage points.
 
 **Why it matters**: The foundation identifies spend and the core volume metric as the two primary thesis metrics. The 6–8 week lag between Q1 spend and Q2 acquisition conversion is the single most predictive mechanic in the business. Understanding where the spend ratio sits in Q1 — relative to the 28–34% normal range — is the earliest leading signal for whether Q2 volume will land on cycle or disappoint.
 

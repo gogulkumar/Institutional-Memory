@@ -125,8 +125,7 @@ than how competitors report the same ratio.
 [Status: Established]
 
 Statement: The spend figure in the primary efficiency ratio excludes
-partner co-funding contributions. This has been consistent across
-every document reviewed. The ratio is therefore not directly
+partner co-funding contributions, so the ratio is not directly
 comparable to any external benchmark that uses gross spend in
 the numerator.
 
@@ -368,10 +367,8 @@ primary volume metric.
 Statement: When paid-channel demand grows faster than completed
 volume — meaning the demand-to-completion conversion ratio falls
 below 0.88 — the primary volume metric misses its forecast target
-in the following period in every instance reviewed. The conversion
-ratio is a leading indicator of volume performance with a 4-6
-week lag. The document does not feature this ratio in the main
-narrative.
+4–6 weeks later, and the document never features this ratio in
+the main narrative.
 
 Why it matters: By the time a volume miss appears in the variance
 bridge, the conversion problem already happened four to six weeks
@@ -486,12 +483,10 @@ external factor first, always — and the real operational driver
 appears third or not at all.
 [Status: Established]
 
-Statement: In every miss period reviewed, the variance bridge
-leads with an external or macro factor, names channel mix second,
-and either buries operational drivers third or omits them entirely.
-This sequencing is not accidental. It reflects a consistent
-communication strategy that frames performance shortfalls as
-primarily external and largely uncontrollable.
+Statement: In a miss period, the variance bridge leads with an
+external or macro factor, names channel mix second, and buries
+or omits operational drivers third — management frames the
+shortfall as external, not something it caused.
 
 Why it matters: The sequencing tells you where the team wants
 attention to land. External factors cannot be questioned — they
@@ -618,15 +613,11 @@ under pressure — and when it finally gets cut, something
 fundamental has changed in how leadership views the business.
 [Status: Established]
 
-Statement: In every pressure period reviewed across multiple
-periods, overhead was reduced and hiring was deferred before any
-demand investment was considered. Demand spend was never cut. The
-implicit organizational rule is that demand investment is the
-revenue engine and everything else is the buffer. This means
-the first demand-spend cut — when it eventually happens — is not
-a cost management decision. It is a thesis decision. It means
-leadership no longer believes demand investment is buying
-profitable results at the current rate of return.
+Statement: Under pressure, this business cuts overhead and defers
+hiring before it ever touches demand spend — so the first time
+demand spend gets cut, it will mean leadership no longer believes
+that spend is buying profitable growth, not that they are simply
+managing costs.
 
 Why it matters: When you see overhead cut and hiring frozen, it
 means performance is under pressure but the thesis is intact —
@@ -755,12 +746,10 @@ you find the number.
 [Status: Established]
 
 Statement: When the team opens the document on the efficiency
-ratio, the primary volume metric is within 2% of plan. When they
-open on cost discipline or margin, the primary volume metric has
-missed plan by more than 4%. The opening section choice is a
-leading indicator of the volume result that appears later in the
-document. The team consciously leads with its strongest story —
-and the choice of strongest story is itself the signal.
+ratio, the primary volume metric is within 2% of plan; when they
+open on cost discipline or margin instead, volume has missed plan
+by more than 4% — the opening section is where the team's real
+read on the quarter shows up first.
 
 Why it matters: You do not need to find the volume section to
 know whether the period was good or bad. Open the document. Look
@@ -884,14 +873,10 @@ late-year forecast is always conservative — and the revisions are
 not corrections, they are scheduled.
 [Status: Established]
 
-Statement: The early-year FC has been set above eventual actuals
-in every comparable period reviewed. The late-year FC has been set
-below eventual actuals in every comparable period reviewed. The
-bias is directionally consistent and magnitude-consistent across
-years. This is not random forecasting error — it is a systematic
-pattern suggesting the planning process deliberately or
-structurally produces optimistic early-year and conservative
-late-year assumptions regardless of how the year starts.
+Statement: This business sets its early-year forecast above what
+actuals eventually land at, and its late-year forecast below —
+a consistent bias, not random error, that the planning process
+produces regardless of how the year starts.
 
 Why it matters: When early-year actuals miss FC, that is not
 underperformance. That is the expected bias materializing on
