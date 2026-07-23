@@ -104,6 +104,7 @@ Long and append-friendly, deliberately kept separate from the compact Layer 3 re
 {
   "belief_stream": "Marketing Efficiency Belief Stream",
   "current_belief": "Marketing leverage is valuable only when bookings, conversion, and demand remain healthy.",
+  "source_concepts": ["marketing_efficiency", "demand_health", "operating_leverage"],
   "supporting_evidence": ["q1_2026_mbr", "q2_2026_mbr", "q2_2026_cfo_commentary"],
   "contradicting_evidence": ["q3_2026_forecast_review_flagged_demand_softness"],
   "confidence": "medium-high",
@@ -113,6 +114,8 @@ Long and append-friendly, deliberately kept separate from the compact Layer 3 re
 ```
 
 `current_belief` (or `Statement`) is the field that most needs real quotes, numbers, and mechanism inline — see the Writing rule in SKILL.md; this field gets read directly, not one hop away from its evidence like a Layer 3 `definition` is.
+
+`source_concepts` is the list of `concept_id`s actually weighed against each other to reach this belief — never just the one concept the belief sounds like it's restating. Here, `marketing_efficiency` alone would only give you "spend intensity is declining" (a restatement, not a belief); it's checked against `demand_health` (does bookings growth still hold?) and `operating_leverage` (is the margin gain structural or just spend timing?) before the belief is allowed to state a view. If `source_concepts` has one entry, treat the record as a candidate, not an active belief — see the synthesis rule in SKILL.md, Layer 4.
 
 Typical streams: Business Performance, Forecast Reliability, Leadership Narrative, Metric Definition, Source Trust, Variance Explanation, Investor Relations, Risk.
 
@@ -177,15 +180,16 @@ A human domain expert approved this and added the caveat reflected in `negative_
 
 **6. Evidence ledger** — stores the full supporting and cautionary statement list (see the Evidence Ledger template above), so the compact record in step 5 doesn't have to carry it.
 
-**7. Belief stream**
+**7. Belief stream — synthesized, not translated.** `b2b_growth_quality` alone would only give "B2B growth looks broad-based this quarter" — a reworded concept, not a belief. Before writing the belief, it's checked against a second, already-approved concept in the store, `forecast_reliability_b2b` ("B2B has beaten its own forecast in 3 of the last 4 quarters, so a raise driven by B2B carries less miss-risk than one driven by a segment with a choppier forecast record"). The two concepts reinforce each other here — breadth of demand *and* a track record of hitting forecast — so the belief can state a confident view; if the forecast-reliability concept had instead shown B2B routinely missing its own guide, the two concepts would cut against each other and confidence would have to drop even with broad-based demand.
 ```json
 {
   "belief_stream": "Business Performance Belief Stream",
-  "current_belief": "B2B is currently treated as a durable strategic growth engine — Q1 MBR, Q2 MBR, and the Q2 earnings transcript all tie 18% YoY B2B growth to partner demand, not a one-time event.",
+  "current_belief": "B2B is currently treated as a durable strategic growth engine — Q1 MBR, Q2 MBR, and the Q2 earnings transcript all tie 18% YoY B2B growth to partner demand, not a one-time event, and B2B has beaten its own forecast in 3 of the last 4 quarters, so this isn't just breadth without a track record.",
+  "source_concepts": ["b2b_growth_quality", "forecast_reliability_b2b"],
   "supporting_evidence": ["q1_2026_mbr", "q2_2026_mbr", "q2_2026_earnings_transcript"],
   "contradicting_evidence": ["q4_2025_forecast_review_one_time_partner_onboarding"],
   "confidence": "high",
-  "watch_item": "If the next forecast review shows B2B growth concentrated in two partners rather than broad-based, drop confidence and flag for re-review.",
+  "watch_item": "If the next forecast review shows B2B growth concentrated in two partners rather than broad-based, or a forecast miss breaks the reliability track record, drop confidence and flag for re-review.",
   "last_updated": "2026-07-03"
 }
 ```
@@ -203,10 +207,11 @@ A human domain expert approved this and added the caveat reflected in `negative_
 | Document-level context | Local meaning inside one document only; not durable on its own. |
 | Business context | Approved, reusable interpretation of what a business concept means, backed by evidence from multiple independent artifacts. |
 | Evidence ledger | The long, append-friendly proof trail behind a business context record or belief. |
-| Belief stream | The current, evolving durable interpretation of how part of the business works, tracked against new evidence over time. |
+| Belief stream | The current, evolving durable interpretation of how part of the business works, synthesized from multiple business-context concepts weighed against each other — not one concept reworded. |
 | Workflow skill | A repeatable procedure that consults facts, context, and beliefs to produce a business output. |
 | Agent reasoning | The orchestration layer that decides which source, skill, and belief to use for a given request. |
 | Feedback loop | The mechanism that routes new documents, corrections, and edits to the layer they should update. |
 | Source authority | The rule defining which source is trusted for a given question type (actuals, forecast, narrative, definition). |
 | `agent_reuse` | The field on a business context record stating concretely what an agent should do with it — not just what it means. |
+| `source_concepts` | The field on a belief record listing every `concept_id` actually weighed together to reach that belief. One entry means the record is a candidate, not yet an earned belief. |
 | Concept-type taxonomy | The set of category names business context gets grouped under; discovered from the concepts actually extracted, not assigned in advance. |
