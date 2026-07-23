@@ -96,28 +96,37 @@ Extract whatever a later Layer 3 claim will need to cite exactly — an exact ph
 }
 ```
 
-Long and append-friendly, deliberately kept separate from the compact Layer 3 record so agent retrieval at runtime doesn't bloat.
+Long and append-friendly, deliberately kept separate from the compact Layer 3 record so agent retrieval at runtime doesn't bloat. A belief (Layer 4) doesn't carry its own supporting/contradicting evidence fields — it reaches evidence indirectly, through the evidence ledger entries of each concept named in its `source_concepts`. Don't duplicate that evidence onto the belief record.
 
-## Layer 4: Belief Stream
+## Layer 4: Belief
 
 ```json
 {
-  "belief_stream": "Marketing Efficiency Belief Stream",
-  "current_belief": "Marketing leverage is valuable only when bookings, conversion, and demand remain healthy.",
-  "source_concepts": ["marketing_efficiency", "demand_health", "operating_leverage"],
-  "supporting_evidence": ["q1_2026_mbr", "q2_2026_mbr", "q2_2026_cfo_commentary"],
-  "contradicting_evidence": ["q3_2026_forecast_review_flagged_demand_softness"],
+  "belief_id": "marketing_leverage_conditional_on_demand",
+  "claim": "Marketing spend fell as a share of revenue in the same quarter operating leverage improved and bookings held — treat this margin gain as durable, but re-open the belief the moment bookings growth decelerates.",
+  "explanation": "Declining spend intensity alone would only say the company is spending less; it says nothing about whether that's healthy or just a margin trade against future demand. Operating leverage improving on the same base means the gain isn't purely a spend cut showing up as margin — some of it reflects fixed-cost absorption, which doesn't reverse the way a spend cut would if bookings later disappoint. The two together are what let this be called a durable gain instead of a one-quarter trade-off.",
+  "source_concepts": ["marketing_efficiency", "operating_leverage"],
   "confidence": "medium-high",
-  "watch_item": "Monitor whether bookings growth remains healthy after marketing spend reductions.",
-  "last_updated": "2026-07-03"
+  "serves_task": "cfo_variance_narrative",
+  "owner": "FP&A Team",
+  "status": "active"
 }
 ```
 
-`current_belief` (or `Statement`) is the field that most needs real quotes, numbers, and mechanism inline — see the Writing rule in SKILL.md; this field gets read directly, not one hop away from its evidence like a Layer 3 `definition` is.
+| Field | Purpose |
+|---|---|
+| `belief_id` | Stable identifier for the belief record. |
+| `claim` | One direct sentence naming the pattern *and* the action a downstream task must take from it — no separate "what this means" appendix. This is the field the Writing rule is about; see SKILL.md. |
+| `explanation` | The reasoning the claim rests on, in the writer's own analysis. Must **not** narrate the extraction process ("concept A says X, concept B says Y") — that's process narration, not explanation. Explain why the combination matters, not which concepts were consulted. |
+| `source_concepts` | ≥2 `concept_id`s actually combined to produce this claim — a one-line traceability pointer, never woven into `explanation`'s prose. Fewer than 2 entries means the record is a candidate, not an active belief. |
+| `confidence` | How strongly the system should rely on this claim. |
+| `serves_task` | The downstream task (from Step 0.5) this belief exists to support. A belief with no named task isn't earning its keep. |
+| `owner` | Human or team accountable for the belief. |
+| `status` | e.g. active, weakening, retired. |
 
-`source_concepts` is the list of `concept_id`s actually weighed against each other to reach this belief — never just the one concept the belief sounds like it's restating. Here, `marketing_efficiency` alone would only give you "spend intensity is declining" (a restatement, not a belief); it's checked against `demand_health` (does bookings growth still hold?) and `operating_leverage` (is the margin gain structural or just spend timing?) before the belief is allowed to state a view. If `source_concepts` has one entry, treat the record as a candidate, not an active belief — see the synthesis rule in SKILL.md, Layer 4.
+**Hard rule:** a belief must combine at least 2 concepts and produce a conclusion that none of them makes alone. In the example above, `marketing_efficiency` alone would only give "spend intensity is declining" (a restatement, not a belief); it's checked against `operating_leverage` (is the margin gain structural or just spend timing?) before the belief is allowed to state a view. A concept that doesn't combine with anything stays a concept — it does not get promoted into a belief just because it's true and evidenced.
 
-Typical streams: Business Performance, Forecast Reliability, Leadership Narrative, Metric Definition, Source Trust, Variance Explanation, Investor Relations, Risk.
+Derive belief categories from the downstream tasks a memory actually serves (Step 0.5), not from a fixed checklist. Typical categories seen in practice — Business Performance, Forecast Reliability, Leadership Narrative, Metric Definition, Source Trust, Variance Explanation, Investor Relations, Risk — are illustration, not a template to fill in.
 
 ## Source Authority Rule
 
@@ -180,23 +189,24 @@ A human domain expert approved this and added the caveat reflected in `negative_
 
 **6. Evidence ledger** — stores the full supporting and cautionary statement list (see the Evidence Ledger template above), so the compact record in step 5 doesn't have to carry it.
 
-**7. Belief stream — synthesized, not translated.** `b2b_growth_quality` alone would only give "B2B growth looks broad-based this quarter" — a reworded concept, not a belief. Before writing the belief, it's checked against a second, already-approved concept in the store, `forecast_reliability_b2b` ("B2B has beaten its own forecast in 3 of the last 4 quarters, so a raise driven by B2B carries less miss-risk than one driven by a segment with a choppier forecast record"). The two concepts reinforce each other here — breadth of demand *and* a track record of hitting forecast — so the belief can state a confident view; if the forecast-reliability concept had instead shown B2B routinely missing its own guide, the two concepts would cut against each other and confidence would have to drop even with broad-based demand.
+**7. Belief — synthesized, not translated.** `b2b_growth_quality` alone would only give "B2B growth looks broad-based this quarter" — a reworded concept, not a belief. Before writing the belief, it's checked against a second, already-approved concept in the store, `forecast_reliability_b2b` ("B2B has beaten its own forecast in 3 of the last 4 quarters"). The two concepts reinforce each other here — breadth of demand *and* a track record of hitting forecast — so the belief can state a confident view; if the forecast-reliability concept had instead shown B2B routinely missing its own guide, the two concepts would cut against each other and confidence would have to drop even with broad-based demand.
 ```json
 {
-  "belief_stream": "Business Performance Belief Stream",
-  "current_belief": "B2B is currently treated as a durable strategic growth engine — Q1 MBR, Q2 MBR, and the Q2 earnings transcript all tie 18% YoY B2B growth to partner demand, not a one-time event, and B2B has beaten its own forecast in 3 of the last 4 quarters, so this isn't just breadth without a track record.",
+  "belief_id": "b2b_growth_durability_and_reliability",
+  "claim": "B2B growth this window is broad-based and has a forecast-beat track record (3 of the last 4 quarters) — treat B2B upside as a higher-confidence driver in the next forecast raise than a segment without that track record, and re-check the moment growth concentrates in fewer than 3 partners.",
+  "explanation": "Breadth alone would only support calling this quarter's growth non-one-time; it says nothing about how much weight to put on B2B in a forward-looking forecast. A forecast-beat track record alone would only say B2B's own guidance has been dependable; it says nothing about whether the underlying demand is broad or fragile. A segment that is both broad-based and has consistently hit its own forecast is the specific combination that justifies leaning on it for a raise — either signal alone would leave real uncertainty a forecast owner would have to guess past.",
   "source_concepts": ["b2b_growth_quality", "forecast_reliability_b2b"],
-  "supporting_evidence": ["q1_2026_mbr", "q2_2026_mbr", "q2_2026_earnings_transcript"],
-  "contradicting_evidence": ["q4_2025_forecast_review_one_time_partner_onboarding"],
   "confidence": "high",
-  "watch_item": "If the next forecast review shows B2B growth concentrated in two partners rather than broad-based, or a forecast miss breaks the reliability track record, drop confidence and flag for re-review.",
-  "last_updated": "2026-07-03"
+  "serves_task": "revenue_variance_and_forecast_narrative",
+  "owner": "FP&A Team",
+  "status": "active"
 }
 ```
+Note what `explanation` does *not* do: it never writes "`b2b_growth_quality` says X, `forecast_reliability_b2b` says Y" — that would be process narration. It argues the reasoning directly; `source_concepts` alone carries the traceability.
 
 **8. Workflow skill usage** — a revenue-variance-explanation skill loads this concept and belief when B2B appears as a driver, and writes: "Revenue growth was supported by B2B acceleration, which should be framed as a higher-quality driver only if it reflects broad-based partner demand and repeatable volume — verify it wasn't driven by one-time onboarding," instead of the weak "Revenue grew because B2B increased."
 
-**9. Feedback update** — if a new Q4 forecast review shows B2B concentrated in two partners, the belief stream's `current_belief` is updated (not overwritten) to note the narrowing, and `confidence` drops from high to medium — the belief itself isn't discarded on one data point.
+**9. Feedback update** — if a new Q4 forecast review shows B2B concentrated in two partners, the belief's `claim` and `explanation` are updated (not overwritten) to note the narrowing, and `confidence` drops from high to medium — the belief itself isn't discarded on one data point, and `status` only moves to `weakening` if the pattern repeats.
 
 ## Glossary
 
@@ -207,11 +217,14 @@ A human domain expert approved this and added the caveat reflected in `negative_
 | Document-level context | Local meaning inside one document only; not durable on its own. |
 | Business context | Approved, reusable interpretation of what a business concept means, backed by evidence from multiple independent artifacts. |
 | Evidence ledger | The long, append-friendly proof trail behind a business context record or belief. |
-| Belief stream | The current, evolving durable interpretation of how part of the business works, synthesized from multiple business-context concepts weighed against each other — not one concept reworded. |
+| Belief | A durable interpretation of how part of the business works, built by combining ≥2 business-context concepts into a conclusion none of them makes alone — never one concept reworded. |
 | Workflow skill | A repeatable procedure that consults facts, context, and beliefs to produce a business output. |
 | Agent reasoning | The orchestration layer that decides which source, skill, and belief to use for a given request. |
 | Feedback loop | The mechanism that routes new documents, corrections, and edits to the layer they should update. |
 | Source authority | The rule defining which source is trusted for a given question type (actuals, forecast, narrative, definition). |
 | `agent_reuse` | The field on a business context record stating concretely what an agent should do with it — not just what it means. |
-| `source_concepts` | The field on a belief record listing every `concept_id` actually weighed together to reach that belief. One entry means the record is a candidate, not yet an earned belief. |
+| `source_concepts` | The field on a belief record listing every `concept_id` actually weighed together to reach that belief. Fewer than 2 entries means the record is a candidate, not yet an earned belief. |
+| `claim` | The one-sentence field on a belief record naming the pattern and the action a downstream task must take from it — the field the Writing rule is strictest about. |
+| `explanation` | The reasoning field on a belief record. Must argue the case directly; must never narrate which concepts were consulted ("concept A says X, concept B says Y") — that belongs in `source_concepts`, not prose. |
+| `serves_task` | The field on a belief record naming which downstream task (from Step 0.5) the belief exists to support. |
 | Concept-type taxonomy | The set of category names business context gets grouped under; discovered from the concepts actually extracted, not assigned in advance. |
