@@ -127,3 +127,86 @@ Typical streams: Business Performance, Forecast Reliability, Leadership Narrativ
 ```
 
 One record per question type. Don't invent these unilaterally — they should trace back to official documentation or data-owner sign-off.
+
+## Worked end-to-end example: B2B Growth
+
+Traces one concept through every layer, showing what each layer adds that the previous one didn't have.
+
+**1. Raw artifact** — Q2 2026 business review deck, stored with metadata (`artifact_id: q2_2026_business_review_deck`, `version: Final`).
+
+**2. Extracted facts**
+```json
+{
+  "artifact_id": "q2_2026_business_review_deck",
+  "facts": [
+    {"type": "metric", "metric": "B2B Revenue", "value": "+18%", "comparison": "YoY", "period": "Q2 2026"},
+    {"type": "driver", "statement": "B2B acceleration supported revenue growth"},
+    {"type": "driver", "statement": "Partner demand improved"}
+  ]
+}
+```
+This is only what the document says — no interpretation yet.
+
+**3. Document-level context (candidate, not durable)** — "In this Q2 deck, B2B growth is presented as a positive revenue driver connected to partner demand." One document; local meaning only.
+
+**4. Cross-document pattern** — Q1 MBR, Q2 MBR, Q2 earnings transcript, Q3 forecast review, and a Q3 analyst report independently repeat the same interpretation: B2B growth reflects partner demand and is framed as strategic. Independent recurrence across artifact types is what justifies moving past document-level context.
+
+**5. Approved business context**
+```json
+{
+  "concept_id": "b2b_growth_quality",
+  "concept_name": "B2B Growth Quality",
+  "concept_type": "Business Driver",
+  "definition": "Whether B2B revenue growth reflects broad-based, repeatable demand rather than a one-time or concentrated event.",
+  "business_interpretation": "B2B growth is treated as strategic and higher-quality when it reflects broad-based partner demand, scalable distribution, and repeatable transaction volume.",
+  "positive_signal": "Growth is broad-based across partners, regions, and recurring transactions.",
+  "negative_signal": "Growth is concentrated in one partner, driven by one-time onboarding, or helped by easy prior-year comparisons.",
+  "related_metrics": ["B2B Revenue", "Partner count", "Transaction volume"],
+  "related_concepts": ["Revenue growth", "Forecast variance"],
+  "supporting_evidence": ["q1_2026_mbr", "q2_2026_mbr", "q2_2026_earnings_transcript", "q3_2026_forecast_review", "q3_2026_analyst_report"],
+  "contradicting_evidence": ["q4_2025_forecast_review_one_time_partner_onboarding"],
+  "confidence": "high",
+  "scope": "Finance performance analysis",
+  "owner": "FP&A Team",
+  "last_reviewed": "2026-07-03",
+  "review_trigger": "Review after each MBR, QBR, or forecast review that discusses B2B",
+  "agent_reuse": "When explaining B2B revenue variance, check partner concentration and onboarding timing before calling growth structural; cite this concept and its negative_signal explicitly if either is unclear."
+}
+```
+A human domain expert approved this and added the caveat reflected in `negative_signal`.
+
+**6. Evidence ledger** — stores the full supporting and cautionary statement list (see the Evidence Ledger template above), so the compact record in step 5 doesn't have to carry it.
+
+**7. Belief stream**
+```json
+{
+  "belief_stream": "Business Performance Belief Stream",
+  "current_belief": "B2B is currently treated as a durable strategic growth engine — Q1 MBR, Q2 MBR, and the Q2 earnings transcript all tie 18% YoY B2B growth to partner demand, not a one-time event.",
+  "supporting_evidence": ["q1_2026_mbr", "q2_2026_mbr", "q2_2026_earnings_transcript"],
+  "contradicting_evidence": ["q4_2025_forecast_review_one_time_partner_onboarding"],
+  "confidence": "high",
+  "watch_item": "If the next forecast review shows B2B growth concentrated in two partners rather than broad-based, drop confidence and flag for re-review.",
+  "last_updated": "2026-07-03"
+}
+```
+
+**8. Workflow skill usage** — a revenue-variance-explanation skill loads this concept and belief when B2B appears as a driver, and writes: "Revenue growth was supported by B2B acceleration, which should be framed as a higher-quality driver only if it reflects broad-based partner demand and repeatable volume — verify it wasn't driven by one-time onboarding," instead of the weak "Revenue grew because B2B increased."
+
+**9. Feedback update** — if a new Q4 forecast review shows B2B concentrated in two partners, the belief stream's `current_belief` is updated (not overwritten) to note the narrowing, and `confidence` drops from high to medium — the belief itself isn't discarded on one data point.
+
+## Glossary
+
+| Term | Meaning |
+|---|---|
+| Raw artifact | The original corporate document or message, stored with metadata. |
+| Extracted fact | A structured number, claim, driver, risk, definition, or exact quote pulled from one artifact — no interpretation. |
+| Document-level context | Local meaning inside one document only; not durable on its own. |
+| Business context | Approved, reusable interpretation of what a business concept means, backed by evidence from multiple independent artifacts. |
+| Evidence ledger | The long, append-friendly proof trail behind a business context record or belief. |
+| Belief stream | The current, evolving durable interpretation of how part of the business works, tracked against new evidence over time. |
+| Workflow skill | A repeatable procedure that consults facts, context, and beliefs to produce a business output. |
+| Agent reasoning | The orchestration layer that decides which source, skill, and belief to use for a given request. |
+| Feedback loop | The mechanism that routes new documents, corrections, and edits to the layer they should update. |
+| Source authority | The rule defining which source is trusted for a given question type (actuals, forecast, narrative, definition). |
+| `agent_reuse` | The field on a business context record stating concretely what an agent should do with it — not just what it means. |
+| Concept-type taxonomy | The set of category names business context gets grouped under; discovered from the concepts actually extracted, not assigned in advance. |
