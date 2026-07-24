@@ -19,7 +19,7 @@ The answer is not simply "upload documents into RAG." That only gives you search
 | Raw Artifacts | Store the original documents. | Decks, transcripts, Excel files, emails, notes. |
 | Extracted Facts | Pull out numbers, claims, dates, owners, definitions, and commentary. | Revenue grew 6%, B2B accelerated, margin expanded. |
 | Business Concepts / Business Context | Connect facts to internal business meaning. | B2B growth means partner demand strength. |
-| Belief Streams | Maintain durable interpretations that evolve over time. | Marketing leverage is good only if growth remains healthy. |
+| Belief Streams | Combine two or more approved concepts into a durable judgment none of them makes alone. | Flat B2B margin is deliberate reinvestment and Consumer margin is expanding on spend leverage, so a margin beat should be told as a Consumer story, not a B2B one. |
 | Workflow Skills | Execute repeatable tasks using facts, context, and beliefs. | Generate variance summary or deck section. |
 | Agent Reasoning | Decide which skill, source, belief, and explanation to use. | Prepare CFO-ready narrative from multiple sources. |
 | Feedback Loop | Update facts, concepts, beliefs, and source rules when new documents or corrections arrive. | New quarter confirms, weakens, or changes prior belief. |
@@ -33,6 +33,16 @@ Documents -> Facts -> Meaning -> Judgment -> Work -> Learning
 Think of the system like a very experienced finance or business person. An experienced person does not just remember files. They know which file is official, which number is final, which explanation is weak, what leadership usually means, what a variance usually signals, and when a metric movement is actually important.
 
 This AI framework is trying to recreate that kind of institutional intelligence.
+
+## Before any layer: write the purpose, then check the context needs
+
+Two steps come before the seven layers, and skipping them is the most common way this framework produces a tidy-looking memory that turns out useless for the job it was built for.
+
+**Step 0 — write the purpose first.** Before extracting a single fact, write down the actual goal in the user's own words, what each layer needs to accomplish *for that goal*, and which layers matter most. "Understand narrative patterns," "generate leadership talking points," and "reproduce a report" are different goals that demand a different shape for every layer below. If the goal later changes, rewrite the purpose first, then reassess what still fits — do not patch definitions in place while the goal statement is stale.
+
+**Step 0.5 — do a context-needs analysis.** Knowing the topics is not the same as knowing the *kinds* of context a task needs. List the concrete downstream tasks, and for each, ask what angle of context it actually requires — who said it, how a number was framed, the causal link claimed between a metric and its driver, what was asked but never answered, whether the claim is even true. Then build a small table of task × required angle × status (have / missing / unverified), and only build the angles a real task is missing. "Unverified" is its own status, distinct from "have."
+
+The operational detail for both steps — and the writing discipline for concepts and beliefs — lives in the companion skill at `skills/institutional-intelligence-framework/SKILL.md`. The layers below are the *what*; the skill is the *how*.
 
 ## 1. Raw Artifacts Layer
 
@@ -199,9 +209,13 @@ The output is a reusable business concept record.
   ],
   "confidence": "medium-high",
   "scope": "Finance performance analysis",
-  "review_trigger": "Review after each MBR, QBR, forecast miss, or major marketing strategy change"
+  "review_trigger": "Review after each MBR, QBR, forecast miss, or major marketing strategy change",
+  "agent_reuse": "Load when generating a variance explanation or CFO narrative that touches marketing spend or margin; treat a margin gain skeptically until demand health is confirmed.",
+  "example": "In ⟨period⟩, marketing spend fell from ⟨X%⟩ to ⟨Y%⟩ of revenue while bookings ⟨direction⟩ and conversion ⟨direction⟩, and the commentary credited ⟨verbatim driver line⟩ rather than a demand pullback. (Placeholders; fill from a real artifact.)"
 }
 ```
+
+Two of these fields do heavy lifting and are easy to skip. `agent_reuse` states concretely what an agent should *do* with the record — watch for it, use it as a template, treat it skeptically — not just what it means; a concept with no clear `agent_reuse` is not pulling its weight. `example` is one fully worked-out instance from the actual source material, detailed enough to understand the concept from that field alone — distinct from `evidence`, which only cites where the proof lives.
 
 This is not a document summary. This is reusable business meaning.
 
@@ -300,51 +314,45 @@ This layer unifies the evidence around one concept. Instead of scattered proof a
 
 ## 5. Belief Streams Layer
 
-The belief stream layer maintains durable interpretations that evolve over time.
+The belief stream layer holds the company's durable judgments, and it is where the framework most often goes wrong if you are not careful.
 
-This is different from business context.
+The tempting mistake is to treat a belief as a business-context concept written in a more confident voice. It is not. A concept documents one pattern with its own evidence. A belief only earns its place by **combining two or more approved concepts and stating a conclusion none of them makes on its own** — the kind of insight that only becomes visible once the concepts are read together, not one at a time. If a candidate belief just repeats one concept's definition in longer or more assured language, it is not a belief yet. Either find what that concept produces when weighed against another one, or leave it as a concept.
 
-Business context explains what a concept means. A belief stream tracks what the company currently believes about that concept based on evidence over time.
+An example makes the difference concrete. Suppose the business-context layer already holds two approved concepts:
 
-For example, business context may say:
+- **B2B margin discipline** — every quarter B2B margin stays flat-to-down, management attributes it to deliberate reinvestment, and the wording changes but the reasoning does not.
+- **Consumer margin leverage** — Consumer margin expands each quarter, and management credits spend leverage and scale.
 
-> Marketing efficiency is positive when growth remains healthy.
+Neither concept, alone, tells you how to explain a company-wide margin beat. Read together, they do: the beat is a Consumer story, not a B2B one, and any narrative that credits B2B scale for the margin improvement is mislabeling where it came from. That synthesized conclusion is the belief.
 
-A belief stream may say:
+Three rules keep beliefs honest:
 
-> Recent quarters suggest that marketing leverage has supported margin expansion, but the belief should be treated cautiously because there are early signs that lower spend may pressure demand in some regions.
-
-The belief stream is more dynamic. It changes when new documents arrive.
+- **Goal-derived, not a fixed taxonomy.** Do not start from a generic checklist of belief "categories" and slot findings into it. Start from the actual downstream task the belief has to serve — generating a variance narrative, evaluating a draft, benchmarking against a peer — and let the categories fall out of that. If a task has no belief serving it and the documents genuinely cannot produce one, name that as an explicit gap rather than leaving it silently empty or forcing a thin concept to fill it.
+- **The claim states its own action.** A belief's headline sentence should name the pattern *and* say what a downstream task must do because of it — reproduce it, avoid it, treat it as a signal, never fabricate it. Do not split "here is the pattern" and "here is what to do about it" into two places.
+- **The explanation is self-contained.** The reasoning under the claim should read as a direct case built from real quotes, numbers, and quarters — not as a narration of the pipeline ("concept A says X, concept B says Y, so Z"). A short `source_concepts` pointer preserves traceability back to the concepts; it stays a one-line list, never woven into the prose.
 
 | Input | Output |
 | --- | --- |
-| Approved business context, new evidence, prior beliefs, contradictions, human feedback | Updated belief statement, confidence, caveats, watch items |
+| Two or more approved concepts, their evidence, the downstream task, prior beliefs, human review | A durable belief: an action-stating claim, a self-contained explanation, the concepts it was built from, confidence, and status |
 
-Example belief stream record:
+Example belief record:
 
 ```json
 {
-  "belief_stream": "Marketing Efficiency Belief Stream",
-  "current_belief": "Marketing leverage is valuable only when bookings, conversion, and demand remain healthy.",
-  "supporting_evidence": [
-    "q1_2026_mbr",
-    "q2_2026_mbr",
-    "q2_2026_cfo_commentary"
-  ],
-  "contradicting_evidence": [
-    "q3_2026_forecast_review_flagged_demand_softness"
-  ],
-  "confidence": "medium-high",
-  "watch_item": "Monitor whether bookings growth remains healthy after marketing spend reductions.",
-  "last_updated": "2026-07-03"
+  "belief_id": "margin_beat_is_a_consumer_story",
+  "claim": "When a company-wide margin beat appears, attribute it to Consumer spend leverage, not B2B scale — B2B margin has been flat-to-down every quarter by deliberate reinvestment, while Consumer margin expanded in each of the same periods.",
+  "explanation": "B2B margin has not improved in any quarter of the window, and management has explained the flatness the same way each time as a chosen reinvestment, not a shortfall. Consumer margin expanded in every one of those same quarters on spend leverage. So a consolidated margin improvement is coming from Consumer; a narrative that credits B2B for it is mislabeling the source, and would break the first quarter B2B is asked to actually carry margin.",
+  "source_concepts": ["b2b_margin_discipline", "consumer_margin_leverage"],
+  "confidence": "high",
+  "serves_task": "cfo_variance_narrative",
+  "owner": "FP&A Team",
+  "status": "active"
 }
 ```
 
-One new document can update or challenge a belief. For example, a new forecast review may say demand weakened after marketing spend was reduced. That one document may not destroy the old belief, but it can lower confidence or add a caveat.
+Notice what the record does *not* contain: no separate `current_belief` restatement, and no evidence list copied onto the belief itself. A belief reaches its evidence indirectly, through the evidence ledgers of the concepts named in `source_concepts` — so the belief record stays compact and the proof lives in one place.
 
-Multiple documents create the actual belief trend. If many quarters show the same pattern, confidence increases. If new documents repeatedly contradict the old belief, the system updates the belief.
-
-The belief stream unifies the company's evolving interpretation over time. It does not keep every quarter as a separate memory in the active context. Instead, it compresses history into a current belief with evidence, caveats, and confidence.
+One new document can update or challenge a belief. A new forecast review that shows Consumer margin flattening does not destroy the belief, but it lowers confidence or moves `status` toward weakening. Multiple documents create the actual trend: if many quarters keep confirming the split, confidence rises; if the split stops holding, the belief is revised or retired. The belief compresses that history into one current judgment, tied to the task it serves.
 
 ## 6. Workflow Skills Layer
 
@@ -487,7 +495,7 @@ The feedback loop unifies new evidence with old memory. It prevents the system f
 | 4. Cross-Document Patterning | Many document-level contexts | One evidence point | Repeated meanings, contradictions, trends | Pattern clusters |
 | 5. Business Context Layer | Pattern clusters, KPI docs, source rules, expert review | Candidate concept | Durable interpretation and caveats | Approved business concept |
 | 6. Evidence Ledger | Extracted facts and concept evidence | Supporting or contradicting statement | Full proof history | Evidence trail |
-| 7. Belief Streams | Approved context plus new evidence | Belief update trigger | Evolving interpretation over time | Current belief with confidence |
+| 7. Belief Streams | Two or more approved concepts plus the task they serve | One concept alone is not a belief | Concepts combine into a judgment none states alone | Action-stating belief with confidence and status |
 | 8. Workflow Skills | User task plus facts, context, and beliefs | Current task facts | Historical judgment and rules | Business output |
 | 9. Agent Reasoning | User request and available system knowledge | Immediate evidence | Cross-source reasoning | Decision path and final response |
 | 10. Feedback Loop | User edits, new docs, corrections, new definitions | Specific correction or new evidence | Pattern-level updates | Refreshed context and beliefs |
@@ -579,9 +587,11 @@ The evidence ledger stores all supporting and cautionary evidence.
 
 ### Step 7: Belief stream
 
-The belief stream says:
+One concept alone — B2B growth quality — is not yet a belief; on its own it only says "this quarter's B2B growth looks broad-based." A belief appears when it is combined with a second approved concept, such as B2B forecast reliability (B2B has beaten its own forecast in three of the last four quarters). Read together, the two produce a judgment neither states alone:
 
-> The company currently treats B2B as a durable strategic growth engine, but the quality of that growth should be checked against partner concentration, regional breadth, and repeatable transaction volume.
+> B2B growth this window is both broad-based and has a forecast-beat track record, so treat B2B upside as a higher-confidence driver in the next forecast raise than a segment without that track record — and re-check the moment growth concentrates in fewer than three partners.
+
+The record stores that as an action-stating `claim`, a self-contained `explanation`, and a `source_concepts` list naming the two concepts it was built from.
 
 ### Step 8: Workflow skill
 
@@ -725,6 +735,8 @@ For each concept, store:
 - Owner
 - Last reviewed date
 - Review trigger
+- Agent reuse (what an agent should do with the concept)
+- Example (one fully worked-out instance from the source material)
 
 ## Clean Final Explanation
 
@@ -739,13 +751,13 @@ From the beginning, the system works like this:
 7. The system stores evidence behind each concept.
 8. A domain expert reviews and approves the concept.
 9. The approved concept becomes reusable business context.
-10. Belief streams track how that context changes over time.
+10. Belief streams combine two or more approved concepts into durable judgments that evolve over time.
 11. Workflow skills use the context to perform repeatable business tasks.
 12. The agent decides which facts, concepts, beliefs, and skills to use.
 13. The feedback loop updates everything when new documents or corrections arrive.
 
 The most important distinction:
 
-> One document gives evidence. Multiple documents reveal patterns. Curation turns patterns into approved business context. Belief streams update that context over time. Agents and skills use it to do real business work.
+> One document gives evidence. Multiple documents reveal patterns. Curation turns patterns into approved business context. Belief streams combine several approved concepts into durable judgments that evolve over time. Agents and skills use it to do real business work.
 
 That is the complete framework from the beginning.
