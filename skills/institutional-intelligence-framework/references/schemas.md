@@ -64,7 +64,7 @@ Extract whatever a later Layer 3 claim will need to cite exactly — an exact ph
   "last_reviewed": "2026-07-03",
   "review_trigger": "Review after each MBR, QBR, forecast miss, or major marketing strategy change",
   "agent_reuse": "Load when generating a variance explanation or CFO narrative that touches marketing spend or margin.",
-  "example": "In the Q2 2026 MBR, marketing spend fell from 14% to 11% of revenue quarter-over-quarter while bookings grew 9% and conversion held flat — the CFO commentary explicitly credited 'channel mix optimization,' not a demand pullback, which is the specific instance this concept generalizes from."
+  "example": "In ⟨period⟩, marketing spend fell from ⟨X%⟩ to ⟨Y%⟩ of revenue while bookings ⟨direction⟩ and conversion ⟨direction⟩ — ⟨verbatim commentary line crediting the driver⟩. (Every bracket is a placeholder; fill from a real artifact — do not invent the figures or the quote.)"
 }
 ```
 
@@ -189,18 +189,18 @@ This is only what the document says — no interpretation yet.
   "last_reviewed": "2026-07-03",
   "review_trigger": "Review after each MBR, QBR, or forecast review that discusses B2B",
   "agent_reuse": "When explaining B2B revenue variance, check partner concentration and onboarding timing before calling growth structural; cite this concept and its negative_signal explicitly if either is unclear.",
-  "example": "In the Q2 2026 earnings transcript, leadership attributed the 18% YoY B2B growth to 'broad-based demand across our top-20 partners,' and the Q2 MBR shows no single partner above 15% of B2B revenue — the specific instance behind this concept's positive_signal."
+  "example": "In ⟨period⟩, ⟨speaker⟩ attributed the ⟨X%⟩ B2B growth to ⟨verbatim quote⟩, and ⟨corroborating artifact⟩ shows ⟨the breadth figure, e.g. no single partner above N%⟩ — the instance behind this concept's positive_signal. (Placeholders; fill from a real artifact — do not invent the numbers or the quote.)"
 }
 ```
 A human domain expert approved this and added the caveat reflected in `negative_signal`.
 
 **6. Evidence ledger** — stores the full supporting and cautionary statement list (see the Evidence Ledger template above), so the compact record in step 5 doesn't have to carry it.
 
-**7. Belief — synthesized, not translated.** `b2b_growth_quality` alone would only give "B2B growth looks broad-based this quarter" — a reworded concept, not a belief. Before writing the belief, it's checked against a second, already-approved concept in the store, `forecast_reliability_b2b` ("B2B has beaten its own forecast in 3 of the last 4 quarters"). The two concepts reinforce each other here — breadth of demand *and* a track record of hitting forecast — so the belief can state a confident view; if the forecast-reliability concept had instead shown B2B routinely missing its own guide, the two concepts would cut against each other and confidence would have to drop even with broad-based demand.
+**7. Belief — synthesized, not translated.** `b2b_growth_quality` alone would only give "B2B growth looks broad-based this quarter" — a reworded concept, not a belief. Before writing the belief, it's checked against a second, already-approved concept in the store, `forecast_reliability_b2b` ("B2B has beaten its own forecast in ⟨N of the last M⟩ quarters"). The two concepts reinforce each other here — breadth of demand *and* a track record of hitting forecast — so the belief can state a confident view; if the forecast-reliability concept had instead shown B2B routinely missing its own guide, the two concepts would cut against each other and confidence would have to drop even with broad-based demand.
 ```json
 {
   "belief_id": "b2b_growth_durability_and_reliability",
-  "claim": "B2B growth this window is broad-based and has a forecast-beat track record (3 of the last 4 quarters) — treat B2B upside as a higher-confidence driver in the next forecast raise than a segment without that track record, and re-check the moment growth concentrates in fewer than 3 partners.",
+  "claim": "B2B growth this window is broad-based and has a forecast-beat track record (⟨N of the last M quarters⟩) — treat B2B upside as a higher-confidence driver in the next forecast raise than a segment without that track record, and re-check the moment growth concentrates in fewer than ⟨N⟩ partners.",
   "explanation": "Breadth alone would only support calling this quarter's growth non-one-time; it says nothing about how much weight to put on B2B in a forward-looking forecast. A forecast-beat track record alone would only say B2B's own guidance has been dependable; it says nothing about whether the underlying demand is broad or fragile. A segment that is both broad-based and has consistently hit its own forecast is the specific combination that justifies leaning on it for a raise — either signal alone would leave real uncertainty a forecast owner would have to guess past.",
   "source_concepts": ["b2b_growth_quality", "forecast_reliability_b2b"],
   "confidence": "high",

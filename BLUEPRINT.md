@@ -211,7 +211,7 @@ The output is a reusable business concept record.
   "scope": "Finance performance analysis",
   "review_trigger": "Review after each MBR, QBR, forecast miss, or major marketing strategy change",
   "agent_reuse": "Load when generating a variance explanation or CFO narrative that touches marketing spend or margin; treat a margin gain skeptically until demand health is confirmed.",
-  "example": "In the Q2 2026 MBR, marketing spend fell from 14% to 11% of revenue quarter-over-quarter while bookings grew 9% and conversion held flat, and the CFO commentary credited channel-mix optimization rather than a demand pullback."
+  "example": "In ⟨period⟩, marketing spend fell from ⟨X%⟩ to ⟨Y%⟩ of revenue while bookings ⟨direction⟩ and conversion ⟨direction⟩, and the commentary credited ⟨verbatim driver line⟩ rather than a demand pullback. (Placeholders; fill from a real artifact.)"
 }
 ```
 
