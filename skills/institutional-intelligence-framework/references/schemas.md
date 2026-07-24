@@ -63,7 +63,8 @@ Extract whatever a later Layer 3 claim will need to cite exactly — an exact ph
   "owner": "FP&A Team",
   "last_reviewed": "2026-07-03",
   "review_trigger": "Review after each MBR, QBR, forecast miss, or major marketing strategy change",
-  "agent_reuse": "Load when generating a variance explanation or CFO narrative that touches marketing spend or margin."
+  "agent_reuse": "Load when generating a variance explanation or CFO narrative that touches marketing spend or margin.",
+  "example": "In the Q2 2026 MBR, marketing spend fell from 14% to 11% of revenue quarter-over-quarter while bookings grew 9% and conversion held flat — the CFO commentary explicitly credited 'channel mix optimization,' not a demand pullback, which is the specific instance this concept generalizes from."
 }
 ```
 
@@ -82,6 +83,7 @@ Extract whatever a later Layer 3 claim will need to cite exactly — an exact ph
 | `owner` | Human or team accountable for the meaning. |
 | `last_reviewed` / `review_trigger` | When last checked, and what should force a re-check. |
 | `agent_reuse` | Concretely, when/how an agent should pull this record. A record with no clear `agent_reuse` isn't pulling its weight. |
+| `example` | One fully worked-out instance from the actual source material, detailed enough to understand the concept from this field alone — not a citation like `supporting_evidence`, a short self-contained story (what quarter, what was said or done, why it illustrates this concept specifically). If it could apply equally to a different concept, it's too generic. |
 
 ## Evidence Ledger
 
@@ -126,7 +128,11 @@ Long and append-friendly, deliberately kept separate from the compact Layer 3 re
 
 **Hard rule:** a belief must combine at least 2 concepts and produce a conclusion that none of them makes alone. In the example above, `marketing_efficiency` alone would only give "spend intensity is declining" (a restatement, not a belief); it's checked against `operating_leverage` (is the margin gain structural or just spend timing?) before the belief is allowed to state a view. A concept that doesn't combine with anything stays a concept — it does not get promoted into a belief just because it's true and evidenced.
 
-Derive belief categories from the downstream tasks a memory actually serves (Step 0.5), not from a fixed checklist. Typical categories seen in practice — Business Performance, Forecast Reliability, Leadership Narrative, Metric Definition, Source Trust, Variance Explanation, Investor Relations, Risk — are illustration, not a template to fill in.
+Derive belief categories from the downstream tasks a memory actually serves (Step 0.5), not from a fixed checklist. Typical categories seen in practice — Business Performance, Forecast Reliability, Leadership Narrative, Metric Definition, Source Trust, Variance Explanation, Investor Relations, Risk — are illustration, not a template to fill in. If a task has no belief serving it and the corpus genuinely can't produce one, name that as an explicit gap rather than leaving the category silently empty.
+
+**Writing constraints on `claim`:** no first person; no unresolved absolutist language ("always," "never," "zero") unless the evidence genuinely supports zero exceptions; the sentence must name the action a downstream task should take, not stop at the observation.
+
+**Falsifiability and honest confidence:** a belief must state what would prove it wrong (the example's `claim` does this with "re-open the belief the moment bookings growth decelerates"). Don't round a single-instance or low-track-record concept up into a confident-sounding belief on its own — bundle genuinely thin findings together and label the result low-confidence, rather than dressing up any one of them alone.
 
 ## Source Authority Rule
 
@@ -182,7 +188,8 @@ This is only what the document says — no interpretation yet.
   "owner": "FP&A Team",
   "last_reviewed": "2026-07-03",
   "review_trigger": "Review after each MBR, QBR, or forecast review that discusses B2B",
-  "agent_reuse": "When explaining B2B revenue variance, check partner concentration and onboarding timing before calling growth structural; cite this concept and its negative_signal explicitly if either is unclear."
+  "agent_reuse": "When explaining B2B revenue variance, check partner concentration and onboarding timing before calling growth structural; cite this concept and its negative_signal explicitly if either is unclear.",
+  "example": "In the Q2 2026 earnings transcript, leadership attributed the 18% YoY B2B growth to 'broad-based demand across our top-20 partners,' and the Q2 MBR shows no single partner above 15% of B2B revenue — the specific instance behind this concept's positive_signal."
 }
 ```
 A human domain expert approved this and added the caveat reflected in `negative_signal`.
@@ -223,6 +230,7 @@ Note what `explanation` does *not* do: it never writes "`b2b_growth_quality` say
 | Feedback loop | The mechanism that routes new documents, corrections, and edits to the layer they should update. |
 | Source authority | The rule defining which source is trusted for a given question type (actuals, forecast, narrative, definition). |
 | `agent_reuse` | The field on a business context record stating concretely what an agent should do with it — not just what it means. |
+| `example` | The field on a business context record holding one fully worked-out, source-specific instance — distinct from `supporting_evidence`, which only cites where evidence lives. |
 | `source_concepts` | The field on a belief record listing every `concept_id` actually weighed together to reach that belief. Fewer than 2 entries means the record is a candidate, not yet an earned belief. |
 | `claim` | The one-sentence field on a belief record naming the pattern and the action a downstream task must take from it — the field the Writing rule is strictest about. |
 | `explanation` | The reasoning field on a belief record. Must argue the case directly; must never narrate which concepts were consulted ("concept A says X, concept B says Y") — that belongs in `source_concepts`, not prose. |
