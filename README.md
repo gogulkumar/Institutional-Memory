@@ -1,3 +1,5 @@
+> **This repository is archived.** It has been merged into the [Enterprise Institutional Memory Framework](https://github.com/gogulkumar/enterprise-institutional-memory-framework), which carries its full history. All further work happens there.
+
 # Institutional Intelligence: Turning Corporate Knowledge into an Operating System for Agents
 
 See also: [`BLUEPRINT.md`](./BLUEPRINT.md) for the full layered framework, and [`skills/institutional-intelligence-framework/SKILL.md`](./skills/institutional-intelligence-framework/SKILL.md) for the operational skill — the purpose-document discipline, the context-needs analysis, and the belief-writing rules that keep Layer 3/4 records precise instead of collapsing into generic summaries.
