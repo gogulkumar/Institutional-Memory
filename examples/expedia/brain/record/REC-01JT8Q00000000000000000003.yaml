@@ -1,0 +1,14 @@
+id: REC-01JT8Q00000000000000000003
+title: Q1 2026 earnings call transcript
+recorded_at: '2026-05-12'
+provenance:
+- expert:IR narrative analyst
+sensitivity: public
+type: earnings_call_transcript
+business_area: Expedia Group investor communications
+period: 2026-Q1
+event_ids:
+- EVT-2026-Q1-EARNINGS-CALL
+version: '1'
+location: sources/expedia/2026Q1-transcript.pdf
+authority_rank: system_of_record

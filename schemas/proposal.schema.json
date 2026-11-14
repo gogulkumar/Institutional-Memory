@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "proposal.schema.json",
+  "title": "Proposal, stored at brain/proposals/<ULID>.yaml (SPEC 4.8)",
+  "type": "object",
+  "required": [
+    "action",
+    "target",
+    "payload",
+    "evidence",
+    "needs_ratification"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "create",
+        "confirm",
+        "contradict",
+        "promote",
+        "demote",
+        "retire",
+        "redefine"
+      ]
+    },
+    "target": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^(LENS|REC|BU|BEL|RP|ED)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        {
+          "type": "string",
+          "pattern": "^(LENS|REC|BU|BEL|RP|ED)-new$"
+        }
+      ]
+    },
+    "payload": {
+      "type": "object"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "record_id",
+          "event_id"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "record_id": {
+            "type": "string",
+            "pattern": "^(REC)-[0-9A-HJKMNP-TV-Z]{26}$"
+          },
+          "event_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "needs_ratification": {
+      "type": "boolean"
+    }
+  }
+}

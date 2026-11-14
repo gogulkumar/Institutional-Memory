@@ -1,0 +1,17 @@
+# Match ledger: one row per Learn signal (SPEC 4.8)
+- pass_id: PASS-2026Q1-CALL
+  signal: AI given its own section in prepared remarks
+  matched_entry: BU-01JT8Q00000000000000000006
+  action: contradict
+- pass_id: PASS-2026Q1-CALL
+  signal: Vacation rental result described without a figure
+  matched_entry: BEL-01JT8Q00000000000000000002
+  action: confirm
+- pass_id: PASS-2026Q1-CALL
+  signal: US peer question answered with domestic bookings
+  matched_entry: BEL-01JT8Q00000000000000000003
+  action: confirm
+- pass_id: PASS-2026Q1-CALL
+  signal: CFO departure announced
+  matched_entry: null
+  action: new_observation

@@ -1,0 +1,43 @@
+id: BEL-01JT8Q00000000000000000002
+title: Weak units are described by direction, not size
+recorded_at: '2026-05-12'
+provenance:
+- REC-01JT8Q00000000000000000001
+- REC-01JT8Q00000000000000000002
+- REC-01JT8Q00000000000000000003
+sensitivity: public
+serves_task:
+- LENS-01JT8Q00000000000000000001
+trust: established
+seeded: false
+owner: IR narrative analyst
+events:
+- EVT-2025-Q1-EARNINGS-CALL
+- EVT-2025-Q2-EARNINGS-CALL
+- EVT-2025-Q3-EARNINGS-CALL
+- EVT-2025-Q4-EARNINGS-CALL
+- EVT-2026-Q1-EARNINGS-CALL
+valid_from: 2025-Q1
+valid_to: null
+last_confirmed: '2026-05-12'
+review_window: 2q
+related:
+- BU-01JT8Q00000000000000000002
+statement: Management names weak units openly but sizes them only with minimizing qualifiers, so treat
+  an unsized result for a named unit as weaker than stated.
+why_it_matters: The brief should flag unsized results as gaps rather than repeat management's framing.
+source_concepts:
+- BU-01JT8Q00000000000000000002
+- BU-01JT8Q00000000000000000003
+normal_baseline: BU-01JT8Q00000000000000000006
+watch_condition: If a named weak unit is given a figure and a market comparison, check whether the pattern
+  is breaking.
+evolution_trail:
+- '2025-Q1: vacation rental unit grew modestly, no figure.'
+- '2025-Q2: bookings decline acknowledged, not sized.'
+- '2025-Q3: promotional dependence presented as a product feature.'
+- '2025-Q4: brands recast as pure plays; weakness reframed as focus.'
+- '2026-Q1: pattern holds; blind pass and contradiction search passed; ratified.'
+tags:
+- narrative versus numbers
+- organizational behavior

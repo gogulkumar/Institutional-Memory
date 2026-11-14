@@ -1,0 +1,37 @@
+id: LENS-01JT8Q00000000000000000001
+title: Quarterly earnings-call narrative brief
+recorded_at: '2026-05-12'
+provenance:
+- expert:IR narrative analyst
+sensitivity: internal
+purpose: Tell the investment team how management's story changed this quarter and what it chose not to
+  say.
+audience: Internal investment team
+decisions_supported:
+- Which management claims to discount
+- Which questions to press at the next call
+cadence: Within two days of each earnings call
+allowed_sources:
+- Earnings call transcripts
+- Earnings call summaries
+- Published investor materials
+in_scope:
+- Structure of prepared remarks
+- Language used about weak units
+- How analyst questions are answered
+out_of_scope:
+- Valuation
+- Forecasting financial results
+procedure:
+  governing_question: What did management change in how it tells the story, and what does that imply about
+    what it believes?
+  investigation: true
+  boundary: Do not attribute motives; describe language and structure, and stop at what the transcript
+    shows.
+  question_sources:
+  - BEL-01JT8Q00000000000000000004
+  - BEL-01JT8Q00000000000000000005
+  - RP-01JT8Q00000000000000000001
+  completion_rule: Every open Story Thread and watch condition has been checked against the new call,
+    and each material change has a supported finding or an explicit gap.
+  output_shape: 'One-page brief: lead change, supporting findings, open threads, questions for next call.'

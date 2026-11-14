@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "lens-deliverable.schema.json",
+  "title": "Lens deliverable with its procedure (SPEC 4.2)",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "base-header.schema.json"
+    },
+    {
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(LENS)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "audience": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decisions_supported": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "cadence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "allowed_sources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "in_scope": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "out_of_scope": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "procedure": {
+          "type": "object",
+          "required": [
+            "governing_question",
+            "investigation",
+            "boundary",
+            "question_sources",
+            "completion_rule",
+            "output_shape"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "governing_question": {
+              "type": "string",
+              "minLength": 1
+            },
+            "investigation": {
+              "type": "boolean"
+            },
+            "boundary": {
+              "type": "string",
+              "minLength": 1
+            },
+            "question_sources": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(LENS|REC|BU|BEL|RP|ED)-[0-9A-HJKMNP-TV-Z]{26}$"
+              }
+            },
+            "completion_rule": {
+              "type": "string",
+              "minLength": 1
+            },
+            "output_shape": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "required": [
+        "purpose",
+        "audience",
+        "decisions_supported",
+        "cadence",
+        "allowed_sources",
+        "in_scope",
+        "out_of_scope",
+        "procedure"
+      ]
+    }
+  ],
+  "unevaluatedProperties": false
+}

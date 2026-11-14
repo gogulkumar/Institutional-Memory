@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "dependency-link.schema.json",
+  "title": "Dependency link (SPEC 4.4)",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "base-header.schema.json"
+    },
+    {
+      "$ref": "governed-header.schema.json"
+    },
+    {
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(BU)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "from": {
+          "type": "string",
+          "pattern": "^(BU)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "to": {
+          "type": "string",
+          "pattern": "^(BU)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "type": {
+          "enum": [
+            "drives",
+            "offsets",
+            "lags",
+            "constrains",
+            "independent"
+          ]
+        },
+        "lag": {
+          "type": "string",
+          "minLength": 1
+        },
+        "impact_scope": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "type",
+        "lag",
+        "impact_scope"
+      ]
+    }
+  ],
+  "unevaluatedProperties": false
+}

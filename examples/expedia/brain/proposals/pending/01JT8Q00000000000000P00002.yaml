@@ -1,0 +1,9 @@
+action: contradict
+target: BU-01JT8Q00000000000000000006
+payload:
+  normal_pattern: CEO opens with results, then a dedicated AI section, then the CFO on financials and
+    guidance.
+evidence:
+- record_id: REC-01JT8Q00000000000000000003
+  event_id: EVT-2026-Q1-EARNINGS-CALL
+needs_ratification: true

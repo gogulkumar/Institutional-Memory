@@ -1,0 +1,35 @@
+id: BEL-01JT8Q00000000000000000001
+title: AI has replaced the three priorities as the organizing frame
+recorded_at: '2026-05-12'
+provenance:
+- REC-01JT8Q00000000000000000002
+- REC-01JT8Q00000000000000000003
+sensitivity: public
+serves_task:
+- LENS-01JT8Q00000000000000000001
+trust: candidate
+seeded: false
+owner: IR narrative analyst
+events:
+- EVT-2025-Q4-EARNINGS-CALL
+- EVT-2026-Q1-EARNINGS-CALL
+valid_from: 2026-Q1
+valid_to: null
+last_confirmed: '2026-05-12'
+review_window: 2q
+related:
+- BU-01JT8Q00000000000000000003
+statement: Expedia now builds its earnings story around AI and uses the three priorities only to explain
+  results after the fact, so read priority language as attribution rather than strategy.
+why_it_matters: It changes which part of the call carries the thesis and which claims need testing.
+source_concepts:
+- BU-01JT8Q00000000000000000001
+- BU-01JT8Q00000000000000000003
+normal_baseline: BU-01JT8Q00000000000000000006
+watch_condition: If the next call returns to one section per priority with AI as a sub-point, demote this
+  belief.
+evolution_trail:
+- '2025-Q4: AI appears inside each priority section; priorities still structure the call.'
+- '2026-Q1: AI gets its own section; priorities named once as attribution. Proposed as candidate.'
+tags:
+- narrative versus numbers

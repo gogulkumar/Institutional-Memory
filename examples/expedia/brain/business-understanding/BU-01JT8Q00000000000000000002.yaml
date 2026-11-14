@@ -1,0 +1,30 @@
+id: BU-01JT8Q00000000000000000002
+title: Minimizing qualifier
+recorded_at: '2026-05-12'
+provenance:
+- REC-01JT8Q00000000000000000001
+sensitivity: public
+serves_task:
+- LENS-01JT8Q00000000000000000001
+trust: established
+seeded: false
+owner: IR narrative analyst
+events:
+- EVT-2025-Q1-EARNINGS-CALL
+- EVT-2025-Q2-EARNINGS-CALL
+- EVT-2025-Q3-EARNINGS-CALL
+- EVT-2025-Q4-EARNINGS-CALL
+- EVT-2026-Q1-EARNINGS-CALL
+valid_from: 2025-Q1
+valid_to: null
+last_confirmed: '2026-05-12'
+review_window: 2q
+related: []
+definition: A minimizing qualifier is a word that gives the direction of a result without its size, such
+  as modestly, slightly or slipped.
+interpretation: When a unit is the subject, a qualifier with no figure usually marks a result management
+  prefers not to size.
+positive_signal: The same unit is later described with a figure or a comparison to the market.
+negative_signal: The qualifier recurs across quarters while peers are discussed with figures.
+agent_reuse: Load when a business unit's result is described without a number.
+boundaries: Language evidence only; it does not show the unit's actual performance.

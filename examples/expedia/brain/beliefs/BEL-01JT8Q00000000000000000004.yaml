@@ -1,0 +1,24 @@
+id: BEL-01JT8Q00000000000000000004
+title: Will the AI channel get a metric?
+recorded_at: '2026-05-12'
+provenance:
+- REC-01JT8Q00000000000000000003
+sensitivity: public
+serves_task:
+- LENS-01JT8Q00000000000000000001
+trust: candidate
+seeded: false
+owner: IR narrative analyst
+events:
+- EVT-2025-Q3-EARNINGS-CALL
+- EVT-2026-Q1-EARNINGS-CALL
+valid_from: 2025-Q1
+valid_to: null
+last_confirmed: '2026-05-12'
+review_window: 2q
+related:
+- BEL-01JT8Q00000000000000000003
+question: Will management disclose any conversion, retention or revenue measure for bookings from AI assistants?
+expectation: Answers stay qualitative while the channel is described as small but fastest-growing.
+what_would_resolve_it: Any specific measure for AI-sourced bookings, or a third consecutive call with
+  only qualitative language.

@@ -1,0 +1,30 @@
+id: RP-01JT8Q00000000000000000001
+title: When an answer changes the metric
+recorded_at: '2026-05-12'
+provenance:
+- expert:IR narrative analyst
+sensitivity: internal
+serves_task:
+- LENS-01JT8Q00000000000000000001
+trust: provisional
+seeded: true
+owner: IR narrative analyst
+events:
+- EVT-2025-Q1-EARNINGS-CALL
+- EVT-2026-Q1-EARNINGS-CALL
+valid_from: 2025-Q1
+valid_to: null
+last_confirmed: '2026-05-12'
+review_window: 2q
+related:
+- BEL-01JT8Q00000000000000000003
+trigger: Management's answer uses a different measure from the one in the analyst's question.
+question_sequence:
+- Which measure did the analyst ask about?
+- Which measure did the answer use, and is it narrower?
+- Has this question been asked before?
+- Is the original measure available elsewhere in the call or materials?
+why_this_order: Establish the substitution before judging it; repetition decides whether it belongs in
+  the brief.
+conditions: Question-and-answer session of an earnings call.
+exceptions: Not a substitution when the speaker states both measures.

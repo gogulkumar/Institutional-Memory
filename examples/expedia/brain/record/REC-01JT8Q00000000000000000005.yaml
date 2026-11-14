@@ -1,0 +1,12 @@
+id: REC-01JT8Q00000000000000000005
+title: Authority for what management said
+recorded_at: '2026-05-12'
+provenance:
+- expert:IR narrative analyst
+sensitivity: internal
+question_type: What management said on a call
+preferred_source: system_of_record
+fallback_order:
+- published_deliverable
+- working_file
+reason: Summaries paraphrase; only the transcript fixes wording and speaker.

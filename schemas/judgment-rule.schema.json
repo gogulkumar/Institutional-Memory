@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "judgment-rule.schema.json",
+  "title": "Judgment rule (SPEC 4.6)",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "base-header.schema.json"
+    },
+    {
+      "$ref": "governed-header.schema.json"
+    },
+    {
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(RP)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "situation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rule_type": {
+          "enum": [
+            "materiality",
+            "attribution",
+            "escalation",
+            "stopping"
+          ]
+        },
+        "rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "conditions": {
+          "type": "string",
+          "minLength": 1
+        },
+        "counter_examples": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "situation",
+        "rule_type",
+        "rule",
+        "conditions",
+        "counter_examples"
+      ]
+    }
+  ],
+  "unevaluatedProperties": false
+}

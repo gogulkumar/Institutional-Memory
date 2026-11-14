@@ -1,0 +1,8 @@
+action: promote
+target: BEL-01JT8Q00000000000000000001
+payload:
+  trust: provisional
+evidence:
+- record_id: REC-01JT8Q00000000000000000003
+  event_id: EVT-2026-Q1-EARNINGS-CALL
+needs_ratification: false

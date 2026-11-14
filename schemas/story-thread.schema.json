@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "story-thread.schema.json",
+  "title": "Story Thread (SPEC 4.5)",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "base-header.schema.json"
+    },
+    {
+      "$ref": "governed-header.schema.json"
+    },
+    {
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(BEL)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "what_would_resolve_it": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "question",
+        "expectation",
+        "what_would_resolve_it"
+      ]
+    }
+  ],
+  "unevaluatedProperties": false
+}

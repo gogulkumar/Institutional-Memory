@@ -1,0 +1,31 @@
+id: BU-01JT8Q00000000000000000003
+title: Call architecture
+recorded_at: '2026-05-12'
+provenance:
+- REC-01JT8Q00000000000000000002
+- REC-01JT8Q00000000000000000003
+sensitivity: public
+serves_task:
+- LENS-01JT8Q00000000000000000001
+trust: provisional
+seeded: false
+owner: IR narrative analyst
+events:
+- EVT-2025-Q1-EARNINGS-CALL
+- EVT-2025-Q2-EARNINGS-CALL
+- EVT-2025-Q3-EARNINGS-CALL
+- EVT-2025-Q4-EARNINGS-CALL
+- EVT-2026-Q1-EARNINGS-CALL
+valid_from: 2025-Q1
+valid_to: null
+last_confirmed: '2026-05-12'
+review_window: 2q
+related: []
+definition: Call architecture is the order and sectioning of the prepared remarks, which shows what management
+  treats as the organizing idea.
+interpretation: Whatever gets its own section is the thesis; whatever appears only as attribution has
+  been demoted.
+positive_signal: The same structure repeats across quarters.
+negative_signal: A topic moves from a sub-point to its own section, or a frame is mentioned once and dropped.
+agent_reuse: Load at the start of every call reading, before the content.
+boundaries: Applies to prepared remarks, not the question-and-answer session.

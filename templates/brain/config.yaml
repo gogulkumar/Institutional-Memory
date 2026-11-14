@@ -1,0 +1,23 @@
+# Deployment settings for this brain (SPEC 4.8). Fill in before running build.
+
+# Default review window for governed entries that do not set their own.
+# Format: <number><unit>, unit is d (days), w (weeks), m (months), q (quarters) or y (years).
+review_window: 1q
+
+# Observations unseen for this many periods expire (SPEC 5.1).
+observation_expiry_periods: 2
+
+# Proposals awaiting ratification longer than this go to the backup reviewer (SPEC 5.3).
+queue_expiry: 2w
+
+# Named expert who ratifies changes, and the backup reviewer.
+owner: ""
+backup_reviewer: ""
+
+# Sensitivity levels, least to most restricted. An entry's sensitivity must be one of these
+# and never lower than the most restricted source in its provenance (SPEC 4.1).
+sensitivity_levels:
+  - public
+  - internal
+  - confidential
+  - restricted

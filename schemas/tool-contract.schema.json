@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "tool-contract.schema.json",
+  "title": "Tool contract (SPEC 4.3)",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "base-header.schema.json"
+    },
+    {
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(REC)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "tool": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capability": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "can_establish": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "cannot_establish": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "access_boundary": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "tool",
+        "capability",
+        "inputs",
+        "outputs",
+        "can_establish",
+        "cannot_establish",
+        "access_boundary"
+      ]
+    }
+  ],
+  "unevaluatedProperties": false
+}

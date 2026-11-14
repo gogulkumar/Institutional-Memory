@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "editorial-rule.schema.json",
+  "title": "Editorial rule (SPEC 4.7)",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "base-header.schema.json"
+    },
+    {
+      "$ref": "governed-header.schema.json"
+    },
+    {
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(ED)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "audience": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lead_with": {
+          "type": "string",
+          "minLength": 1
+        },
+        "always_include": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "omit_when": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "structure": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "audience",
+        "lead_with",
+        "always_include",
+        "omit_when",
+        "structure"
+      ]
+    }
+  ],
+  "unevaluatedProperties": false
+}

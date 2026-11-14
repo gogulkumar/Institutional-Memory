@@ -1,0 +1,36 @@
+id: BEL-01JT8Q00000000000000000003
+title: Persistent questions are answered with a more favorable metric
+recorded_at: '2026-05-12'
+provenance:
+- REC-01JT8Q00000000000000000003
+sensitivity: public
+serves_task:
+- LENS-01JT8Q00000000000000000001
+trust: provisional
+seeded: false
+owner: IR narrative analyst
+events:
+- EVT-2025-Q1-EARNINGS-CALL
+- EVT-2025-Q3-EARNINGS-CALL
+- EVT-2026-Q1-EARNINGS-CALL
+valid_from: 2025-Q1
+valid_to: null
+last_confirmed: '2026-05-12'
+review_window: 2q
+related:
+- BU-01JT8Q00000000000000000005
+- RP-01JT8Q00000000000000000001
+statement: When analysts repeat a question across quarters, management tends to answer with a narrower,
+  more favorable measure, so the original question should be treated as still open.
+why_it_matters: It tells the brief which questions to carry forward rather than mark as answered.
+source_concepts:
+- BU-01JT8Q00000000000000000005
+- BU-01JT8Q00000000000000000002
+normal_baseline: BU-01JT8Q00000000000000000006
+watch_condition: If management answers the US peer comparison on total US bookings, reassess.
+evolution_trail:
+- '2025-Q1: US competitiveness asked hypothetically; no direct answer.'
+- '2025-Q3: AI channel quality asked; answered as early days.'
+- '2026-Q1: US peer comparison answered with domestic rather than total bookings.'
+tags:
+- narrative versus numbers

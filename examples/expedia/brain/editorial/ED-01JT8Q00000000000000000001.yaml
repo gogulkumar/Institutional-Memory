@@ -1,0 +1,28 @@
+id: ED-01JT8Q00000000000000000001
+title: Narrative brief for the investment team
+recorded_at: '2026-05-12'
+provenance:
+- expert:IR narrative analyst
+sensitivity: internal
+serves_task:
+- LENS-01JT8Q00000000000000000001
+trust: provisional
+seeded: true
+owner: IR narrative analyst
+events:
+- EVT-2025-Q4-EARNINGS-CALL
+- EVT-2026-Q1-EARNINGS-CALL
+valid_from: 2025-Q1
+valid_to: null
+last_confirmed: '2026-05-12'
+review_window: 2q
+related: []
+audience: Internal investment team
+lead_with: The single largest change in how the story was told, in one sentence.
+always_include:
+- Open questions carried forward
+- Quotes with speaker for every language finding
+omit_when:
+- A pattern is unchanged from last quarter and not contradicted
+- A finding is still an observation
+structure: Lead change, then supporting findings, then open threads, then questions for the next call.

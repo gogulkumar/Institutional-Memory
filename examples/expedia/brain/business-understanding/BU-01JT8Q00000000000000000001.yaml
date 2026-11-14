@@ -1,0 +1,32 @@
+id: BU-01JT8Q00000000000000000001
+title: The three strategic priorities
+recorded_at: '2026-05-12'
+provenance:
+- REC-01JT8Q00000000000000000001
+- REC-01JT8Q00000000000000000002
+sensitivity: public
+serves_task:
+- LENS-01JT8Q00000000000000000001
+trust: established
+seeded: true
+owner: IR narrative analyst
+events:
+- EVT-2025-Q1-EARNINGS-CALL
+- EVT-2025-Q2-EARNINGS-CALL
+- EVT-2025-Q3-EARNINGS-CALL
+- EVT-2025-Q4-EARNINGS-CALL
+- EVT-2026-Q1-EARNINGS-CALL
+valid_from: 2025-Q1
+valid_to: null
+last_confirmed: '2026-05-12'
+review_window: 2q
+related: []
+definition: 'Since the CEO''s first full quarter, management has described strategy as three priorities:
+  traveler value, investing where growth is greatest, and operating efficiency with margin expansion.'
+interpretation: The priorities are a narrative frame; they have no stated metrics except margin expansion,
+  so any result can be attributed to them.
+positive_signal: A priority is tied to a stated measure and that measure is reported against the prior
+  target.
+negative_signal: A priority is named only after the fact to explain a result.
+agent_reuse: Load when reading prepared remarks or when management attributes a result to strategy.
+boundaries: Describes how the story is framed, not whether the strategy is working.

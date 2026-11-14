@@ -1,0 +1,8 @@
+belief: BEL-01JT8Q00000000000000000001
+rows:
+- record_id: REC-01JT8Q00000000000000000002
+  event_id: EVT-2025-Q4-EARNINGS-CALL
+  kind: caution
+- record_id: REC-01JT8Q00000000000000000003
+  event_id: EVT-2026-Q1-EARNINGS-CALL
+  kind: supporting

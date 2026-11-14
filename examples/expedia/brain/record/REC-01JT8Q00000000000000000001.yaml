@@ -1,0 +1,14 @@
+id: REC-01JT8Q00000000000000000001
+title: Q2 2025 earnings call summary
+recorded_at: '2026-05-12'
+provenance:
+- expert:IR narrative analyst
+sensitivity: public
+type: earnings_call_summary
+business_area: Expedia Group investor communications
+period: 2025-Q2
+event_ids:
+- EVT-2025-Q2-EARNINGS-CALL
+version: '1'
+location: sources/expedia/2025Q2-call-summary.md
+authority_rank: published_deliverable

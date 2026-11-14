@@ -1,0 +1,25 @@
+id: BU-01JT8Q00000000000000000005
+title: 'US bookings: total versus domestic'
+recorded_at: '2026-05-12'
+provenance:
+- REC-01JT8Q00000000000000000003
+sensitivity: public
+serves_task:
+- LENS-01JT8Q00000000000000000001
+trust: candidate
+seeded: false
+owner: IR narrative analyst
+events:
+- EVT-2026-Q1-EARNINGS-CALL
+valid_from: 2025-Q1
+valid_to: null
+last_confirmed: '2026-05-12'
+review_window: 2q
+related: []
+definition: Total US consumer bookings include inbound travel to the US; domestic US bookings exclude
+  it.
+calculation: Domestic equals total US consumer bookings less inbound bookings from non-US travelers.
+validated_by: Check that both measures appear in the same quarter's transcript and that the speaker names
+  which one is used.
+known_issues:
+- Calls do not always say which measure a growth figure refers to.

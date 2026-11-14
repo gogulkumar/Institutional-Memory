@@ -1,0 +1,24 @@
+id: BU-01JT8Q00000000000000000007
+title: Lapping marketing cuts constrains the efficiency story
+recorded_at: '2026-05-12'
+provenance:
+- REC-01JT8Q00000000000000000003
+sensitivity: public
+serves_task:
+- LENS-01JT8Q00000000000000000001
+trust: candidate
+seeded: false
+owner: IR narrative analyst
+events:
+- EVT-2026-Q1-EARNINGS-CALL
+valid_from: 2026-Q1
+valid_to: null
+last_confirmed: '2026-05-12'
+review_window: 2q
+related: []
+from: BU-01JT8Q00000000000000000004
+to: BU-01JT8Q00000000000000000001
+type: constrains
+lag: Four quarters after the cost step
+impact_scope: How much margin expansion management can attribute to the efficiency priority in the second
+  half of the year.

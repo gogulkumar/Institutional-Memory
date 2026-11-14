@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "metric-definition.schema.json",
+  "title": "Metric definition (SPEC 4.4)",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "base-header.schema.json"
+    },
+    {
+      "$ref": "governed-header.schema.json"
+    },
+    {
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(BU)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "definition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "calculation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "validated_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "known_issues": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "definition",
+        "calculation",
+        "validated_by",
+        "known_issues"
+      ]
+    }
+  ],
+  "unevaluatedProperties": false
+}

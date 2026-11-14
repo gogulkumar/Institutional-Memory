@@ -1,0 +1,29 @@
+id: BU-01JT8Q00000000000000000006
+title: Normal shape of prepared remarks
+recorded_at: '2026-05-12'
+provenance:
+- REC-01JT8Q00000000000000000001
+- REC-01JT8Q00000000000000000002
+sensitivity: public
+serves_task:
+- LENS-01JT8Q00000000000000000001
+trust: provisional
+seeded: false
+owner: IR narrative analyst
+events:
+- EVT-2025-Q1-EARNINGS-CALL
+- EVT-2025-Q2-EARNINGS-CALL
+- EVT-2025-Q3-EARNINGS-CALL
+- EVT-2025-Q4-EARNINGS-CALL
+- EVT-2026-Q1-EARNINGS-CALL
+valid_from: 2025-Q1
+valid_to: null
+last_confirmed: '2026-05-12'
+review_window: 2q
+related: []
+subject: Prepared remarks structure
+normal_pattern: CEO opens with results, then one section per strategic priority, then the CFO on financials
+  and guidance.
+materiality_threshold: Any change in which topic gets its own section is material; changes in order within
+  a section are not.
+conditions: Holds under the current CEO; reset on a CEO change.

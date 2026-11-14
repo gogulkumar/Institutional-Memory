@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "normality.schema.json",
+  "title": "Normality (SPEC 4.4)",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "base-header.schema.json"
+    },
+    {
+      "$ref": "governed-header.schema.json"
+    },
+    {
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(BU)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "subject": {
+          "type": "string",
+          "minLength": 1
+        },
+        "normal_pattern": {
+          "type": "string",
+          "minLength": 1
+        },
+        "materiality_threshold": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Relative or policy threshold; never an absolute value"
+        },
+        "conditions": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "subject",
+        "normal_pattern",
+        "materiality_threshold",
+        "conditions"
+      ]
+    }
+  ],
+  "unevaluatedProperties": false
+}

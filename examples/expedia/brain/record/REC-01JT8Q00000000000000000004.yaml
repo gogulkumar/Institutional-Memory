@@ -1,0 +1,20 @@
+id: REC-01JT8Q00000000000000000004
+title: Transcript search
+recorded_at: '2026-05-12'
+provenance:
+- expert:IR narrative analyst
+sensitivity: internal
+tool: transcript_search
+capability: Find passages in earnings call transcripts by speaker, quarter and phrase.
+inputs:
+- quarter
+- speaker (optional)
+- phrase or topic
+outputs:
+- matching passages with speaker and position
+can_establish:
+- What was said, by whom, and where in the call
+cannot_establish:
+- Why it was said
+- Whether a stated figure is accurate
+access_boundary: Public investor materials only

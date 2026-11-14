@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "concept.schema.json",
+  "title": "Concept (SPEC 4.4)",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "base-header.schema.json"
+    },
+    {
+      "$ref": "governed-header.schema.json"
+    },
+    {
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(BU)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "definition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "interpretation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "positive_signal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "negative_signal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "agent_reuse": {
+          "type": "string",
+          "minLength": 1
+        },
+        "boundaries": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "definition",
+        "interpretation",
+        "positive_signal",
+        "negative_signal",
+        "agent_reuse",
+        "boundaries"
+      ]
+    }
+  ],
+  "unevaluatedProperties": false
+}

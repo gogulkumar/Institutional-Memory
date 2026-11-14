@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "source-authority.schema.json",
+  "title": "Source authority rule (SPEC 4.3)",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "base-header.schema.json"
+    },
+    {
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(REC)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "question_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preferred_source": {
+          "enum": [
+            "expert_statement",
+            "system_of_record",
+            "published_deliverable",
+            "working_file",
+            "inference"
+          ]
+        },
+        "fallback_order": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "expert_statement",
+              "system_of_record",
+              "published_deliverable",
+              "working_file",
+              "inference"
+            ]
+          }
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "question_type",
+        "preferred_source",
+        "fallback_order",
+        "reason"
+      ]
+    }
+  ],
+  "unevaluatedProperties": false
+}

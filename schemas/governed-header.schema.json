@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "governed-header.schema.json",
+  "title": "Governed header (BU, BEL, RP, ED entries)",
+  "type": "object",
+  "required": [
+    "serves_task",
+    "trust",
+    "seeded",
+    "owner",
+    "events",
+    "valid_from",
+    "valid_to",
+    "last_confirmed",
+    "review_window",
+    "related"
+  ],
+  "properties": {
+    "serves_task": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^(LENS)-[0-9A-HJKMNP-TV-Z]{26}$"
+      }
+    },
+    "trust": {
+      "enum": [
+        "observation",
+        "candidate",
+        "provisional",
+        "established",
+        "contested",
+        "retired"
+      ]
+    },
+    "seeded": {
+      "type": "boolean"
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "valid_from": {
+      "type": "string",
+      "pattern": "^\\d{4}(-Q[1-4]|-\\d{2}(-\\d{2})?)?$"
+    },
+    "valid_to": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^\\d{4}(-Q[1-4]|-\\d{2}(-\\d{2})?)?$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "last_confirmed": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "review_window": {
+      "type": "string",
+      "pattern": "^\\d+[dwmqy]$"
+    },
+    "related": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(LENS|REC|BU|BEL|RP|ED)-[0-9A-HJKMNP-TV-Z]{26}$"
+      }
+    }
+  }
+}

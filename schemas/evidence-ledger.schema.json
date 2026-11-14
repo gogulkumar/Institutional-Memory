@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence-ledger.schema.json",
+  "title": "Evidence ledger for one belief (SPEC 4.5), stored at beliefs/ledger/<belief id>.yaml",
+  "type": "object",
+  "required": [
+    "belief",
+    "rows"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "belief": {
+      "type": "string",
+      "pattern": "^(BEL)-[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "record_id",
+          "event_id",
+          "kind"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "record_id": {
+            "type": "string",
+            "pattern": "^(REC)-[0-9A-HJKMNP-TV-Z]{26}$"
+          },
+          "event_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "supporting",
+              "caution",
+              "contradicting"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

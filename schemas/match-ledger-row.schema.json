@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "match-ledger-row.schema.json",
+  "title": "One row of brain/match_ledger.yaml (SPEC 4.8)",
+  "type": "object",
+  "required": [
+    "pass_id",
+    "signal",
+    "matched_entry",
+    "action"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "pass_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "signal": {
+      "type": "string",
+      "minLength": 1
+    },
+    "matched_entry": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^(LENS|REC|BU|BEL|RP|ED)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "action": {
+      "enum": [
+        "confirm",
+        "contradict",
+        "refine",
+        "new_observation"
+      ]
+    }
+  }
+}

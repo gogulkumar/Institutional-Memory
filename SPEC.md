@@ -1,6 +1,6 @@
 # Enterprise Institutional Memory Framework — Specification
 
-Status: draft v2 (after review) · Migration from earlier repos and artifacts: see `MIGRATION.md`.
+Status: v1.
 
 ## 1. Purpose
 
@@ -56,7 +56,10 @@ id: <prefix>-<ULID>          # prefixes: LENS, REC, BU, BEL, RP, ED
 title: <plain phrase>
 recorded_at: <date>
 provenance: [<record id or "expert:<name>">]
+sensitivity: <level>          # inherited from the most restricted source in provenance
 ```
+
+**Access control:** an entry's sensitivity is never lower than its most restricted source. Think filters entries by the requester's clearance before loading them, and a conclusion inherits the highest sensitivity of the entries it used.
 
 **Governed header** (adds, for BU, BEL, RP, ED):
 ```yaml
@@ -96,6 +99,8 @@ Relevance is not stored. It is computed: **current** if `last_confirmed` is with
 - **Evidence ledger:** `beliefs/ledger/<id>.yaml`, one row per piece of evidence: `record_id`, `event_id`, `kind` (supporting | caution | contradicting).
 - **Story Thread:** `question`, `expectation`, `what_would_resolve_it`. Uses the governed header; it resolves into a Belief, a Normality update, or `retired`.
 
+**Narrative separation:** beliefs about how the business performs and beliefs about how the business describes itself are separate entries, evidenced against data and against statements respectively. They may disagree; Think surfaces the gap rather than reconciling it.
+
 **Statement rules:** one plain sentence naming the pattern and what it implies; no evidence or process narration; neutral wording about people and teams.
 
 ### 4.6 Reasoning Patterns
@@ -116,7 +121,21 @@ Reasoning Patterns are loaded only once ratified, and only as questions to consi
 | `brain/changelog.md` | Applied changes, append-only | One line: date, proposal id, action, target, ratified_by |
 | `brain/index.yaml` | Load map | Generated from entries (`id`, `agent_reuse`, `serves_task`, relevance). Never hand-edited. |
 | `brain/archive/` | Retired and historical entries | Kept for history; not listed in the index |
+| `brain/passes/<pass_id>/` | Working files of one Learn pass | Sealed prediction, blind read output, questions for the owner; may be pruned after the pass is applied |
+| `brain/proposals/pending/`, `rejected/` | Ratification items awaiting the owner, and rejected proposals | Same format as proposals |
+| `brain/.applier.lock` | Ensures a single applier | Present only while the applier runs |
 | `brain/config.yaml` | Deployment settings | Review windows, observation expiry, ratification owners and backups, queue expiry |
+
+### 4.9 Formats
+- **Entry type:** inferred from the id prefix and the fields present; an entry must match exactly one schema for its prefix.
+- **Sensitivity levels:** an ordered list in `brain/config.yaml` (default: public, internal, confidential, restricted).
+- **Authority rank:** one of the five named ranks in §4.3.
+- **Periods:** `YYYY`, `YYYY-Qn`, `YYYY-MM` or a date. **Review windows:** `<number><d|w|m|q|y>`.
+- **Evidence ledger file:** `{belief: <id>, rows: [...]}`; the file name equals the belief id.
+- **Match ledger action:** confirm | contradict | refine | new_observation.
+- **Index rows:** `id`, `kind`, `file`, `serves_task`, `agent_reuse`, `trust`, `sensitivity`, relevance.
+- **New-entry proposals** target `<PREFIX>-new`; the applier assigns the ULID.
+- **Events:** `EVT-<period>-<slug>`, shared by every document describing the same event.
 
 ## 5. Trust ladder
 
@@ -199,7 +218,6 @@ Fixes go into entries, never into individual answers. More questions asked is no
 ```
 README.md             thesis and quickstart
 SPEC.md               this document
-MIGRATION.md          where earlier material went
 schemas/              JSON Schema per entry type, generated from §4
 skills/build/  skills/learn/  skills/think/
 templates/brain/      empty brain: config.yaml, index.yaml, changelog.md, proposals/, archive/, one folder per component

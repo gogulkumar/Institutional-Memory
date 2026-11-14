@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "inquiry-chain.schema.json",
+  "title": "Inquiry chain (SPEC 4.6)",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "base-header.schema.json"
+    },
+    {
+      "$ref": "governed-header.schema.json"
+    },
+    {
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(RP)-[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "trigger": {
+          "type": "string",
+          "minLength": 1
+        },
+        "question_sequence": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "why_this_order": {
+          "type": "string",
+          "minLength": 1
+        },
+        "conditions": {
+          "type": "string",
+          "minLength": 1
+        },
+        "exceptions": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "trigger",
+        "question_sequence",
+        "why_this_order",
+        "conditions",
+        "exceptions"
+      ]
+    }
+  ],
+  "unevaluatedProperties": false
+}

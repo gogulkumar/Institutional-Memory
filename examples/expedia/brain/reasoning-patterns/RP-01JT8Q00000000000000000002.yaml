@@ -1,0 +1,29 @@
+id: RP-01JT8Q00000000000000000002
+title: Stop at language, not motive
+recorded_at: '2026-05-12'
+provenance:
+- expert:IR narrative analyst
+sensitivity: internal
+serves_task:
+- LENS-01JT8Q00000000000000000001
+trust: provisional
+seeded: true
+owner: IR narrative analyst
+events:
+- EVT-2025-Q1-EARNINGS-CALL
+- EVT-2025-Q2-EARNINGS-CALL
+- EVT-2025-Q3-EARNINGS-CALL
+- EVT-2025-Q4-EARNINGS-CALL
+- EVT-2026-Q1-EARNINGS-CALL
+valid_from: 2025-Q1
+valid_to: null
+last_confirmed: '2026-05-12'
+review_window: 2q
+related: []
+situation: A pattern in management language suggests a reason behind it.
+rule_type: attribution
+rule: Report what was said and how it changed; do not state why management chose it unless management
+  says so.
+conditions: All narrative briefs.
+counter_examples:
+- Management states the reason directly, as when the CEO said AI was top of mind for investors.
